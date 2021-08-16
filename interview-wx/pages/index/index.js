@@ -8,7 +8,7 @@ Page({
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     companies: [],
-    current: '0',
+    active: '0',
     count: 0,
     finish: false,
     mdContent: "",
@@ -23,9 +23,9 @@ Page({
   //   })
   // },
   // tab栏
-  handleChange ({ detail }) {
+  onChange (event) {
     this.setData({
-        current: detail.key,
+        active: event.detail.name,
         companies: [],
         count: 0,
         finish: false,
@@ -52,8 +52,9 @@ Page({
     // })
     wx.cloud.callFunction({
       name: "getCompanyDB",
+      
       data: {
-        status: this.data.current,
+        status: this.data.active,
         count: this.data.count
       },
     }).then(res => {
@@ -73,7 +74,7 @@ Page({
       })
       
     }).catch(err => {
-      console.log(res);
+      console.log(err);
     })
   },
   // 加载用户
@@ -128,7 +129,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.current === '0' ? '前端面经页面' : '后端面经页面',
+      title: this.data.active === '0' ? '前端面经页面' : '后端面经页面',
       path: '/pages/index/index'
     }
   },
@@ -138,7 +139,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.current === '0' ? '前端面经页面' : '后端面经页面',
+      title: this.data.active === '0' ? '前端面经页面' : '后端面经页面',
       // query:{
       //   id: this.data.cId
       // }

@@ -1,13 +1,13 @@
 {
-  "name": "Dc-Notes",
+  "name": "online-interview",
   "version": "1.0.0",
-  "description": "",
+  "description": "在线助手...",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "MaiFeng",
   "license": "ISC",
   "dependencies": {
     "@vant/weapp": "^1.8.0"
