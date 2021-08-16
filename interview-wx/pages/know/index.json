@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "i-card": "@vant/weapp/card/index",
+    "i-tabs": "@vant/weapp/tabs/index",
+    "i-tab": "@vant/weapp/tab/index",
+    "i-cell": "@vant/weapp/cell/index",
+    "i-divider": "@vant/weapp/divider/index",
+    "towxml":"/towxml/towxml"
+  }
+}

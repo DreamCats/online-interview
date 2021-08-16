@@ -1,0 +1,28 @@
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 691-177-176
+127.0.0.1 - - [16/Aug/2021 16:14:58] "GET /api/1.0/user HTTP/1.1" 200 -
+ * Detected change in '/Users/bytedance/Library/Mobile Documents/com~apple~CloudDocs/cache/InterviewFlask/config.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 691-177-176
+SHOW VARIABLES LIKE 'sql_mode'
+[raw sql] {}
+SHOW VARIABLES LIKE 'lower_case_table_names'
+[generated in 0.00033s] {}
+SELECT DATABASE()
+[raw sql] {}
+BEGIN (implicit)
+SELECT user.id AS user_id, user.name AS user_name 
+FROM user 
+WHERE user.id = %(id_1)s 
+ LIMIT %(param_1)s
+[generated in 0.00031s] {'id_1': 1, 'param_1': 1}
+SELECT mj.id AS mj_id 
+FROM mj 
+WHERE mj.id = %(id_1)s 
+ LIMIT %(param_1)s
+[generated in 0.00027s] {'id_1': 1, 'param_1': 1}
+ROLLBACK
+127.0.0.1 - - [16/Aug/2021 16:15:33] "GET /api/1.0/user HTTP/1.1" 200 -

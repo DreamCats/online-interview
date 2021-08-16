@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "i-divider": "@vant/weapp/divider/index"
+  }
+}

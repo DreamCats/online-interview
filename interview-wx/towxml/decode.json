@@ -1,0 +1,11 @@
+{
+  "component": true,
+  "usingComponents": {
+    "decode": "/towxml/decode",
+    
+    "table": "/towxml/table/table",
+    "todogroup": "/towxml/todogroup/todogroup",
+    "yuml": "/towxml/yuml/yuml",
+    "img": "/towxml/img/img"
+  }
+}

@@ -1,0 +1,16 @@
+<!--pages/know/index.wxml-->
+<view class="loading" wx:if="{{isLoading}}">
+  <image class="loading__icon" src="/imgs/loading.svg"></image>
+</view>
+<block else>
+  <i-tabs current="{{ current }}" bindchange="handleChange">
+    <i-tab key="0" title="前端"></i-tab>
+    <i-tab key="1" title="后端"></i-tab>
+  </i-tabs>
+</block>
+
+
+<block wx:for="{{showKnows}}" wx:key="id">
+  <i-cell title="{{item.tag}}" is-link url="/pages/kw/index?id={{item._id}}&tag={{item.tag}}"></i-cell>
+</block>
+

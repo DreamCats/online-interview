@@ -1,0 +1,47 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/alg/index",
+    "pages/my/index",
+    "pages/detail/index",
+    "pages/mj/index",
+    "pages/know/index",
+    "pages/kw/index"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "面试助手",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "面经",
+        "iconPath": "imgs/no-home.png",
+        "selectedIconPath": "imgs/select-home.png"
+      },
+      {
+        "pagePath": "pages/alg/index",
+        "text": "算法",
+        "iconPath": "imgs/no-class.png",
+        "selectedIconPath": "imgs/select-class.png"
+      },
+      {
+        "pagePath": "pages/know/index",
+        "text": "知识",
+        "iconPath": "imgs/no-know.png",
+        "selectedIconPath": "imgs/select-know.png"
+      }
+    ]
+    
+  },
+
+
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

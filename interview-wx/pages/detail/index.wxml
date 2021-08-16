@@ -1,0 +1,6 @@
+<!--pages/detail/index.wxml-->
+<!-- <text>pages/detail/index.wxml</text> -->
+<view class="loading" wx:if="{{isLoading}}">
+  <image class="loading__icon" src="/imgs/loading.svg"></image>
+</view>
+<towxml nodes="{{mdContent}}"/>
