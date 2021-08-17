@@ -10,14 +10,18 @@ $RECYCLE.BIN/
 .TemporaryItems
 .Trashes
 
-interview-flask/*__pycache__/
-interview-flask/logs/
+*.pyc
+*.pyo
+*.log
 
-# Node.js
+
 node_modules/
 
 # minni
 miniprogram_npm/
+.vscode
+.idea/
+
 
 # db
 db/
