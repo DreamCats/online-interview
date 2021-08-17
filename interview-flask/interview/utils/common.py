@@ -5,7 +5,7 @@
 from functools import wraps
 
 from flask import session, jsonify, g
-from medicine.utils.response_code import RET
+from interview.utils.response_code import RET
 
 
 def login_required(view_func):
