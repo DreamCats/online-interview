@@ -10,7 +10,8 @@ $RECYCLE.BIN/
 .TemporaryItems
 .Trashes
 
-interview/*__pycache__/
+interview-flask/*__pycache__/
+interview-flask/logs/
 
 # Node.js
 node_modules/
