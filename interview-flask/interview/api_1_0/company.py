@@ -4,6 +4,7 @@ from interview.utils.response_code import RET
 from interview import redis_conn, db
 from interview.utils.common import login_required
 from interview.model import Company
+from sqlalchemy import select
 
 
 @api.route('/company/add', methods=['POST'])
@@ -42,3 +43,32 @@ def add_company():
         return jsonify(re_code=RET.DBERR, msg='添加公司失败')
 
     return jsonify(re_code=RET.OK, msg='添加成功')
+
+@api.route('/company/list', methods=['GET'])
+def get_company_list():
+    '''查找公司
+    :param type: 0， 前，1，后
+    '''
+    type = request.args.get('type', '0')
+    
+    # 参数判断省略
+
+    # 查找
+    # sql = select(Company).where(Company.type == type).order_by(Company.c_id)
+    # order_by 还可以使用 User.id.desc() 表示逆序排列
+    # result = db.session.execute(sql)
+    # for c in result.scalars():
+    #     print(c.to_dict())
+    try:
+        cs = Company.query.filter(Company.type == type).order_by(Company.c_id)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
+
+    if cs is None:
+        return jsonify(re_code=RET.NODATA, msg='没有数据')
+    datas = []
+    for c in cs:
+        datas.append(c.to_dict())
+    
+    return jsonify(re_code=RET.OK, msg='请求成功', data=datas)
