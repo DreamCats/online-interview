@@ -2,7 +2,7 @@
 # __file_name__: model.py
 # __time__: 2021:08:15:23:32
 
-import datetime
+import datetime, json
 from . import db
 
 # class BaseModel(object):
@@ -29,6 +29,19 @@ class Mj(db.Model):
     title = db.Column(db.String, nullable=False) # title
     url = db.Column(db.String, nullable=False) # url
     content = db.Column(db.Text) # c
+
+    def to_dict(self):
+        '''
+        '''
+        m_info = {
+            'id': self.id,
+            'publish_time': self.publish_time,
+            'c_id': self.c_id,
+            'title': self.title,
+            'url': self.url,
+            'content': self.content
+        }
+        return m_info
 
 class Lc(db.Model):
     __tablename__ = 'lc'
