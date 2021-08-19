@@ -34,7 +34,8 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    baseUrl: 'https://dreamcat.ink/online/api/1.0/'
   },
   towxml:require('/towxml/index'),
   //声明一个数据请求方法

@@ -1,4 +1,5 @@
 // pages/know/index.js
+const app = getApp()
 Page({
 
   /**
@@ -6,7 +7,7 @@ Page({
    */
   data: {
     showKnows:[],
-    current: '0',
+    active: '0',
     isLoading: false,
     count: 0,
     finish: false,
@@ -16,38 +17,31 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  handleChange ({ detail }) {
+  onChange (event) {
     this.setData({
-        current: detail.key,
+        active: event.detail.name,
         showKnows: [],
         count: 0,
         isLoading: true,
-        finish: false,
     });
     this.getKnows()
   },
   getKnows() {
-    wx.cloud.callFunction({
-      name: "getKnTag",
-      data: {
-        status: this.data.current,
-        count: this.data.count
-      },
-    }).then(res => {
-      console.log(res.result.data);
-      if (res.result.data.length === 0) {
-        this.setData({
-          finish: true
-        })
+    this.setData({
+      isLoading: true
+    })
+    let that = this
+    wx.request({
+      url: `${app.globalData.baseUrl}kwtype/list?type=${this.data.active}`,
+      success (res) {
+        console.log(res.data.data)
+        if (res.data.re_code === '0') {
+          that.setData({
+            showKnows: res.data.data,
+            isLoading: false
+          })
+        } 
       }
-      this.setData({
-        isLoading: false
-      })
-      // 写入数据
-      this.setData({
-        showKnows: this.data.showKnows.concat(res.result.data),
-        count: this.data.count + res.result.data.length
-      })
     })
 },
   onLoad: function (options) {
@@ -105,7 +99,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.current === '0' ? '前端知识页面' : '后端知识页面',
+      title: this.data.active === '0' ? '前端知识页面' : '后端知识页面',
       path: '/pages/know/index'
     }
   },
@@ -115,7 +109,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.current === '0' ? '前端知识页面' : '后端知识页面',
+      title: this.data.active === '0' ? '前端知识页面' : '后端知识页面',
       // query:{
       //   id: this.data.cId
       // }

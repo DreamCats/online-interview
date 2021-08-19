@@ -1,18 +1,16 @@
 // index.js
 // 获取应用实例
 const app = getApp()
-
 Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     companies: [],
-    active: '0',
+    active: '0', // type
     count: 0,
-    finish: false,
     mdContent: "",
-    isLoading: true,
+    isLoading: false,
   },
 
   
@@ -35,49 +33,23 @@ Page({
     this.getCompanies()
   },
   getCompanies() {
-    // wx.cloud.database().collection("company")
-    // .skip(this.data.count)
-    // .get()
-    // .then(res => {
-    //   console.log(res)
-    //   this.setData({
-    //     companies: this.data.companies.concat(res.data),
-    //     count: this.data.count + res.data.length
-    //   })
-    //   if (res.data.length === 0) {
-    //     wx.showToast({
-    //       title: '数据全部加载完毕...',
-    //     })
-    //   }
-    // })
-    wx.cloud.callFunction({
-      name: "getCompanyDB",
-      
-      data: {
-        status: this.data.active,
-        count: this.data.count
-      },
-    }).then(res => {
-      console.log(res.result.data);
-      if (res.result.data.length === 0) {
-        this.setData({
-          finish: true
-        })
+    this.setData({
+      isLoading: true
+    })
+    let that = this
+    wx.request({
+      url: `${app.globalData.baseUrl}company/list?type=${this.data.active}`,
+      success (res) {
+        console.log(res.data.data)
+        if (res.data.re_code === '0') {
+          that.setData({
+            companies: res.data.data,
+            isLoading: false
+          })
+        } 
       }
-      this.setData({
-        isLoading: false
-      })
-      // 写入数据
-      this.setData({
-        companies: this.data.companies.concat(res.result.data),
-        count: this.data.count + res.result.data.length
-      })
-      
-    }).catch(err => {
-      console.log(err);
     })
   },
-  // 加载用户
 
   onLoad() {
 
@@ -87,30 +59,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 加载用户信息
     // 加载大厂面经列表
-
-    this.setData({
-      finish: false
-    })
     this.getCompanies()
-  
-    // let userInfo = wx.getStorageSync('userInfo')
-    // console.log(userInfo.nickName);
-    // if (userInfo.nickName !== undefined) {
-    //   this.setData({
-    //     finish: false
-    //   })
-    //   this.getCompanies()
-    // } else {
-    //   wx.showToast({
-    //     title: '点击用户授权...',
-    //   })
-    //   wx.switchTab({
-    //     url: '../my/index'
-    //   })
-    // }
-    
   },
 
     /**
@@ -118,7 +68,7 @@ Page({
    */
   onReachBottom: function () {
     console.log("上拉")
-    this.getCompanies()
+    // this.getCompanies()
   },
    /**
    * 用户点击右上角分享

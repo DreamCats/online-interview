@@ -3,14 +3,14 @@
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
 <block else>
-  <i-tabs current="{{ current }}" bindchange="handleChange">
-    <i-tab key="0" title="前端"></i-tab>
-    <i-tab key="1" title="后端"></i-tab>
-  </i-tabs>
+  <van-tabs active="{{ active }}" bind:change="onChange">
+    <van-tab name="0" title="前端"></van-tab>
+    <van-tab name="1" title="后端"></van-tab>
+  </van-tabs>
 </block>
 
 
 <block wx:for="{{showKnows}}" wx:key="id">
-  <i-cell title="{{item.tag}}" is-link url="/pages/kw/index?id={{item._id}}&tag={{item.tag}}"></i-cell>
+  <van-cell title="{{item.type_name}}" is-link url="/pages/kw/index?id={{item.id}}&tag={{item.type_name}}"></van-cell>
 </block>
 

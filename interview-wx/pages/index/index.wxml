@@ -24,7 +24,7 @@
 </block>
 
 <block wx:for="{{companies}}" wx:key="id">
-  <van-cell title="{{item._id}} : {{item.name}}" is-link url="/pages/mj/index?id={{item._id}}&name={{item.name}}"></van-cell>
+  <van-cell title="{{item.c_id}} : {{item.c_name}}" is-link url="/pages/mj/index?id={{item.c_id}}&name={{item.c_name}}"></van-cell>
 </block>
 
 
