@@ -39,3 +39,28 @@ def add_kw_type():
         return jsonify(re_code=RET.DBERR, msg='添加分类失败')
 
     return jsonify(re_code=RET.OK, msg='添加成功')
+
+
+@api.route('/kwtype/list', methods=['GET'])
+def get_kwtype_list():
+    '''查找公司
+    :param type: 0， 前，1，后
+    '''
+    type = request.args.get('type', '0')
+    
+    # 参数判断省略
+
+    # 查找
+    try:
+        kt = KwType.query.filter(KwType.type == type).order_by(KwType.id)
+    except Exception as e:
+        current_app.logger.debug(e)
+        return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
+
+    if kt is None:
+        return jsonify(re_code=RET.NODATA, msg='没有数据')
+    datas = []
+    for k in kt:
+        datas.append(k.to_dict())
+    
+    return jsonify(re_code=RET.OK, msg='请求成功', data=datas)

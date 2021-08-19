@@ -47,7 +47,7 @@ class Company(db.Model):
     type = db.Column(db.Integer,nullable=False) # type
 
     def to_dict(self):
-        '''返回一个用户信息字典接口，方便外界调用
+        '''
         '''
         c_info = {
             'id': self.id,
@@ -62,6 +62,16 @@ class KwType(db.Model):
     id = db.Column(db.Integer, primary_key=True) # id
     type = db.Column(db.Integer,nullable=False) # type
     type_name = db.Column(db.String, nullable=False) # type_name
+
+    def to_dict(self):
+        '''
+        '''
+        k_info = {
+            'id': self.id,
+            'type': self.type,
+            'type_name': self.type_name,
+        }
+        return k_info
 
 
 class Kw(db.Model):
