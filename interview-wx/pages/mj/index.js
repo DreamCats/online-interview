@@ -1,4 +1,5 @@
 // pages/docs/index.js
+const app = getApp()
 Page({
 
   /**
@@ -7,36 +8,53 @@ Page({
   data: {
     docsList: [],
     cId: "",
-    count: 0,
+    count: 11,
+    page: 1,
     finish: false,
     isLoading: true,
     name:""
   },
-
-  // 加载docs
-  getDocs() {
-    wx.cloud.callFunction({
-      name: "getDocsDB",
-      data: {
-        cId: this.data.cId,
-        count: this.data.count
+  // item触发跳转
+  onBt (evnet) {
+    console.log(evnet.currentTarget.dataset.item)
+    wx.navigateTo({
+      url: '/pages/detail/index',
+      success: function(res) {
+        res.eventChannel.emit('fromMj', {data: evnet.currentTarget.dataset.item})
       }
-    }).then(res => {
-      console.log(res);
-      this.setData({
-        docsList: this.data.docsList.concat(res.result.data),
-        count: this.data.count + res.result.data.length,
-        isLoading: false
-      })
-      if (res.result.data.length === 0) {
-        this.setData({
-          finish: true
-        })
-      }
-    }).catch(err => {
-
     })
   },
+  // 加载docs
+  getDocs() {
+    this.setData({
+      isLoading: true
+    })
+    let that = this
+    wx.request({
+      url: `${app.globalData.baseUrl}mj/list`,
+      data: {
+        c_id: this.data.cId,
+        count: this.data.count,
+        page: this.data.page
+      },
+      success (res) {
+        console.log(res.data.data)
+        if (res.data.re_code === '0') {
+          that.setData({
+            docsList: that.data.docsList.concat(res.data.data.data),
+            isLoading: false
+          })
+          if (!res.data.data.has_next) {
+            that.setData({
+              finish: true
+            })
+          }
+        } 
+      }
+    })
+  },
+  
+  
 
   /**
    * 生命周期函数--监听页面加载
@@ -92,7 +110,12 @@ Page({
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    this.getDocs()
+    this.setData({
+      page: this.data.page + 1
+    })
+    if (!this.data.finish) {
+      this.getDocs()
+    }
   },
 
   /**

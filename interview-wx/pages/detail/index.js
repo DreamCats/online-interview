@@ -13,38 +13,26 @@ Page({
     title:"",
   },
 
-  getMd() {
-    wx.cloud.callFunction({
-      name: "getDetail",
-      data: {
-        id: this.data.id,
-        type: this.data.type
-      }
-    }).then(res => {
-      console.log(res);
-      let obj = app.towxml(res.result.data[0].content,'markdown',{});
-      this.setData({
-        mdContent: obj,
-        isLoading: false
-      });
-    }).catch(err => {
-      console.log(err);
-    })
-  },
-
-  
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log("页面加载：", options);
+    // console.log("页面加载：", options);
+    let that = this
+    // const eventChannel = this.getOpenerEventChannel()
+    // eventChannel.on('fromMj', function(data) {
+    //   console.log(data.data['content'])
+    //   let obj = app.towxml(data.data['content'],'markdown',{});
+    //   that.setData({
+    //     mdContent: obj,
+    //     isLoading: false
+    //   });
+    // })
     this.setData({
-      id: options.id,
-      type: options.type,
-      title: options.title
+      title: options.title,
+      mdContent: options.content
     })
-    this.getMd();
+    // this.getMd();
     // wx.cloud.callFunction({
     //   name: "max"
     // }).then(res => {
@@ -102,6 +90,7 @@ Page({
       // 来自页面内转发按钮
       console.log(res.target)
     }
+    console.log("das")
     return {
       title: this.data.title,
       path: `/pages/detail/index?id=${this.data.id}&type=${this.data.type}`

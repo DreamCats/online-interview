@@ -4,12 +4,12 @@
 </view>
 
 <block wx:for="{{docsList}}" wx:key="id" >
-  <i-cell title="{{item.title}}" is-link url="/pages/detail/index?id={{item._id}}&type={{item.type}}">
-    <view>{{item.time}}</view>
-  </i-cell>
+  <vant-cell title="{{item.title}}" data-item="{{item}}" bind:click="onBt">
+    <view>{{item.publish_time}}</view>
+  </vant-cell>
   
 </block>
 
 <block wx:if="{{finish}}">
-  <i-divider content="加载已经完成,没有其他数据" color="#ed3f14" lineColor="#ed3f14"></i-divider>
+  <vant-divider content="加载已经完成,没有其他数据" color="#ed3f14" lineColor="#ed3f14"></vant-divider>
 </block>
