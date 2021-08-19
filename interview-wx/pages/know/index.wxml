@@ -11,6 +11,6 @@
 
 
 <block wx:for="{{showKnows}}" wx:key="id">
-  <van-cell title="{{item.type_name}}" is-link url="/pages/kw/index?id={{item.id}}&tag={{item.type_name}}"></van-cell>
+  <van-cell title="{{item.type_name}}" is-link url="/pages/kw/index?id={{item.id-1}}&tag={{item.type_name}}"></van-cell>
 </block>
 
