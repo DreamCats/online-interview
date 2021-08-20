@@ -3,40 +3,49 @@
 const app = getApp()
 Page({
   data: {
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    companies: [],
-    active: '0', // type
-    count: 0,
-    mdContent: "",
+    tags: [],
+    tag: '0',
     isLoading: false,
+    finish: false,
+    path: 'mj'
   },
 
   // tab栏
   onChange (event) {
+    let idx =  event.detail.name
+    if (idx === '0' || idx === '1') {
+      this.setData({
+        path: 'mj'
+      })
+    } else if(idx === '1' || idx === '2') {
+      this.setData({
+        path: 'kw'
+      })
+    } else {
+      this.setData({
+        path: 'alg'
+      })
+    }
     this.setData({
-        active: event.detail.name,
-        companies: [],
-        count: 0,
+        tag: idx,
+        tags: [],
         finish: false,
-        mdContent: "",
         isLoading: true
     });
-    this.getCompanies()
+    this.getTags()
   },
-  getCompanies() {
+  getTags() {
     this.setData({
       isLoading: true
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}company/list?type=${this.data.active}`,
+      url: `${app.globalData.baseUrl}tag/list?tag=${this.data.tag}`,
       success (res) {
         console.log(res.data.data)
         if (res.data.re_code === '0') {
           that.setData({
-            companies: res.data.data,
+            tags: res.data.data,
             isLoading: false
           })
         } 
@@ -45,7 +54,7 @@ Page({
   },
 
   onLoad() {
-
+    
   },
 
     /**
@@ -53,7 +62,7 @@ Page({
    */
   onShow: function () {
     // 加载大厂面经列表
-    this.getCompanies()
+    this.getTags()
   },
 
     /**
@@ -61,7 +70,9 @@ Page({
    */
   onReachBottom: function () {
     console.log("上拉")
-    // this.getCompanies()
+    this.setData({
+      finish: true
+    })
   },
    /**
    * 用户点击右上角分享
@@ -72,7 +83,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: this.data.active === '0' ? '前端面经页面' : '后端面经页面',
+      title: this.data.tag === '0' ? '前端面经页面' : '后端面经页面',
       path: '/pages/index/index'
     }
   },

@@ -1,7 +1,10 @@
 <!--pages/my/index.wxml-->
 <view class="container">
   <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 点击授权 </button>
+    <block wx:if="{{!hasUserInfo}}">
+      <button bindtap="getUserProfile"> 登录 </button>
+      <button bindtap="getSubscribe"> 订阅 </button>
+    </block>
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>

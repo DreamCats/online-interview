@@ -17,17 +17,22 @@
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
 <block else>
-  <van-tabs active="{{ active }}" bind:change="onChange">
-    <van-tab name="0" title="前端"></van-tab>
-    <van-tab name="1" title="后端"></van-tab>
+  <van-tabs active="{{ tag }}" bind:change="onChange">
+    <van-tab name="0" title="前面"></van-tab>
+    <van-tab name="1" title="后经"></van-tab>
+    <van-tab name="2" title="前知"></van-tab>
+    <van-tab name="3" title="后识"></van-tab>
+    <van-tab name="4" title="刷题"></van-tab>
   </van-tabs>
 </block>
 
-<block wx:for="{{companies}}" wx:key="id">
-  <van-cell title="{{item.c_id}} : {{item.c_name}}" is-link url="/pages/mj/index?id={{item.c_id}}&name={{item.c_name}}"></van-cell>
+<block wx:for="{{tags}}" wx:key="id">
+  <van-cell title="{{item.tag_name}}" is-link url="/pages/{{path}}/index?id={{item.id}}&name={{item.tag_name}}&tag={{tag}}"></van-cell>
 </block>
 
 
 <block wx:if="{{finish}}">
-  <van-divider content="加载已经完成,没有其他数据" color="#ed3f14" lineColor="#ed3f14"></van-divider>
+  <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 14px;">
+    数据都被你滑动完了...
+  </van-divider>
 </block>

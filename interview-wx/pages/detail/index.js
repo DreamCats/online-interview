@@ -7,17 +7,29 @@ Page({
    */
   data: {
     id: "",
-    type: "",
+    tag: "",
     mdContent: "",
-    isLoading: true,
+    isLoading: false,
     title:"",
+    path: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log("页面加载：", options);
+    console.log("页面加载：", options);
+    if (options.tag === '0' || options.tag === '1') {
+      this.setData({
+        path: 'mj'
+      })
+    }
+    this.setData({
+      id: options.id,
+      tag: options.tag,
+      title: options.title,
+      isLoading: true
+    })
     let that = this
     // const eventChannel = this.getOpenerEventChannel()
     // eventChannel.on('fromMj', function(data) {
@@ -28,16 +40,22 @@ Page({
     //     isLoading: false
     //   });
     // })
-    this.setData({
-      title: options.title,
-      mdContent: options.content
+    wx.request({
+      url: `${app.globalData.baseUrl}${this.data.path}/info`,
+      data: {
+        id: this.data.id
+      },
+      success (res) {
+        console.log(res.data.data)
+        if (res.data.re_code === '0') {
+          let obj = app.towxml(res.data.data['content'],'markdown',{});
+          that.setData({
+            isLoading: false,
+            mdContent: obj
+          })
+        }
+      }
     })
-    // this.getMd();
-    // wx.cloud.callFunction({
-    //   name: "max"
-    // }).then(res => {
-    //   console.log(res)
-    // })
   },
 
   /**

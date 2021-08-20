@@ -12,18 +12,10 @@ Page({
     page: 1,
     finish: false,
     isLoading: true,
-    name:""
+    name:"",
+    tag: ''
   },
-  // item触发跳转
-  onBt (evnet) {
-    console.log(evnet.currentTarget.dataset.item)
-    wx.navigateTo({
-      url: '/pages/detail/index',
-      success: function(res) {
-        res.eventChannel.emit('fromMj', {data: evnet.currentTarget.dataset.item})
-      }
-    })
-  },
+
   // 加载docs
   getDocs() {
     this.setData({
@@ -33,7 +25,7 @@ Page({
     wx.request({
       url: `${app.globalData.baseUrl}mj/list`,
       data: {
-        c_id: this.data.cId,
+        tag: this.data.tag,
         count: this.data.count,
         page: this.data.page
       },
@@ -63,7 +55,8 @@ Page({
     console.log(options);
     this.setData({
       cId: options.id,
-      name: options.name
+      name: options.name,
+      tag: options.tag
     })
     // 加载
     this.getDocs()

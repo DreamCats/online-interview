@@ -4,7 +4,8 @@
 </view>
 
 <block wx:for="{{docsList}}" wx:key="id" >
-  <vant-cell title="{{item.title}}" data-item="{{item}}" bind:click="onBt">
+  <vant-cell title="{{item.title}}" is-link link-type="navigateTo" 
+  url="/pages/detail/index?id={{item.id}}&tag={{tag}}&title={{item.title}}">
     <view>{{item.publish_time}}</view>
   </vant-cell>
   
