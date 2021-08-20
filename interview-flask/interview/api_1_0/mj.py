@@ -1,3 +1,4 @@
+from logging import exception
 from interview.api_1_0 import api
 from flask import json, request, jsonify, current_app, session
 from interview.utils.response_code import RET
@@ -13,14 +14,14 @@ def get_mj_list():
             count: 数量
             c_id: 哪个公司
     '''
-    c_id = request.args.get('type', '0')
+    tag = request.args.get('tag', '0')
     page = request.args.get('page', '1')
     count = request.args.get('count', '10')
     # 参数判断省略
 
     # 查找
     try:
-        mj_pages = Mj.query.filter(Mj.c_id == int(c_id)).order_by(Mj.publish_time.desc()).paginate(int(page), 
+        mj_pages = Mj.query.filter(Mj.c_id == int(tag)).order_by(Mj.publish_time.desc()).paginate(int(page), 
                                                 int(count), error_out=False)
         mjs = mj_pages.items
     except Exception as e:
@@ -45,3 +46,27 @@ def get_mj_list():
         'has_next': mj_pages.has_next
     }
     return jsonify(re_code=RET.OK, msg='请求成功', data=mjs_info)
+
+@api.route('/mj/info', methods=['GET'])
+def get_mj_info():
+    '''获取面经详细信息
+    :param id
+    '''
+    mj_id = request.args.get('id', '0')
+
+    # 暂时不校验参数了
+
+    try:
+        mj = Mj.query.filter(Mj.id == int(mj_id)).first()
+        
+    except Exception as e:
+        current_app.logger.debug('get_mj_info', e)
+        return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
+
+
+    if mj is None:
+        return jsonify(re_code=RET.DBERR, msg='数据不存在')
+    
+    return jsonify(re_code=RET.OK, msg='请求成功', data=mj.to_dict())
+        
+    

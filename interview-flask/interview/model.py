@@ -52,39 +52,43 @@ class Lc(db.Model):
     url = db.Column(db.String, nullable=False) # url
     content = db.Column(db.Text) # c
 
-class Company(db.Model):
-    __tablename__ = 'company'
+# class Company(db.Model):
+#     __tablename__ = 'company'
+#     id = db.Column(db.Integer, primary_key=True) # id
+#     c_name = db.Column(db.String, nullable=False) # c_name
+#     c_id = db.Column(db.Integer,nullable=False) # c_id
+#     type = db.Column(db.Integer,nullable=False) # type
+
+#     def to_dict(self):
+#         '''
+#         '''
+#         c_info = {
+#             'id': self.id,
+#             'c_name': self.c_name,
+#             'c_id': self.c_id,
+#             'type': self.type
+#         }
+#         return c_info
+
+class Tag(db.Model):
+    __tablename__ = 'tag'
     id = db.Column(db.Integer, primary_key=True) # id
-    c_name = db.Column(db.String, nullable=False) # c_name
-    c_id = db.Column(db.Integer,nullable=False) # c_id
-    type = db.Column(db.Integer,nullable=False) # type
+    priority = db.Column(db.Integer,nullable=False) # type
+    tab = db.Column(db.Integer,nullable=False) # type
+    tag = db.Column(db.Integer,nullable=False) # type
+    tag_name = db.Column(db.String, nullable=False) # type_name
 
     def to_dict(self):
         '''
         '''
-        c_info = {
+        t_info = {
             'id': self.id,
-            'c_name': self.c_name,
-            'c_id': self.c_id,
-            'type': self.type
+            'priority': self.priority,
+            'tab': self.tab,
+            'tag': self.tag,
+            'tag_name': self.tag_name,
         }
-        return c_info
-
-class KwType(db.Model):
-    __tablename__ = 'kw_type'
-    id = db.Column(db.Integer, primary_key=True) # id
-    type = db.Column(db.Integer,nullable=False) # type
-    type_name = db.Column(db.String, nullable=False) # type_name
-
-    def to_dict(self):
-        '''
-        '''
-        k_info = {
-            'id': self.id,
-            'type': self.type,
-            'type_name': self.type_name,
-        }
-        return k_info
+        return t_info
 
 
 class Kw(db.Model):

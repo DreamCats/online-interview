@@ -3,56 +3,62 @@ from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import redis_conn, db
 from interview.utils.common import login_required
-from interview.model import Kw, KwType
+from interview.model import Tag
 
 
-@api.route('/kwtype/add', methods=['POST'])
+@api.route('/tag/add', methods=['POST'])
 def add_kw_type():
     '''添加知识分类
-    :param type_name: 分类名称
-            type: 类型 0，前，1，后
+    :param priority: 优先级
+            tab：板块
+            tag：标签
+            tag_name: 标签名字
     '''
     data = request.json
     current_app.logger.debug(data)
-    type_name = data.get('type_name')
-    type = data.get('type')
+    priority = data.get('priority')
+    tab = data.get('tab')
+    tag = data.get('tag')
+    tag_name = data.get('tag_name')
     # 判断是否缺少
-    if not all([type_name, type]):
+    if not all([priority, tab, tag, tag_name]):
         current_app.logger.debug('缺少参数...')
         return jsonify(re_code=RET.PARAMERR, msg='缺少参数')
 
     # 判断类型参数传递是否正确
-    if type != '0' and type != '1' :
-        return jsonify(re_code=RET.PARAMERR, msg='types参数不正确')
 
     # 创建实体
-    kt = KwType()
-    kt.type_name = type_name
-    kt.type = int(type)
+    t = Tag()
+    t.priority = int(priority)
+    t.tab = int(tab)
+    t.tag = int(tag)
+    t.tag_name = tag_name
 
     try:
-        db.session.add(kt)
+        db.session.add(t)
         db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
         db.session.rollback()
-        return jsonify(re_code=RET.DBERR, msg='添加分类失败')
+        return jsonify(re_code=RET.DBERR, msg='添加标签失败')
 
     return jsonify(re_code=RET.OK, msg='添加成功')
 
 
-@api.route('/kwtype/list', methods=['GET'])
-def get_kwtype_list():
+@api.route('/tag/list', methods=['GET'])
+def get_tag_list():
     '''查找公司
-    :param type: 0， 前，1，后
+    :param tab: 0， 面经，1，知识，2，算法
+            tag: 标签：0，前面，1，后面，2，前知，3，后知，4，算法
     '''
-    type = request.args.get('type', '0')
+    tab = request.args.get('tab', '0')
+    tag = request.args.get('tag', '0')
     
     # 参数判断省略
 
     # 查找
     try:
-        kt = KwType.query.filter(KwType.type == type).order_by(KwType.id)
+        kt = Tag.query.filter(Tag.tag == tag).order_by(Tag.priority)
     except Exception as e:
         current_app.logger.debug(e)
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
