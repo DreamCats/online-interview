@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "vant-cell": "@vant/weapp/cell/index",
-    "vant-divider": "@vant/weapp/divider/index"
-  }
-}

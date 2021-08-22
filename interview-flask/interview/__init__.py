@@ -8,12 +8,16 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import configs
 from flask_session import Session
+from flask_apscheduler import APScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+
 import redis
 
 #定义能被外部调用的对象
 db=SQLAlchemy()
 redis_conn=None
-
+scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))
+app = Flask(__name__)
 def setupLogging(levle):
     # 业务逻辑已开启就加载日志
     # 设置日志的记录等级
@@ -22,6 +26,12 @@ def setupLogging(levle):
     file_log_handler = RotatingFileHandler("logs/interview.log", maxBytes=1024 * 1024 * 100, backupCount=10)
     # 为全局的日志工具对象（flask app使用的）添加日志记录器
     logging.getLogger().addHandler(file_log_handler)
+
+
+# def heart():
+#     '''
+#     '''
+#     print('--------------------------------心跳--------------------------')
 
 def get_app(config_name):
     '''
@@ -34,8 +44,10 @@ def get_app(config_name):
     setupLogging(configs[config_name].LOGGIONG_LEVEL)
 
     # 创建app
-    app = Flask(__name__)
+    global app
+    # app = Flask(__name__)
     # 加载配置文件
+    # configs[config_name].JOBS[0]['func'] = heart
     app.config.from_object(configs[config_name])
 
     # 创建Redis数据库连接对象
@@ -52,6 +64,12 @@ def get_app(config_name):
     # 开启CSRF保护
     # CSRFProtect(app)
 
+    # 定时任务
+    global scheduler
+    
+    scheduler.init_app(app)
+    scheduler.start()
+
 
     # 哪里需要哪里导入蓝图
     from interview.api_1_0 import api
@@ -61,5 +79,6 @@ def get_app(config_name):
     # 注册蓝图
     # app.register_blueprint(api)
     # app.register_blueprint(api)
+    
 
     return app

@@ -17,15 +17,15 @@ Page({
       this.setData({
         path: 'mj'
       })
-    } else if(idx === '1' || idx === '2') {
+    } else if (idx === '2' || idx === '3' || idx === '5') {
       this.setData({
         path: 'kw'
       })
-    } else {
+    } else if(idx === '4') {
       this.setData({
         path: 'alg'
       })
-    }
+    } 
     this.setData({
         tag: idx,
         tags: [],
@@ -42,15 +42,26 @@ Page({
     wx.request({
       url: `${app.globalData.baseUrl}tag/list?tag=${this.data.tag}`,
       success (res) {
-        console.log(res.data.data)
+        console.log('getTags:res', res.data.data)
         if (res.data.re_code === '0') {
+          // if (that.data.tag === '2' || that.data.tag === '3') {
+          //   that.setData({
+          //     tags: res.data.data.sort((a, b) => a.id - b.id)
+          //   })
+          //   console.log('sort:', that.data.tags);
           that.setData({
             tags: res.data.data,
             isLoading: false
           })
+           
         } 
+        that.setData({
+          isLoading: false
+        })
       }
     })
+    // 排序
+    
   },
 
   onLoad() {

@@ -70,3 +70,14 @@ def get_tag_list():
         datas.append(k.to_dict())
     
     return jsonify(re_code=RET.OK, msg='请求成功', data=datas)
+
+@api.route('/tag/list/all', methods=['GET'])
+def get_tag_list_all():
+    '''
+    '''
+    tags = Tag.query.filter()
+
+    datas = []
+    for tag in tags:
+        datas.append(tag.to_dict())
+    return jsonify(re_code=RET.OK, msg='请求成功', data=datas)

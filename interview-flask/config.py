@@ -4,6 +4,11 @@
 
 import logging
 from redis import StrictRedis
+
+
+
+
+
 class Config(object):
     '''开启调试模式'''
     DEBUG = True
@@ -15,7 +20,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:123456@dreamcat.ink:3306/interview'
     # 是否开启追踪
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_ECHO = True
+    # SQLALCHEMY_ECHO = True
     # 配置Redis数据库  待会再说
     REDIS_HOST = '127.0.0.1'
     REDIS_PORT = 6379
@@ -29,6 +34,18 @@ class Config(object):
     SESSION_USE_SIGNER = True
     # 設置session的会话的超时时长 ：一天,全局指定
     PERMANENT_SESSION_LIFETIME = 3600 * 1 # 暂定1小时
+
+    # 设定定时任务
+    JOBS=[
+        # {
+        #     'id':'heart',
+        #     'args':'',
+        #     'trigger':'interval',
+        #     'seconds':180
+        # }
+    ]
+    SCHEDULER_API_ENABLED = True
+    SCHEDULER_TIMEZONE = 'Asia/Shanghai'
 
 class DevelopConfig(Config):
     """开发阶段下的配置子类"""
@@ -58,3 +75,4 @@ configs={
     'unittest'   :UnitTestConfig,
     'production' :ProductionConfig
 }
+

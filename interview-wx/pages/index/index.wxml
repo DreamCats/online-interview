@@ -23,11 +23,12 @@
     <van-tab name="2" title="前知"></van-tab>
     <van-tab name="3" title="后识"></van-tab>
     <van-tab name="4" title="刷题"></van-tab>
+    <van-tab name="5" title="其他"></van-tab>
   </van-tabs>
 </block>
 
 <block wx:for="{{tags}}" wx:key="id">
-  <van-cell title="{{item.tag_name}}" is-link url="/pages/{{path}}/index?id={{item.id}}&name={{item.tag_name}}&tag={{tag}}"></van-cell>
+  <van-cell title="{{item.tag_name}}" is-link url="/pages/list/index?id={{item.id}}&name={{item.tag_name}}&tag={{tag}}&path={{path}}"></van-cell>
 </block>
 
 

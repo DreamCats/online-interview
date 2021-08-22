@@ -4,13 +4,16 @@
 </view>
 
 <block wx:for="{{docsList}}" wx:key="id" >
-  <vant-cell title="{{item.title}}" is-link link-type="navigateTo" 
+  <van-cell title="{{item.title}}" is-link link-type="navigateTo" 
   url="/pages/detail/index?id={{item.id}}&tag={{tag}}&title={{item.title}}">
     <view>{{item.publish_time}}</view>
-  </vant-cell>
+  </van-cell>
   
 </block>
 
 <block wx:if="{{finish}}">
-  <vant-divider content="加载已经完成,没有其他数据" color="#ed3f14" lineColor="#ed3f14"></vant-divider>
+  <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 14px;">
+    数据都被你滑动完了...
+  </van-divider>
 </block>
+<van-toast id="van-toast" />

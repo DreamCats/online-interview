@@ -1,4 +1,5 @@
 // pages/docs/index.js
+import Toast from '@vant/weapp/toast/toast';
 const app = getApp()
 Page({
 
@@ -7,30 +8,31 @@ Page({
    */
   data: {
     docsList: [],
-    cId: "",
-    count: 11,
+    id: "",
+    count: 16,
     page: 1,
     finish: false,
     isLoading: true,
     name:"",
-    tag: ''
+    tag: '',
+    path: '',
   },
 
   // 加载docs
-  getDocs() {
+  getList() {
     this.setData({
       isLoading: true
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}mj/list`,
+      url: `${app.globalData.baseUrl}${this.data.path}/list`,
       data: {
-        tag: this.data.tag,
+        tag: this.data.id,
         count: this.data.count,
         page: this.data.page
       },
       success (res) {
-        console.log(res.data.data)
+        console.log('mj:res:', res.data.data)
         if (res.data.re_code === '0') {
           that.setData({
             docsList: that.data.docsList.concat(res.data.data.data),
@@ -41,8 +43,13 @@ Page({
               finish: true
             })
           }
+        } else {
+          that.setData({
+            isLoading: false
+          })
+          Toast("小小提示->作者还没有添加数据哦...")
         } 
-      }
+      },
     })
   },
   
@@ -52,14 +59,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
+    console.log('mj:', options);
     this.setData({
-      cId: options.id,
+      id: options.id,
       name: options.name,
-      tag: options.tag
+      tag: options.tag,
+      path: options.path
     })
     // 加载
-    this.getDocs()
+    this.getList()
   },
 
   /**
@@ -107,7 +115,7 @@ Page({
       page: this.data.page + 1
     })
     if (!this.data.finish) {
-      this.getDocs()
+      this.getList()
     }
   },
 
@@ -121,7 +129,7 @@ Page({
     }
     return {
       title: `面经列表页面: ${this.data.name}`,
-      path: `/pages/mj/index?id=${this.data.cId}`
+      path: `/pages/mj/index?id=${this.data.id}`
     }
   },
   onShareTimeline: function(res) {
@@ -132,7 +140,7 @@ Page({
     return {
       title: `面经列表页面: ${this.data.name}`,
       query:{
-        id: this.data.cId
+        id: this.data.id
       }
       // path: `/pages/detail/index?id=${this.data.id}&type=${this.data.type}`
     }

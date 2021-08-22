@@ -1,5 +1,6 @@
 import requests
-from flask import app, current_app, json
+from flask import current_app, json
+from interview.model import PushConfig
 # xxx
 appid = 'wx525579a990736877'
 secret = 'e1d5bb1814d6009685a8e61ba6fedcbc'
@@ -40,29 +41,14 @@ def get_code2Session(code):
         return None
     return openId
 
-def send_msg():
-    token = get_token()
-    url = f'https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token={token}'
-    datas = {
-        'access_token': token,
-        'touser': 'oYb8l0Z_v6ne_hJMR0M9GI-9nfIo',
-        'template_id': 'wOd0s2XUSMxCtScN-7lDGX9z4aD_e7F4bxi8w4M7E3s',
-        'data': {
-            'thing4':{
-                'value': "Maifeng",
-            },
-            'time1': {
-                'value': '21:00'
-            },
-            'thing3': {
-                'value': '1.两数之和 2.lala n'
-            },
-            'thing2': {
-                'value': 'dasa'
-            }
-        }
-    }
-    resp = ss.post(url, json=datas)
+def send_test_msg(token):
+    url = f'http://pushplus.hxtrip.com/send?token={token}&title=测试&content=欢迎您使用在线面试助手小程序&template=html'
+    resp = ss.get(url)
     print(resp.text)
 
-、、
+
+
+def send_user_msg(token, datas):
+    url = f'http://pushplus.hxtrip.com/send?token={token}&title=测试&content={datas}&template=json'
+    resp = ss.get(url)
+    print(resp.text)

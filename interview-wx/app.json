@@ -1,17 +1,17 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/alg/index",
     "pages/my/index",
     "pages/detail/index",
-    "pages/mj/index",
-    "pages/kw/index"
+    "pages/list/index",
+    "pages/pushlist/index"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "面试助手",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#000000",
@@ -20,7 +20,7 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "面经",
+        "text": "主页",
         "iconPath": "imgs/no-home.png",
         "selectedIconPath": "imgs/select-home.png"
       },
@@ -31,10 +31,7 @@
         "selectedIconPath": "imgs/select-my.png"
       }
     ]
-    
   },
-
-
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

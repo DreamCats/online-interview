@@ -1,4 +1,5 @@
 // pages/my/index.js
+import Toast from '@vant/weapp/toast/toast';
 const app = getApp()
 Page({
 
@@ -8,6 +9,21 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
+    push_token: '',
+    pushConfigShow: false,
+    time: '',
+    number: '',
+    pushConfig: {
+      wx_id: '',
+      push_token: '',
+      push_time: '',
+      push_number: '',
+      push_status: '0',
+      tag_id: 1,
+      tag_name: '',
+    },
+    tags: [],
+
   },
 
   /**
@@ -20,17 +36,124 @@ Page({
     //     hasUserInfo: true
     //   })
     // } 
+    // 获取全部tabs
+    this.getTags()
     
   },
-  getSubscribe(e) {
-    wx.requestSubscribeMessage({
-      tmplIds: ['wOd0s2XUSMxCtScN-7lDGX9z4aD_e7F4bxi8w4M7E3s'],
+  
+  onPushConfigAdd() {
+    // 构造数据
+    this.setData({
+      'pushConfig.wx_id': this.data.userInfo.wx_id,
+      'pushConfig.push_token': this.data.push_token,
+      'pushConfig.tag_name': this.data.tags[this.data.pushConfig.tag_id - 1].text,
+      'pushConfig.push_time': this.data.time,
+      'pushConfig.push_number': this.data.number
+    })
+    console.log('pushconfig:', this.data.pushConfig);
+    wx.request({
+      url: `${app.globalData.baseUrl}pushconfig/add`,
+      method: 'POST',
+      data: this.data.pushConfig,
       success (res) {
-        console.log(res)
-       },
-       fail(err) {
-         console.log(err)
-       }
+        console.log('onPushConfigAdd:res', res.data)
+        if (res.data.re_code === '0') {
+          Toast('添加成功...')
+        }
+      }
+    })
+  
+  },
+  onTagSelect(e) {
+    console.log('onTagSelect',e)
+    this.setData({
+      'pushConfig.tag_id': e.detail
+    })
+  },
+  getTags() {
+    let that = this
+    wx.request({
+      url: `${app.globalData.baseUrl}tag/list/all`,
+      success (res) {
+        console.log('getTabs:res:', res.data)
+        if (res.data.re_code === '0') { 
+          // 换算
+          let tags = []
+          for (let tag of res.data.data) {
+            tags.push({text:tag.tag_name, value: tag.id})
+          }
+          that.setData({
+            tags: tags
+          })
+          console.log('tags:res', that.data.tags)
+        }
+      }
+    })
+    
+  },
+  onPushRadio(event) {
+    console.log('test:', event)
+    this.setData({
+      'pushConfig.push_status': event.detail
+    });
+    console.log('test:', this.data.pushConfig.push_status)
+  },
+  onPushConfig() {
+    console.log('onPushConfig:', this.data.pushConfigShow)
+    this.setData({
+      pushConfigShow: true
+    })
+  },
+  onPushList() {
+    // 跳转
+    wx.navigateTo({
+      url: '/pages/pushlist/index',
+    })
+  },
+  onClose() {
+    console.log('onClose:')
+    this.setData({
+      pushConfigShow: false
+    })
+  },
+  onHint() {
+    console.log('onHint:')
+    // 跳转
+    wx.navigateTo({
+      url: '/pages/detail/index?id=121&tag=5&title=关于我',
+    })
+  },
+  onPushBind() {
+    console.log('onPushBind:')
+    let that = this
+    wx.request({
+        url: `${app.globalData.baseUrl}user/push_token`,
+        method: 'POST',
+        data: {
+          wx_id: this.data.userInfo.wx_id,
+          push_token: this.data.push_token,
+        },
+        success (res) {
+          console.log('onPushBind:res:', res.data)
+          if (res.data.re_code === '0') {
+            that.setData({
+              push_token: res.data.push_token
+            })
+          }
+        }
+    })
+  },
+  onPushTest() {
+    wx.request({
+      url: `${app.globalData.baseUrl}user/test_token`,
+      data: {
+        push_token: this.data.push_token
+      },
+      success (res) {
+        if (res.data.re_code === '0') {
+          Toast('发送成功，请查收...')
+        }
+      }
     })
   },
   getUserProfile(e) {
@@ -40,12 +163,12 @@ Page({
     wx.getUserProfile({
       desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
-        console.log(res.userInfo)
+        console.log('getUserProfile:res:', res.userInfo)
         this.setData({
           userInfo: res.userInfo,
           hasUserInfo: true
         })
-        // 获取用户openid
+        // 获取用户openid和push_token
         wx.login({
           success (res) {
             if (res.code) {
@@ -56,10 +179,17 @@ Page({
                 method: 'POST',
                 data: {
                   code: res.code,
-                  userInfo: that.data.userInfo
+                  userInfo: that.data.userInfo,
                 },
                 success (res) {
-                  console.log(res)
+                  console.log('userinfo:res:', res.data)
+                  if (res.data.re_code === '0') {
+                    that.setData({
+                      userInfo: res.data.data,
+                      push_token: res.data.data.push_token
+                    })
+                    app.globalData.userInfo = res.data.data
+                  }
                 }
               })
             } else {

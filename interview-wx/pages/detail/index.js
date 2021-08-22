@@ -23,6 +23,14 @@ Page({
       this.setData({
         path: 'mj'
       })
+    } else if (options.tag === '2' || options.tag === '3' || options.tag === '5') {
+      this.setData({
+        path: 'kw'
+      })
+    } else {
+      this.setData({
+        path: 'alg'
+      })
     }
     this.setData({
       id: options.id,

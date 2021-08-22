@@ -3,15 +3,101 @@
   <view class="userinfo">
     <block wx:if="{{!hasUserInfo}}">
       <button bindtap="getUserProfile"> 登录 </button>
-      <button bindtap="getSubscribe"> 订阅 </button>
+      <van-divider
+        contentPosition="center"
+        customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
+        想体验更多定制化功能，请🔼
+      </van-divider>
     </block>
     <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.user_name}}</text>
+      <van-cell-group inset>
+        <van-field
+          model:value="{{ push_token }}"
+          center
+          label="token"
+          placeholder="输入token，定时推送"
+          border="{{ false }}"
+          right-icon="info-o"
+          bind:click-icon="onHint"
+        >
+        </van-field>
+        <van-row>
+          <van-col span='12'>
+            <van-button bind:click="onPushBind" plain hairline round size="large" type="primary" block>
+            绑定
+            </van-button>
+          </van-col>
+          <van-col span='12'>
+            <van-button bind:click="onPushTest" plain hairline round size="large" type="primary" block>
+            测试
+            </van-button>
+          </van-col>
+        </van-row>
+
+        <van-row>
+          <van-col span='12'>
+            <van-button bind:click="onPushConfig" plain hairline round size="large" type="primary" block>
+            推送设置
+            </van-button>
+            <van-popup
+              model:show="{{ pushConfigShow }}"
+              closeable
+              round
+              position="bottom"
+              custom-style="height: 50%"
+              bind:close="onClose"
+            >
+            <van-divider contentPosition="center">定时推送设置</van-divider>
+            <!-- 组件开始 -->
+            <van-cell-group>
+              <!-- 时间 -->
+              <van-field
+                model:value="{{ time }}"
+                placeholder="请输入时间：eg：08:00"
+                label="时间"
+                required
+                border="{{ false }}"
+              />
+              <!-- 数量 -->
+              <van-field
+                model:value="{{ number }}"
+                placeholder="请输入数量：eg：3"
+                label="数量"
+                required
+                border="{{ false }}"
+              />
+              <!-- 选择器 -->
+              <van-dropdown-menu direction="up" >
+                <van-dropdown-item value="{{ pushConfig.tag_id }}" options="{{ tags }}"  bind:change='onTagSelect'/>
+              </van-dropdown-menu>
+              <!-- 单选框 -->
+              <van-radio-group model:value="{{ pushConfig.push_status }}" bind:change='onPushRadio'>
+                <van-row>
+                  <van-col span='12'>
+                    <van-radio name="0">关闭</van-radio>
+                  </van-col>
+                  <van-col span='12'>
+                    <van-radio name="1">开启</van-radio>
+                  </van-col>
+                </van-row>
+              </van-radio-group>
+              <!-- 添加按钮 -->
+              <van-button bind:click="onPushConfigAdd" plain hairline round size="large" type="info" block>
+              添加
+              </van-button>
+            </van-cell-group>
+          </van-popup>
+          </van-col>
+          <van-col span='12'>
+            <van-button bind:click="onPushList" plain hairline round size="large" type="primary" block>
+            推送列表
+            </van-button>
+          </van-col>
+        </van-row>
+      </van-cell-group>
     </block>
   </view>
-
-  <block else>
-    <!-- <i-divider content="面 经定期更新..." color="#ed3f14" lineColor="#ed3f14"></i-divider> -->
-  </block>
 </view>
+<van-toast id="van-toast" />

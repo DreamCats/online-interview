@@ -21,7 +21,7 @@ def get_mj_list():
 
     # 查找
     try:
-        mj_pages = Mj.query.filter(Mj.c_id == int(tag)).order_by(Mj.publish_time.desc()).paginate(int(page), 
+        mj_pages = Mj.query.filter(Mj.tag_id == int(tag)).order_by(Mj.publish_time.desc()).paginate(int(page), 
                                                 int(count), error_out=False)
         mjs = mj_pages.items
     except Exception as e:

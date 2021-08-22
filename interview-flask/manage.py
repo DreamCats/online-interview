@@ -4,11 +4,12 @@
 
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
+from interview.model import PushConfig
 
-from interview import get_app, db
+from interview import get_app, db, scheduler
 
 app=get_app('develop')
-
+app.app_context().push()
 #让迁移时，app和数据库建立关联
 Migrate(app,db)
 
@@ -26,6 +27,8 @@ manager.add_command('db',MigrateCommand)
 # db upgrade
 
 # python manage.py db upgrade
+
+
 
 if __name__ == '__main__':
     manager.run()
