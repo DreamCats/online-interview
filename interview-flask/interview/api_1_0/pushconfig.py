@@ -47,7 +47,7 @@ def add_pushconfig():
     p.push_time = push_time,
     p.push_number = int(push_number),
     p.push_status = push_status
-    p.uuid = uuid.uuid1()
+    p.uuid = str(uuid.uuid1())
 
     try:
         db.session.add(p)
