@@ -23,7 +23,7 @@ Page({
       tag_name: '',
     },
     tags: [],
-
+    qrCodeShow: false
   },
 
   /**
@@ -39,6 +39,13 @@ Page({
     // 获取全部tabs
     this.getTags()
     
+  },
+
+  // 消息盒子按钮
+  onChat() {
+    this.setData({
+      qrCodeShow: true
+    })
   },
   
   onPushConfigAdd() {
@@ -113,7 +120,8 @@ Page({
   onClose() {
     console.log('onClose:')
     this.setData({
-      pushConfigShow: false
+      pushConfigShow: false,
+      qrCodeShow: false
     })
   },
   onHint() {
@@ -139,6 +147,7 @@ Page({
             that.setData({
               push_token: res.data.push_token
             })
+            Toast('绑定成功...')
           }
         }
     })
@@ -189,6 +198,7 @@ Page({
                       push_token: res.data.data.push_token
                     })
                     app.globalData.userInfo = res.data.data
+                    Toast('登录成功')
                   }
                 }
               })

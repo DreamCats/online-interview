@@ -1,7 +1,8 @@
 <!--pages/my/index.wxml-->
 <van-notice-bar
   left-icon="volume-o"
-  text="在代码阅读过程中人们说脏话的频率是衡量代码质量的唯一标准。"
+  text="谢谢使用这款在线面试助手小程序，如遇到问题可微信联系我，联系方式请登录过后查看。"
+  mode="closeable"
 />
 <view class="container">
   <view class="userinfo">
@@ -14,6 +15,7 @@
       </van-divider>
     </block>
     <block wx:else>
+      <van-icon name="chat" size="30px" dot class='chat-class' bind:click='onChat'/>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.user_name}}</text>
       <van-cell-group inset>
@@ -101,6 +103,21 @@
           </van-col>
         </van-row>
       </van-cell-group>
+      <van-popup show="{{ qrCodeShow }}" 
+                custom-style="height: 80%;" 
+                round
+                bind:close="onClose"
+                closeable
+                position="bottom">
+              <!-- 加载图片 -->
+              <van-image
+                width="100%"
+                height="100%"
+                fit="cover"
+                
+                src="https://imgs.dreamcat.ink/blog/chatme.jpg"
+              />
+      </van-popup>
     </block>
   </view>
 </view>

@@ -20,3 +20,11 @@
 .usermotto {
   margin-top: 200px;
 }
+
+.chat-class {
+  /* width: 100%; */
+  position: absolute;
+  margin-right: 10px;
+  top: 50px;
+  right: 0;
+}
