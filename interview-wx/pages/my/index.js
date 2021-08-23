@@ -120,7 +120,7 @@ Page({
     console.log('onHint:')
     // 跳转
     wx.navigateTo({
-      url: '/pages/detail/index?id=121&tag=5&title=关于我',
+      url: '/pages/detail/index?id=1000&tag=5&title=如何获取pushtoken教程',
     })
   },
   onPushBind() {
