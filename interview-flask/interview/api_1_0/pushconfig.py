@@ -186,4 +186,3 @@ def get_send_datas(tag_id, number):
             print(r.tag_id, r.title, r.url)
             datas.append({'tag_id':r.tag_id, 'title':r.title, 'url':r.url})
         return datas
-    
