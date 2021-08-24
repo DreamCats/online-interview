@@ -15,35 +15,55 @@
       </van-divider>
     </block>
     <block wx:else>
+      <!-- 联系我图标 -->
       <van-icon name="chat" size="30px" dot class='chat-class' bind:click='onChat'/>
+      <!-- 用户头像 -->
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
+      <!-- 用户昵称 -->
       <text class="userinfo-nickname">{{userInfo.user_name}}</text>
+      <!-- token输入框和图标 -->
       <van-cell-group inset>
         <van-field
           model:value="{{ push_token }}"
           center
+          disabled
           label="token"
           placeholder="输入token，定时推送"
           border="{{ false }}"
-          right-icon="info-o"
-          bind:click-icon="onHint"
         >
         </van-field>
         <van-row>
           <van-col span='12'>
+          <!-- 绑定按钮 -->
             <van-button bind:click="onPushBind" plain hairline round size="large" type="primary" block>
             绑定
             </van-button>
           </van-col>
           <van-col span='12'>
+          <!-- 测试按钮 -->
             <van-button bind:click="onPushTest" plain hairline round size="large" type="primary" block>
             测试
             </van-button>
           </van-col>
         </van-row>
-
+        <!-- 绑定弹出窗口 -->
+        <van-popup show="{{ tokenQRCodeShow }}" 
+                custom-style="height: 60%;" 
+                round
+                bind:close="onClose"
+                closeable
+                position="bottom">
+              <!-- 加载图片 -->
+              <van-image
+                width="90%"
+                height="90%"
+                fit="cover"
+                src="{{qrCodeUrl}}"
+              />
+      </van-popup>
         <van-row>
           <van-col span='12'>
+          <!-- 推送设置按钮 -->
             <van-button bind:click="onPushConfig" plain hairline round size="large" type="primary" block>
             推送设置
             </van-button>
@@ -97,12 +117,14 @@
           </van-popup>
           </van-col>
           <van-col span='12'>
+          <!-- 推送列表按钮 -->
             <van-button bind:click="onPushList" plain hairline round size="large" type="primary" block>
             推送列表
             </van-button>
           </van-col>
         </van-row>
       </van-cell-group>
+      <!-- 我的二维码 -->
       <van-popup show="{{ qrCodeShow }}" 
                 custom-style="height: 80%;" 
                 round

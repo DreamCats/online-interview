@@ -23,7 +23,11 @@ Page({
       tag_name: '',
     },
     tags: [],
-    qrCodeShow: false
+    qrCodeShow: false,
+    tokenQRCodeShow: false,
+    qrCodeUrl: '',
+    qrCodeSign: '',
+    isBindCode: false,
   },
 
   /**
@@ -47,7 +51,7 @@ Page({
       qrCodeShow: true
     })
   },
-  
+  // 添加推送记录
   onPushConfigAdd() {
     // 构造数据
     this.setData({
@@ -71,12 +75,14 @@ Page({
     })
   
   },
+  // 推送设置中的类型选择
   onTagSelect(e) {
     console.log('onTagSelect',e)
     this.setData({
       'pushConfig.tag_id': e.detail
     })
   },
+  // 获取全部类型
   getTags() {
     let that = this
     wx.request({
@@ -98,6 +104,7 @@ Page({
     })
     
   },
+  // 推送设置中的关闭和开启
   onPushRadio(event) {
     console.log('test:', event)
     this.setData({
@@ -105,49 +112,88 @@ Page({
     });
     console.log('test:', this.data.pushConfig.push_status)
   },
+  // 推送按钮时间
   onPushConfig() {
     console.log('onPushConfig:', this.data.pushConfigShow)
     this.setData({
       pushConfigShow: true
     })
   },
+  // 推送列表按钮时间
   onPushList() {
     // 跳转
     wx.navigateTo({
       url: '/pages/pushlist/index',
     })
   },
+  // 关闭所有的弹窗
   onClose() {
     console.log('onClose:')
     this.setData({
       pushConfigShow: false,
-      qrCodeShow: false
+      qrCodeShow: false,
+      tokenQRCodeShow: false
     })
   },
-  onHint() {
-    console.log('onHint:')
-    // 跳转
-    wx.navigateTo({
-      url: '/pages/detail/index?id=1000&tag=5&title=如何获取pushtoken教程',
-    })
-  },
+ // 绑定按钮
   onPushBind() {
     console.log('onPushBind:')
+    // 打开窗口
+    this.setData({
+      tokenQRCodeShow: true
+    })
+    // 请求二维码
     let that = this
     wx.request({
-        url: `${app.globalData.baseUrl}user/push_token`,
-        method: 'POST',
-        data: {
-          wx_id: this.data.userInfo.wx_id,
-          push_token: this.data.push_token,
-        },
+        url: `${app.globalData.baseUrl}user/qrcode`,
         success (res) {
-          console.log('onPushBind:res:', res.data)
+          console.log('onPushBind:qrcode:res:', res.data)
           if (res.data.re_code === '0') {
             that.setData({
-              push_token: res.data.push_token
+              qrCodeUrl: res.data.data.qrCodeUrl,
+              qrCodeSign: res.data.data.qrCode
             })
-            Toast('绑定成功...')
+            // 重头戏， 定时器轮训
+            let times = 0
+            let timeTokenRequest = setInterval(function() {
+              times++
+              if (times >= 18) {
+                Toast('已过期，重新绑定')
+                // 关闭弹窗，让用户重新点击绑定
+                that.setData({
+                  tokenQRCodeShow: false
+                })
+                // 清除定时器
+                clearInterval(timeTokenRequest)
+              } else {
+                console.log('lunxu:count:', times)
+                // 轮训查看是否已经绑定
+                wx.request({
+                  url: `${app.globalData.baseUrl}user/detectcode`,
+                  data: {
+                    wx_id: that.data.userInfo.wx_id,
+                    qrcode: that.data.qrCodeSign
+                  },
+                  success (res) {
+                    console.log('lunxun:res:', res.data)
+                    if (res.data.re_code === '0') {
+                      // 已经扫码，得到服务端的绑定结果
+                      Toast('绑定成功，可以点击测试按钮发送消息...')
+                      that.setData({
+                        push_token: res.data.data,
+                        isBindCode: true,
+                        tokenQRCodeShow: false
+                      })
+                      // 并且清除定时器？ 由于获取不到上一步的定时器变量，害
+                    }
+                  }
+                })
+                if (that.data.isBindCode) {
+                  // 关闭定时器
+                  clearInterval(timeTokenRequest)
+                }
+              }
+            }, 2000)
           }
         }
     })
