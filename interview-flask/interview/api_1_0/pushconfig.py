@@ -59,7 +59,7 @@ def add_pushconfig():
 
     if push_status == '1':
         print('准备添加任务...')
-        add_jobs(p.uuid, push_token, tag_id, push_time, push_number)
+        add_jobs(p.uuid, push_token, tag_id, tag_name, push_time, push_number)
 
     return jsonify(re_code=RET.OK, msg='添加成功')
 
@@ -123,14 +123,14 @@ def delete_pushconfig():
     return jsonify(re_code=RET.OK, msg='删除成功')
     
 
-def add_jobs(uuid, token, tag_id, push_time, number):
+def add_jobs(uuid, token, tag_id, tag_name, push_time, number):
     # local_time = time.strftime("%Y-%m-%d", time.localtime())
     # run_date = local_time + ' ' + push_time
     task_id = f'push {uuid}'
     hour = push_time.split(':')[0]
     minute = push_time.split(':')[1]
     # job = scheduler.add_job(func=send_user_msg, id=task_id,args=(token,tag_id,number),trigger='date',run_date=run_date)
-    job = scheduler.add_job(func=send_user_msg, id=task_id,args=(token,tag_id,number),trigger='cron',hour=hour, minute=minute)
+    job = scheduler.add_job(func=send_user_msg, id=task_id,args=(token,tag_id,tag_name,number),trigger='cron',hour=hour, minute=minute)
     print('job:', job)
     # 发消息
 
@@ -139,9 +139,9 @@ def remove_jobs(uuid):
     scheduler.remove_job(task_id)
     print('delete task:', uuid)
 
-def send_user_msg(token, tag_id, number):
+def send_user_msg(token, tag_id, tag_name, number):
     data = get_send_datas(tag_id,number)
-    send_wx.send_user_msg(token, data)
+    send_wx.send_user_msg(tag_name, token, data)
 
 
 
@@ -212,7 +212,7 @@ def pushInit():
         
         for pc in pcs:
             uid = str(uuid.uuid1())    
-            add_jobs(uid, pc.push_token, pc.tag_id, pc.push_time, pc.push_number)
+            add_jobs(uid, pc.push_token, pc.tag_id, pc.tag_name, pc.push_time, pc.push_number)
 
 
 pushInit()

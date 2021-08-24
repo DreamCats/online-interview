@@ -1,3 +1,4 @@
+from flask.json import tag
 import requests
 from flask import current_app, json
 from interview.model import PushConfig
@@ -42,13 +43,19 @@ def get_code2Session(code):
     return openId
 
 def send_test_msg(token):
-    url = f'http://pushplus.hxtrip.com/send?token={token}&title=测试&content=欢迎您使用在线面试助手小程序&template=html'
+    url = f'http://www.pushplus.plus/send?token={token}&title=测试&content=欢迎您使用在线面试助手小程序&template=html'
     resp = ss.get(url)
     print(resp.text)
 
 
 
-def send_user_msg(token, datas):
-    url = f'http://pushplus.hxtrip.com/send?token={token}&title=测试&content={datas}&template=json'
-    resp = ss.get(url)
+def send_user_msg(tag_name, token, datas):
+    url = 'http://www.pushplus.plus/send'
+    data = {
+        'token': token,
+        'title': tag_name,
+        'content': datas,
+        'template': 'json'
+    }
+    resp = ss.post(url, json=data)
     print(resp.text)

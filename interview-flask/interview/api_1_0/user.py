@@ -10,7 +10,7 @@ from interview.utils.response_code import RET
 from interview import db
 from interview.model import User, Mj
 from interview.utils import send_wx
-import uuid
+import uuid, requests
 
 @api.route('/user/add', methods=['POST'])
 def add_user():
@@ -81,3 +81,44 @@ def test_user_push_token():
     # 发送
 
     return jsonify(re_code=RET.OK, msg='发送成功')
+
+@api.route('/user/qrcode', methods=['GET'])
+def get_wx_qrcode():
+    '''貌似不需要参数
+    '''
+    url = 'https://www.pushplus.plus/api/common/wechat/getQrcode'
+    ss = requests.session()
+    resp = ss.get(url)
+    datas = resp.json()['data']
+    print(datas)
+    return jsonify(re_code=RET.OK, msg='发送成功', data=datas)
+
+ 
+@api.route('/user/detectcode', methods=['GET'])
+def add_wx_push_token():
+    '''
+    :params : wx_id
+            : qrcode
+    '''
+    wx_id = request.args.get('wx_id')
+    qrcode = request.args.get('qrcode')
+    url = f"https://www.pushplus.plus/api/common/wechat/confirmLogin?key={qrcode}&code=1001"
+    get_token_url = 'https://www.pushplus.plus/api/customer/user/token'
+    ss = requests.session()
+    resp = ss.get(url)
+    if resp.json()['code'] == 200:
+        resp = ss.get(get_token_url)
+        if resp.json()['code'] == 200:
+            print(resp.json())
+            token = resp.json()['data']
+            # luoku
+            try:
+                rows_changed = User.query.filter_by(wx_id=wx_id).update(dict(push_token=token))
+                db.session.commit()
+            except Exception as e:
+                current_app.logger.debug(e)
+                db.session.rollback()
+                return jsonify(re_code=RET.DBERR, msg='用户不存在')
+            return jsonify(re_code=RET.OK, msg='发送成功', data=token)
+
+    return jsonify(re_code=RET.DATAERR, msg='用户并没有扫码')
