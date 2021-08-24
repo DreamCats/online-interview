@@ -9,7 +9,7 @@ Page({
   data: {
     docsList: [],
     id: "",
-    count: 16,
+    count: 19,
     page: 1,
     finish: false,
     isLoading: true,
@@ -32,7 +32,7 @@ Page({
         page: this.data.page
       },
       success (res) {
-        console.log('mj:res:', res.data.data)
+        console.log('list:res:', res.data.data)
         if (res.data.re_code === '0') {
           that.setData({
             docsList: that.data.docsList.concat(res.data.data.data),
@@ -59,7 +59,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('mj:', options);
+    console.log('list:', options);
     this.setData({
       id: options.id,
       name: options.name,
