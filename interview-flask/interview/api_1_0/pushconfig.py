@@ -174,6 +174,13 @@ def get_send_datas(tag_id, number):
             '''
             pass
         elif tab == 2: # 刷题
+            sql = f'''
+                select *
+                from lc
+                where id >= (select floor(rand() * ((select MAX(id) from lc where tag_id = {tag_id}) - (select MIN(id) from lc where tag_id = {tag_id})) + (select MIN(id) from lc where tag_id = {tag_id})   ))
+                order by id
+                limit {number};
+            '''
             pass
         elif tab  == 3: # 其他
             pass
@@ -184,5 +191,28 @@ def get_send_datas(tag_id, number):
         for r in res:
             # print(r)
             print(r.tag_id, r.title, r.url)
-            datas.append({'tag_id':r.tag_id, 'title':r.title, 'url':r.url})
+            item = {}
+            if tab == 2:
+                item = {'tag_id':r.tag_id, 'title':str(r.lc_id) + '.' + r.title, 'url':r.url}
+            else:
+                item = {'tag_id':r.tag_id, 'title':r.title, 'url':r.url}
+            datas.append(item)
         return datas
+
+@app.before_first_request
+def pushInit():
+    '''启动的时候遍历pushconfig
+    '''
+    with app.app_context():
+        pcs = PushConfig.query.filter_by(push_status=1) # 开启
+        
+        if not pcs:
+            print('没有定时任务')
+            return 
+        
+        for pc in pcs:
+            uid = str(uuid.uuid1())    
+            add_jobs(uid, pc.push_token, pc.tag_id, pc.push_time, pc.push_number)
+
+
+pushInit()

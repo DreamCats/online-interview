@@ -59,11 +59,23 @@ class Lc(db.Model):
     __tablename__ = 'lc'
     id = db.Column(db.Integer, primary_key=True) # id
     lc_id = db.Column(db.Integer,nullable=False) # lc_id
-    type = db.Column(db.Integer,nullable=False) # type
+    tag_id = db.Column(db.Integer,nullable=False) # type
     title = db.Column(db.String, nullable=False) # title
     url = db.Column(db.String, nullable=False) # url
     content = db.Column(db.Text) # c
 
+    def to_dict(self):
+        '''
+        '''
+        l_info = {
+            'id': self.id,
+            'lc_id': self.lc_id,
+            'tag_id': self.tag_id,
+            'title': self.title,
+            'url': self.url,
+            'content': self.content,
+        }
+        return l_info
 
 class Tag(db.Model):
     __tablename__ = 'tag'
