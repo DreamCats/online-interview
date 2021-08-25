@@ -140,7 +140,8 @@ Page({
     console.log('onPushBind:')
     // 打开窗口
     this.setData({
-      tokenQRCodeShow: true
+      tokenQRCodeShow: true,
+      isBindCode: false
     })
     // 请求二维码
     let that = this
@@ -190,6 +191,7 @@ Page({
                 })
                 if (that.data.isBindCode) {
                   // 关闭定时器
+                  console.log('关闭定时器...')
                   clearInterval(timeTokenRequest)
                 }
               }
