@@ -28,6 +28,7 @@ Page({
     qrCodeUrl: '',
     qrCodeSign: '',
     isBindCode: false,
+    showHintText: ''
   },
 
   /**
@@ -42,7 +43,24 @@ Page({
     // } 
     // 获取全部tabs
     this.getTags()
-    
+    // 加载提示
+    this.loadHint()
+  },
+
+  // 加载提示功能
+  loadHint() {
+    let that = this
+    wx.request({
+      url: `${app.globalData.baseUrl}msg?status=1`,
+      success (res) {
+        if (res.data.re_code === '0') {
+          console.log('loadHint:res:', res.data.data.content);
+          that.setData({
+            showHintText: res.data.data.content
+          })
+        }
+      }
+    })
   },
 
   // 消息盒子按钮
@@ -154,12 +172,15 @@ Page({
               qrCodeUrl: res.data.data.qrCodeUrl,
               qrCodeSign: res.data.data.qrCode
             })
+            Toast('长按保存图片，wx扫码二维码关注')
             // 重头戏， 定时器轮训
             let times = 0
             let timeTokenRequest = setInterval(function() {
               times++
               if (times >= 18) {
-                Toast('已过期，重新绑定')
+                if (that.data.qrCodeShow) {
+                  Toast('已过期，重新绑定')
+                }
                 // 关闭弹窗，让用户重新点击绑定
                 that.setData({
                   tokenQRCodeShow: false
@@ -200,6 +221,7 @@ Page({
         }
     })
   },
+  // 测试按钮时间
   onPushTest() {
     wx.request({
       url: `${app.globalData.baseUrl}user/test_token`,
@@ -213,6 +235,7 @@ Page({
       }
     })
   },
+  // 获取用户信息
   getUserProfile(e) {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
     // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗

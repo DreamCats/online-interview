@@ -1,7 +1,7 @@
 <!--pages/my/index.wxml-->
 <van-notice-bar
   left-icon="volume-o"
-  text="谢谢使用这款在线面试助手小程序，如遇到问题可微信联系我，联系方式请登录过后查看。"
+  text="{{showHintText}}"
   mode="closeable"
 />
 <view class="container">
