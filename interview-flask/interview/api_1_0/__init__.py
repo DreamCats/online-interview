@@ -9,7 +9,7 @@ api=Blueprint('api_1_0',__name__,url_prefix='/online/api/1.0')
 from . import demo
 # from . import demo, passport, verify, profile, position, shop, essay
 # from . import order, community
-from .import user, tag, mj, kw, pushconfig, lc
+from .import user, tag, mj, kw, pushconfig, lc, msg
 
 
 

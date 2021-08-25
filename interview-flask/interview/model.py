@@ -1,8 +1,8 @@
 # __author__: Mai feng
 # __file_name__: model.py
 # __time__: 2021:08:15:23:32
-
-import datetime, json
+import json
+from datetime import datetime
 from . import db
 
 # class BaseModel(object):
@@ -147,3 +147,20 @@ class PushConfig(db.Model):
             'push_status': self.push_status,
         }
         return p_info
+
+class Msg(db.Model):
+    __tablename__ = 'msg'
+    id = db.Column(db.Integer, primary_key=True) # id
+    status = db.Column(db.Integer) # id
+    content = db.Column(db.String) # id
+    create_time=db.Column(db.DateTime, default=datetime.now()) #记录模型类创建时间
+
+    def to_dict(self):
+        '''
+        '''
+        msg_info = {
+            'id': self.id,
+            'status': self.status,
+            'content': self.content
+        }
+        return msg_info
