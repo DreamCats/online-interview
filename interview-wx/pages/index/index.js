@@ -17,13 +17,9 @@ Page({
       this.setData({
         path: 'mj'
       })
-    } else if (idx === '2' || idx === '3' || idx === '5') {
+    } else {
       this.setData({
-        path: 'kw'
-      })
-    } else if(idx === '4') {
-      this.setData({
-        path: 'alg'
+        path: 'article'
       })
     } 
     this.setData({

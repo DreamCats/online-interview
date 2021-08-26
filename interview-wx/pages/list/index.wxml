@@ -5,7 +5,7 @@
 
 <block wx:for="{{docsList}}" wx:key="id" >
   <block wx:if="{{item.tag_id >=47 && item.tag_id <= 49}}">
-      <van-cell title="{{item.lc_id}}.{{item.title}}" is-link    link-type="navigateTo" 
+      <van-cell title="{{item.n_id}}.{{item.title}}" is-link    link-type="navigateTo" 
       url="/pages/detail/index?id={{item.id}}&tag={{tag}}&title={{item.title}}">
       </van-cell>
   </block>
