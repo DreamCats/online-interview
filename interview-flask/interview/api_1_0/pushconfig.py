@@ -6,7 +6,7 @@ from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import redis_conn, db, scheduler,app
 from interview.utils.common import login_required
-from interview.model import PushConfig, Tag, Mj
+from interview.model import PushConfig, Tag
 import random,time, uuid
 from interview.utils import send_wx
 
@@ -164,24 +164,14 @@ def get_send_datas(tag_id, number):
                 order by id
                 limit {number};
             '''
-        elif tab == 1: # 知识
+        elif tab == 1 or tab == 2: # 知识
             sql = f'''
                 select *
-                from kw
-                where id >= (select floor(rand() * ((select MAX(id) from kw where tag_id = {tag_id}) - (select MIN(id) from kw where tag_id = {tag_id})) + (select MIN(id) from kw where tag_id = {tag_id})   ))
+                from article
+                where id >= (select floor(rand() * ((select MAX(id) from article where tag_id = {tag_id}) - (select MIN(id) from article where tag_id = {tag_id})) + (select MIN(id) from article where tag_id = {tag_id})   ))
                 order by id
                 limit {number};
             '''
-            pass
-        elif tab == 2: # 刷题
-            sql = f'''
-                select *
-                from lc
-                where id >= (select floor(rand() * ((select MAX(id) from lc where tag_id = {tag_id}) - (select MIN(id) from lc where tag_id = {tag_id})) + (select MIN(id) from lc where tag_id = {tag_id})   ))
-                order by id
-                limit {number};
-            '''
-            pass
         elif tab  == 3: # 其他
             pass
 

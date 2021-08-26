@@ -58,6 +58,7 @@ def get_tag_list():
 
     # 查找
     try:
+        db.session.commit()
         kt = Tag.query.filter(Tag.tag == tag).order_by(Tag.priority)
     except Exception as e:
         current_app.logger.debug(e)

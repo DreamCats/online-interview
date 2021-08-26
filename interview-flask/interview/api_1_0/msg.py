@@ -16,6 +16,7 @@ def get_msg():
 
     # 查找
     try:
+        db.session.commit()
         msg = Msg.query.filter(Msg.status == status).order_by(Msg.create_time.desc()).first()
     except Exception as e:
         current_app.logger.debug(e)
@@ -23,5 +24,6 @@ def get_msg():
 
     if not msg:
         return jsonify(re_code=RET.NODATA, msg='没有数据')
-    
+
+    print('msg:', msg.to_dict())
     return jsonify(re_code=RET.OK, msg='请求成功', data=msg.to_dict())

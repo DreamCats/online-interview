@@ -8,7 +8,7 @@ from interview.api_1_0 import api
 from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import db
-from interview.model import User, Mj
+from interview.model import User
 from interview.utils import send_wx
 import uuid, requests
 

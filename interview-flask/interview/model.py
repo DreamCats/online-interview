@@ -55,27 +55,6 @@ class Mj(db.Model):
         }
         return m_info
 
-class Lc(db.Model):
-    __tablename__ = 'lc'
-    id = db.Column(db.Integer, primary_key=True) # id
-    lc_id = db.Column(db.Integer,nullable=False) # lc_id
-    tag_id = db.Column(db.Integer,nullable=False) # type
-    title = db.Column(db.String, nullable=False) # title
-    url = db.Column(db.String, nullable=False) # url
-    content = db.Column(db.Text) # c
-
-    def to_dict(self):
-        '''
-        '''
-        l_info = {
-            'id': self.id,
-            'lc_id': self.lc_id,
-            'tag_id': self.tag_id,
-            'title': self.title,
-            'url': self.url,
-            'content': self.content,
-        }
-        return l_info
 
 class Tag(db.Model):
     __tablename__ = 'tag'
@@ -98,10 +77,10 @@ class Tag(db.Model):
         return t_info
 
 
-class Kw(db.Model):
-    __tablename__ = 'kw'
+class Article(db.Model):
+    __tablename__ = 'article'
     id = db.Column(db.Integer, primary_key=True) # id
-    k_id = db.Column(db.Integer,nullable=False) # k_id
+    n_id = db.Column(db.Integer,nullable=False) # k_id
     tag_id = db.Column(db.Integer,nullable=False) # type
     title = db.Column(db.String, nullable=False) # title
     url = db.Column(db.String, nullable=False) # url
@@ -110,15 +89,15 @@ class Kw(db.Model):
     def to_dict(self):
         '''
         '''
-        k_info = {
+        a_info = {
             'id': self.id,
             'tag_id': self.tag_id,
-            'k_id': self.k_id,
+            'n_id': self.n_id,
             'title': self.title,
             'url': self.url,
             'content': self.content,
         }
-        return k_info
+        return a_info
 
 class PushConfig(db.Model):
     __tablename__ = 'push_config'
