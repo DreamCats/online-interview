@@ -22,8 +22,10 @@ def get_article_list():
         article_pages = Article.query.filter(Article.tag_id == int(tag)).order_by(Article.n_id).paginate(int(page), 
                                                 int(count), error_out=False)
         ars = article_pages.items
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
     if len(ars) == 0:
@@ -55,9 +57,10 @@ def get_kw_info():
 
     try:
         a = Article.query.filter(Article.id == int(a_id)).first()
-        
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug('get_article_info', e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
 

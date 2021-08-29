@@ -78,8 +78,10 @@ def get_push_list():
         push_pages = PushConfig.query.filter(PushConfig.wx_id == wx_id).order_by(PushConfig.id.desc()).paginate(int(page), 
                                                 int(count), error_out=False)
         ps = push_pages.items
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
     if len(ps) == 0:
@@ -116,6 +118,7 @@ def delete_pushconfig():
         try:
             remove_jobs(p.uuid)
         except Exception as e:
+            db.session.rollback()
             current_app.logger.debug(e)
             return jsonify(re_code=RET.OK, msg='没有数据')
     

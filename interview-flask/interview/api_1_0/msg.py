@@ -18,8 +18,10 @@ def get_msg():
     try:
         db.session.commit()
         msg = Msg.query.filter(Msg.status == status).order_by(Msg.create_time.desc()).first()
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
     if not msg:

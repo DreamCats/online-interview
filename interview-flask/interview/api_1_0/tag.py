@@ -60,8 +60,10 @@ def get_tag_list():
     try:
         db.session.commit()
         kt = Tag.query.filter(Tag.tag == tag).order_by(Tag.priority)
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
     if kt is None:
@@ -77,7 +79,7 @@ def get_tag_list_all():
     '''
     '''
     tags = Tag.query.filter()
-
+    db.session.commit()
     datas = []
     for tag in tags:
         datas.append(tag.to_dict())

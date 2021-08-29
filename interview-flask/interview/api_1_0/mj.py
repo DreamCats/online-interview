@@ -24,8 +24,10 @@ def get_mj_list():
         mj_pages = Mj.query.filter(Mj.tag_id == int(tag)).order_by(Mj.publish_time.desc()).paginate(int(page), 
                                                 int(count), error_out=False)
         mjs = mj_pages.items
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
     if len(mjs) == 0:
@@ -58,9 +60,10 @@ def get_mj_info():
 
     try:
         mj = Mj.query.filter(Mj.id == int(mj_id)).first()
-        
+        db.session.commit()
     except Exception as e:
         current_app.logger.debug('get_mj_info', e)
+        db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
 
 
