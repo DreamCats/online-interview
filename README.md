@@ -69,6 +69,23 @@
 
 如果前提设置完毕，则可以在点击定时推送按照上图所示。
 
+### 推送列表
+
+毫无疑问，推送列表展示用户添加的推送记录，在这里有三个功能：
+
+1. 可以展示用户添加的推送记录
+2. 可以删除推送记录
+3. 可以修改推送记录（todo）
+
+演示推送列表页面：
+
+![online-interview-推送列表-6ZJfNN](https://imgs.dreamcat.ink/uPic/online-interview-推送列表-6ZJfNN.png)
+
+演示删除推送记录页面：
+
+![online-interview-左滑删除-izSqua](https://imgs.dreamcat.ink/uPic/online-interview-左滑删除-izSqua.png)
+
+**修改推送记录暂时未做，抽空完善。**
 
 ## todo
 
