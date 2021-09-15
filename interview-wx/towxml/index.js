@@ -8,7 +8,7 @@ module.exports = (str,type,option)=>{
         case 'markdown':
             // console.log('md:',md(str))
             result = parse(md(str),option);
-            console.log('md2:', result)
+            // console.log('md2:', result)
             
         break;
         case 'html':
