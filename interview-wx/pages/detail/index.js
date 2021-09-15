@@ -52,7 +52,16 @@ Page({
       success (res) {
         console.log(res.data.data)
         if (res.data.re_code === '0') {
-          let obj = app.towxml(res.data.data['content'],'markdown',{});
+          let obj = app.towxml(res.data.data['content'],'markdown',{
+            // theme: 'dark'
+            events: {
+              tap:e => {
+                console.log('tap:', e.currentTarget.dataset)
+                // 在这里可以做图片点击预览... 
+                // 在这里也可以长按复制
+              }
+            }
+          });
           that.setData({
             isLoading: false,
             mdContent: obj

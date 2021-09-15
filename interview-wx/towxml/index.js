@@ -6,7 +6,10 @@ module.exports = (str,type,option)=>{
     let result;
     switch (type) {
         case 'markdown':
+            // console.log('md:',md(str))
             result = parse(md(str),option);
+            console.log('md2:', result)
+            
         break;
         case 'html':
             result = parse(str,option);

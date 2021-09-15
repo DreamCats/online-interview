@@ -59,7 +59,11 @@ const parse2 = require('./parse2/index'),
                 o.type = e.type = item.type;
                 o._e = e;
                 if(item.type === 'text'){
-                    o.text = e.text = item.data;
+                    if (item.data === '\n') {
+                        o.text = e.text = ""
+                    }
+                    // console.log(item.data.trim())
+                    o.text = e.text = item.data.trim();
                 }else{
                     o.tag = getWxmlTag(item.name);      // 转换之后的标签
                     // o.tag = o.tag === 'text' ? 'view' : o.tag;
@@ -103,5 +107,6 @@ module.exports = (str,option) => {
             return str;
         };
     })();
+    
     return initObj(parse2(str,{decodeEntities:true}),option);
 };
