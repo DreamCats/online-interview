@@ -2,6 +2,7 @@
   "usingComponents": {
     "van-cell": "@vant/weapp/cell/index",
     "van-divider": "@vant/weapp/divider/index",
-    "van-toast": "@vant/weapp/toast/index"
+    "van-toast": "@vant/weapp/toast/index",
+    "van-cell-group": "@vant/weapp/cell-group/index"
   }
 }
