@@ -8,7 +8,7 @@
 
 ## 背景
 
-![小程序二维码](https://imgs.dreamcat.ink/blog/online-interview-qr.jpg)
+<div align='center'><img src='https://imgs.dreamcat.ink/blog/online-interview-qr.jpg' alt='小程序二维码'/> </div>
 
 买老师是2021年的秋招应届生，关于我秋招的经历，在这里就不再介绍，有兴趣的同学可以关注我的wx公众号或者联系我。
 
@@ -34,11 +34,14 @@
 
 ## 功能图
 
-主要显示四个功能：
+功能列表：
 - 面经
 - 知识点
 - 刷题
 - 定时推送
+- 详情内容长按复制
+- 点击图片预览，可放大和缩小
+- 文章计数
 
 ### 面经
 
