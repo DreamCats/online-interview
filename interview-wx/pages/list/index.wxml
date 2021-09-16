@@ -14,10 +14,19 @@
   </block>
   <block wx:else>
     <van-cell-group inset>
-      <van-cell title="{{item.title}}" is-link link-type="navigateTo" 
+      <!-- <van-cell title="{{item.title}}" is-link link-type="navigateTo" 
         url="/pages/detail/index?id={{item.id}}&tag={{tag}}&title={{item.title}}">
-        <view>{{item.publish_time}}</view>
-      </van-cell>
+        <van-cell title="{{item.publish_time}}"></van-cell>
+      </van-cell> -->
+      <van-card
+        num="{{item.publish_time}}"
+        price="{{item.count}}"
+        currency="count:"
+        desc="点击图片详情"
+        title="{{item.title}}"
+        thumb="https://imgs.dreamcat.ink/blog/wx-jiandan.png"
+        thumb-link="/pages/detail/index?id={{item.id}}&tag={{tag}}&title={{item.title}}"
+      />
     </van-cell-group>
   </block>
 </block>

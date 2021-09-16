@@ -60,6 +60,7 @@ def get_mj_info():
 
     try:
         mj = Mj.query.filter(Mj.id == int(mj_id)).first()
+        rows_changed = Mj.query.filter_by(id=mj.id).update(dict(count=mj.count+1))
         db.session.commit()
     except Exception as e:
         current_app.logger.debug('get_mj_info', e)

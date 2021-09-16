@@ -40,6 +40,7 @@ class Mj(db.Model):
     publish_time = db.Column(db.String, nullable=False) # publish_time # 预留
     title = db.Column(db.String, nullable=False) # title
     url = db.Column(db.String, nullable=False) # url
+    count = db.Column(db.Integer, nullable=False) # 点击次数
     content = db.Column(db.Text) # c
 
     def to_dict(self):
@@ -51,6 +52,7 @@ class Mj(db.Model):
             'tag_id': self.tag_id,
             'title': self.title,
             'url': self.url,
+            'count': self.count,
             'content': self.content
         }
         return m_info
@@ -84,6 +86,7 @@ class Article(db.Model):
     tag_id = db.Column(db.Integer,nullable=False) # type
     title = db.Column(db.String, nullable=False) # title
     url = db.Column(db.String, nullable=False) # url
+    count = db.Column(db.Integer, nullable=False) # 点击次数
     content = db.Column(db.Text) # c
 
     def to_dict(self):
@@ -95,6 +98,7 @@ class Article(db.Model):
             'n_id': self.n_id,
             'title': self.title,
             'url': self.url,
+            'count': self.count,
             'content': self.content,
         }
         return a_info

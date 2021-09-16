@@ -57,6 +57,7 @@ def get_kw_info():
 
     try:
         a = Article.query.filter(Article.id == int(a_id)).first()
+        rows_changed = Article.query.filter_by(id=a.id).update(dict(count=a.count+1))
         db.session.commit()
     except Exception as e:
         current_app.logger.debug('get_article_info', e)
