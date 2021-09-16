@@ -24,7 +24,7 @@
         currency="count:"
         desc="点击图片详情"
         title="{{item.title}}"
-        thumb="https://imgs.dreamcat.ink/blog/wx-jiandan.png"
+        thumb="/imgs/wx-jiandan.png"
         thumb-link="/pages/detail/index?id={{item.id}}&tag={{tag}}&title={{item.title}}"
       />
     </van-cell-group>

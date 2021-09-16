@@ -9,7 +9,7 @@ Page({
   data: {
     docsList: [],
     id: "",
-    count: 19,
+    count: 18,
     page: 1,
     finish: false,
     isLoading: true,
