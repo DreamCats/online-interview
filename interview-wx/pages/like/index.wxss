@@ -1,3 +1,4 @@
+/* pages/pushlist/index.wxss */
 /* pages/docs/index.wxss */
 .card-dot {
   width: 18rpx;

@@ -3,4 +3,20 @@
 <view class="loading" wx:if="{{isLoading}}">
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
-<towxml nodes="{{mdContent}}"/>
+<van-notice-bar mode="closeable" text="点击小❤️可以收藏" />
+<block>
+  <view class="van-hairline--top-bottom">
+    <van-cell-group inset>
+      <van-row>
+        <van-col span="22">
+          <van-cell title="{{title}}" custom-class="cellTitle" title-class="cellTitle" />
+        </van-col>
+        <van-col span="2">
+          <van-icon name="like-o" size="25px" custom-class="iconClass" bindtap="onLike"/>
+        </van-col>
+      </van-row>
+    </van-cell-group>
+  </view>
+</block>
+<towxml nodes="{{mdContent}}" />
+<van-toast id="van-toast" />

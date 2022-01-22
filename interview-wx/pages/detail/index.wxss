@@ -1,1 +1,21 @@
 /* pages/detail/index.wxss */
+
+.cellTitle {
+  background-color: rgb(255, 255, 255);
+  color:rgb(224, 93, 93);
+  font-size: 20px;
+  margin-bottom: 5%;
+}
+
+.iconClass{
+  margin-top: 20rpx;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+  height: 100%;
+}
+
+.iconClass image{
+  width: 100px;
+  height: 100px;
+}

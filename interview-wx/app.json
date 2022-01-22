@@ -1,11 +1,11 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/alg/index",
+    "pages/mj/index",
     "pages/my/index",
     "pages/detail/index",
     "pages/list/index",
-    "pages/pushlist/index"
+    "pages/like/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,6 +23,12 @@
         "text": "主页",
         "iconPath": "imgs/no-home.png",
         "selectedIconPath": "imgs/select-home.png"
+      },
+      {
+        "pagePath": "pages/mj/index",
+        "text": "面经",
+        "iconPath": "imgs/no-know.png",
+        "selectedIconPath": "imgs/select-know.png"
       },
       {
         "pagePath": "pages/my/index",

@@ -1,0 +1,31 @@
+<!--pages/knows/index.wxml-->
+<!-- <text>pages/knows/index.wxml</text> -->
+<view class="loading" wx:if="{{isLoading}}">
+  <image class="loading__icon" src="/imgs/loading.svg"></image>
+</view>
+<block>
+  <van-image width="25rem" height="13rem" fit="contain" src="/imgs/index/lunbo.jpg" />
+</block>
+<block wx:for="{{tags}}" wx:key="id">
+  <view class="van-hairline--surround">
+    <van-cell-group inset>
+      <van-row>
+        <van-col span="6">
+          <van-image width="3rem" height="3rem" fit="contain" src="/imgs/mj.png" />
+        </van-col>
+        <van-col span="18">
+          <van-cell title="{{item.cp_name}}" label="" is-link
+            url="/pages/list/index?uuid={{item.uuid}}&name={{item.cp_name}}&url=/imgs/mj.png"></van-cell>
+        </van-col>
+      </van-row>
+    </van-cell-group>
+  </view>
+</block>
+
+
+<block wx:if="{{finish}}">
+  <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #ffffff; font-size: 14px;">
+    那我走...
+  </van-divider>
+</block>
+

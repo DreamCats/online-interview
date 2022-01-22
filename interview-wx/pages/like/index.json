@@ -8,6 +8,7 @@
     "l-card":"/miniprogram_npm/lin-ui/card/index",
     "l-tag":"/miniprogram_npm/lin-ui/tag/index",
     "l-icon":"/miniprogram_npm/lin-ui/icon/index",
-    "van-empty": "@vant/weapp/empty/index"
+    "van-empty": "@vant/weapp/empty/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index"
   }
 }

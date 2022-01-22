@@ -1,147 +1,91 @@
 <!--pages/my/index.wxml-->
-<van-notice-bar
-  left-icon="volume-o"
-  text="{{showHintText}}"
-  mode="closeable"
-/>
-<view class="container">
+<van-notice-bar left-icon="volume-o" text="{{showHintText}}" mode="closeable" />
+<!-- <view class="container"> -->
+<view class="class-gogogo">
+  <block>
+    <van-image width="25rem" height="11rem" fit="cover" src="/imgs/my.jpg" />
+  </block>
+</view>
+
+<van-cell-group -inset>
   <view class="userinfo">
     <block wx:if="{{!hasUserInfo}}">
-      <button bindtap="getUserProfile"> 登录 </button>
-      <van-divider
-        contentPosition="center"
-        customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
-        想体验更多定制化功能，请🔼
-      </van-divider>
+      <!-- <button bindtap="getUserProfile"> 登录 </button>
+    <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
+      想体验更多定制化功能，请🔼
+    </van-divider> -->
+      <!-- 用户头像 -->
+      <image bindtap="getUserProfile" class="userinfo-avatar" src="/imgs/login.png" mode="cover"></image>
+      <!-- 用户昵称 -->
+      <text class="userinfo-nickname">登录</text>
     </block>
     <block wx:else>
-      <!-- 联系我图标 -->
-      <van-icon name="chat" size="30px" dot class='chat-class' bind:click='onChat'/>
       <!-- 用户头像 -->
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
       <!-- 用户昵称 -->
       <text class="userinfo-nickname">{{userInfo.user_name}}</text>
-      <!-- token输入框和图标 -->
-      <van-cell-group inset>
-        <van-field
-          model:value="{{ push_token }}"
-          center
-          disabled
-          label="token"
-          placeholder="输入token，定时推送"
-          border="{{ false }}"
-        >
-        </van-field>
-        <van-row>
-          <van-col span='12'>
-          <!-- 绑定按钮 -->
-            <van-button bind:click="onPushBind" plain hairline round size="large" type="primary" block>
-            绑定
-            </van-button>
-          </van-col>
-          <van-col span='12'>
-          <!-- 测试按钮 -->
-            <van-button bind:click="onPushTest" plain hairline round size="large" type="primary" block>
-            测试
-            </van-button>
-          </van-col>
-        </van-row>
-        <!-- 绑定弹出窗口 -->
-        <van-popup show="{{ tokenQRCodeShow }}" 
-                custom-style="height: 60%;" 
-                round
-                bind:close="onClose"
-                closeable
-                position="bottom">
-              <!-- 加载图片 -->
-              <van-image
-                width="90%"
-                height="90%"
-                fit="cover"
-                show-menu-by-longpress
-                src="{{qrCodeUrl}}"
-              />
-      </van-popup>
-        <van-row>
-          <van-col span='12'>
-          <!-- 推送设置按钮 -->
-            <van-button bind:click="onPushConfig" plain hairline round size="large" type="primary" block>
-            推送设置
-            </van-button>
-            <van-popup
-              model:show="{{ pushConfigShow }}"
-              closeable
-              round
-              position="bottom"
-              custom-style="height: 50%"
-              bind:close="onClose"
-            >
-            <van-divider contentPosition="center">定时推送设置</van-divider>
-            <!-- 组件开始 -->
-            <van-cell-group>
-              <!-- 时间 -->
-              <van-field
-                model:value="{{ time }}"
-                placeholder="请输入时间：eg：08:00"
-                label="时间"
-                required
-                border="{{ false }}"
-              />
-              <!-- 数量 -->
-              <van-field
-                model:value="{{ number }}"
-                placeholder="请输入数量：eg：3"
-                label="数量"
-                required
-                border="{{ false }}"
-              />
-              <!-- 选择器 -->
-              <van-dropdown-menu direction="up" >
-                <van-dropdown-item value="{{ pushConfig.tag_id }}" options="{{ tags }}"  bind:change='onTagSelect'/>
-              </van-dropdown-menu>
-              <!-- 单选框 -->
-              <van-radio-group model:value="{{ pushConfig.push_status }}" bind:change='onPushRadio'>
-                <van-row>
-                  <van-col span='12'>
-                    <van-radio name="0">关闭</van-radio>
-                  </van-col>
-                  <van-col span='12'>
-                    <van-radio name="1">开启</van-radio>
-                  </van-col>
-                </van-row>
-              </van-radio-group>
-              <!-- 添加按钮 -->
-              <van-button bind:click="onPushConfigAdd" plain hairline round size="large" type="info" block>
-              添加
-              </van-button>
-            </van-cell-group>
-          </van-popup>
-          </van-col>
-          <van-col span='12'>
-          <!-- 推送列表按钮 -->
-            <van-button bind:click="onPushList" plain hairline round size="large" type="primary" block>
-            推送列表
-            </van-button>
-          </van-col>
-        </van-row>
-      </van-cell-group>
-      <!-- 我的二维码 -->
-      <van-popup show="{{ qrCodeShow }}" 
-                custom-style="height: 80%;" 
-                round
-                bind:close="onClose"
-                closeable
-                position="bottom">
-              <!-- 加载图片 -->
-              <van-image
-                width="100%"
-                height="100%"
-                fit="cover"
-                show-menu-by-longpress
-                src="https://imgs.dreamcat.ink/blog/chatme.jpg"
-              />
-      </van-popup>
     </block>
   </view>
-</view>
+</van-cell-group>
+
+<block wx:if="{{hasUserInfo}}">
+  <block>
+    <van-cell-group inset>
+      <van-row>
+        <van-col span="12">
+          <van-icon name="like" size="35px" custom-class="chats-class" bindtap="onShare" />
+        </van-col>
+        <van-col span="12">
+          <van-icon name="wechat" size="35px" custom-class="chats-class" bindtap="onChat" />
+        </van-col>
+      </van-row>
+    </van-cell-group>
+
+  </block>
+  <van-cell-group inset>
+    <van-cell title="我的收藏" icon="star-o" is-link color="red" bindtap="onLike"/>
+    <van-cell title="问题反馈" icon="label-o" is-link color="blue" bindtap="onChat" />
+    <van-cell title="关于程序" icon="more-o" is-link color="orange" />
+  </van-cell-group>
+  <!-- 我的二维码 -->
+  <van-popup show="{{ qrCodeChatShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
+    position="bottom">
+    <!-- 加载图片 -->
+    <van-image width="100%" height="100%" fit="cover" show-menu-by-longpress
+      src="https://imgs.dreamcat.ink/blog/chatme.jpg" />
+  </van-popup>
+  <van-popup show="{{ qrCodeWxShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
+    position="bottom">
+    <!-- 加载图片 -->
+    <van-image width="100%" height="100%" fit="cover" show-menu-by-longpress
+      src="https://imgs.dreamcat.ink/blog/online-interview-qr.jpg" />
+  </van-popup>
+  <van-popup show="{{activeCodeShow}}" custom-style="height: 40%;" round bind:close="onClose" closeable position="bottom">
+    <!-- 加载图片 -->
+    <!-- <van-image width="100%" height="100%" fit="cover" show-menu-by-longpress
+      src="https://imgs.dreamcat.ink/blog/online-interview-qr.jpg" /> -->
+    <van-cell-group>
+      <van-row custom-class="activeRow-class">
+        <van-col span="16">
+          <van-cell-group>
+            <van-field
+              model:value="{{ activeCode }}"
+              placeholder="请输入激活码"
+              border="{{ false }}"
+            />
+          </van-cell-group>
+        </van-col>
+        <van-col span="8">
+          <van-button icon="star-o" type="primary" size="small" hairline plain bindtap="onActive">激活</van-button>
+        </van-col>
+      </van-row>
+    </van-cell-group>
+    <view class="class-gogogo">
+      <block>
+        <van-image width="24rem" height="9rem" fit="contain" src="/imgs/wx_hint.jpg" />
+      </block>
+    </view>
+  </van-popup>
+</block>
+<!-- </view> -->
 <van-toast id="van-toast" />

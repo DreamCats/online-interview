@@ -1,10 +1,11 @@
-<!--pages/docs/index.wxml-->
+<!--pages/pushlist/index.wxml-->
 <view class="loading" wx:if="{{isLoading}}">
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
+<van-notice-bar mode="closeable" text="点击小❤️可以移除收藏" />
 
 <block wx:if="{{docsList.length===0}}">
-  <van-empty description="等待作者添加..." />
+  <van-empty description="快去收藏你喜欢的题目吧..." />
 </block>
 
 <block wx:else>
@@ -19,14 +20,15 @@
         title="{{item.title}}" thumb="/imgs/wx-jiandan.png"
         thumb-link="/pages/detail/index?uuid={{item.uuid}}&title={{item.title}}" /> -->
       <!-- </van-cell-group> -->
-      <l-card type="avatar" l-class="card" image="{{icon_url}}" title="{{item.title}}" describe="{{item.publish_time}}">
+      <l-card type="avatar" l-class="card" image="/imgs/wx_hint.jpg" title="{{item.title}}"
+        describe="{{item.publish_time}}">
         <!-- 此处为content -->
         <view class="avter-content">
 
         </view>
         <view class="avter-share-container">
           <view class="like-container">
-            <l-icon name="like" color="#666" size="28" />
+            <l-icon name="like" color="#666" size="28" id="{{item.uuid}}" bindtap="onCancleLike" />
             <view class="number">喜欢({{item.like_count}})</view>
           </view>
           <view class="like-container">

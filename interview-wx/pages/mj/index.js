@@ -1,4 +1,4 @@
-// index.js
+// pages/knows/index.js
 // 获取应用实例
 const app = getApp()
 Page({
@@ -14,7 +14,7 @@ Page({
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}tag/list/all`,
+      url: `${app.globalData.baseUrl}cp/list/all`,
       success (res) {
         console.log('getTags:res', res.data.data)
         if (res.data.re_code === '0') {
@@ -33,22 +33,7 @@ Page({
   },
 
   onLoad() {
-    wx.login({
-      success(res) {
-        if(res.code) {
-          wx.request({
-            url: `${app.globalData.baseUrl}user/info`,
-            data: {
-              code: res.code,
-            },
-            success(res) {
-              console.log(res.data.data)
-              app.globalData.userInfo = res.data.data
-            }
-          })
-        }
-      }
-    })
+    
   },
 
     /**

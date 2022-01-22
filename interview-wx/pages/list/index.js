@@ -8,14 +8,13 @@ Page({
    */
   data: {
     docsList: [],
-    id: "",
+    uuid: "",
     count: 18,
     page: 1,
     finish: false,
     isLoading: true,
     name:"",
-    tag: '',
-    path: '',
+    icon_url: ""
   },
 
   // 加载docs
@@ -25,9 +24,9 @@ Page({
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}${this.data.path}/list`,
+      url: `${app.globalData.baseUrl}items/list`,
       data: {
-        tag: this.data.id,
+        tc_uuid: this.data.uuid,
         count: this.data.count,
         page: this.data.page
       },
@@ -52,19 +51,24 @@ Page({
       },
     })
   },
-  
-  
 
+  onViewItem(options) {
+    console.log(options)
+    var uuid = options.target.id
+    wx.navigateTo({
+      url: `/pages/detail/index?uuid=${uuid}`,
+    })
+  },
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log('list:', options);
     this.setData({
-      id: options.id,
+      uuid: options.uuid,
       name: options.name,
-      tag: options.tag,
-      path: options.path
+      icon_url: options.url
     })
     // 加载
     this.getList()
@@ -129,7 +133,7 @@ Page({
     }
     return {
       title: `面经列表页面: ${this.data.name}`,
-      path: `/pages/mj/index?id=${this.data.id}`
+      path: `/pages/list/index?uuid=${this.data.uuid}`
     }
   },
   onShareTimeline: function(res) {
@@ -140,7 +144,7 @@ Page({
     return {
       title: `面经列表页面: ${this.data.name}`,
       query:{
-        id: this.data.id
+        id: this.data.uuid
       }
       // path: `/pages/detail/index?id=${this.data.id}&type=${this.data.type}`
     }

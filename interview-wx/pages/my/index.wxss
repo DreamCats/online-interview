@@ -1,9 +1,17 @@
 /* pages/my/index.wxss */
 
+.class-gogogo{
+  margin-top: 15px;
+}
+
 .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  height: 128px;
+  background-image: url(https://imgs.dreamcat.ink/wx/my.jpg);
 }
 
 .userinfo-avatar {
@@ -27,4 +35,21 @@
   margin-right: 10px;
   top: 50px;
   right: 0;
+}
+
+.chats-class {
+  display: flex;
+  height: 100%;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: 60px;
+  justify-content: center;
+  align-items: center;
+}
+
+.activeRow-class {
+  display: flex;
+  margin-top: 40px;
+  justify-content: center;
+  align-items: center;
 }

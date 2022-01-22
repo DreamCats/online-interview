@@ -1,4 +1,5 @@
 // pages/detail/index.js
+import Toast from '@vant/weapp/toast/toast';
 const app = getApp();
 Page({
 
@@ -6,31 +7,47 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id: "",
-    tag: "",
+    uuid: "",
     mdContent: "",
     isLoading: false,
     title:"",
-    path: ''
   },
-
+  onLike() {
+    // 判断是否登录
+    if (!app.globalData.userInfo) {
+      // 未登录
+      Toast.fail("请到个人中心登录")
+      return
+    }
+    // 登录，是否激活？
+    if (app.globalData.userInfo.active == 0) {
+      // 未激活
+      Toast.fail("请到个人中心我的收藏激活")
+      return
+    }
+    // 已激活，发送
+   wx.request({
+     url: `${app.globalData.baseUrl}items/likecount/add`,
+     data: {
+       item_uuid: this.data.uuid,
+       user_uuid: app.globalData.userInfo.uuid
+     },
+     success(res) {
+       if (res.data.re_code !== "0") {
+         Toast.fail("已收藏")
+       } else {
+         Toast.success("收藏成功")
+       }
+     }
+   })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     console.log("页面加载：", options);
-    if (options.tag === '0' || options.tag === '1') {
-      this.setData({
-        path: 'mj'
-      })
-    } else {
-      this.setData({
-        path: 'article'
-      })
-    }
     this.setData({
-      id: options.id,
-      tag: options.tag,
+      uuid: options.uuid,
       title: options.title,
       isLoading: true
     })
@@ -45,9 +62,9 @@ Page({
     //   });
     // })
     wx.request({
-      url: `${app.globalData.baseUrl}${this.data.path}/info`,
+      url: `${app.globalData.baseUrl}items/count`,
       data: {
-        id: this.data.id
+        uuid: this.data.uuid
       },
       success (res) {
         console.log(res.data.data)
@@ -64,7 +81,8 @@ Page({
           });
           that.setData({
             isLoading: false,
-            mdContent: obj
+            mdContent: obj,
+            title: res.data.data['title']
           })
         }
       }
@@ -124,7 +142,7 @@ Page({
     console.log("das")
     return {
       title: this.data.title,
-      path: `/pages/detail/index?id=${this.data.id}&type=${this.data.type}`
+      path: `/pages/detail/index?uuid=${this.data.uuid}`
     }
   },
   onShareTimeline: function(res) {
@@ -136,7 +154,7 @@ Page({
     return {
       title: this.data.title,
       query:{
-        id: this.data.id,
+        uuid: this.data.uuid,
         type: this.data.type
       }
       // path: `/pages/detail/index?id=${this.data.id}&type=${this.data.type}`
