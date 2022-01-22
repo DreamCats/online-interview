@@ -4,9 +4,8 @@
 
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from interview.model import PushConfig
 
-from interview import get_app, db, scheduler
+from interview import get_app, db
 
 app=get_app('develop')
 app.app_context().push()

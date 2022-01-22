@@ -8,15 +8,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import configs
 from flask_session import Session
-from flask_apscheduler import APScheduler
-from apscheduler.schedulers.background import BackgroundScheduler
-
 import redis
 
 #定义能被外部调用的对象
 db=SQLAlchemy()
 redis_conn=None
-scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))
+# scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))
 app = Flask(__name__)
 def setupLogging(levle):
     # 业务逻辑已开启就加载日志
@@ -67,8 +64,8 @@ def get_app(config_name):
     # 定时任务
     global scheduler
     
-    scheduler.init_app(app)
-    scheduler.start()
+    # scheduler.init_app(app)
+    # scheduler.start()
 
 
     # 哪里需要哪里导入蓝图

@@ -7,9 +7,5 @@ from flask.blueprints import Blueprint
 api=Blueprint('api_1_0',__name__,url_prefix='/online/api/1.0')
 #为了能调用到视图需要导入
 from . import demo
-# from . import demo, passport, verify, profile, position, shop, essay
-# from . import order, community
-from .import user, tag, mj, pushconfig, msg, article
 
-
-
+from .import tag, cp, items, msg, user

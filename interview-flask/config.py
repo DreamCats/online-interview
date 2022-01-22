@@ -5,10 +5,6 @@
 import logging
 from redis import StrictRedis
 
-
-
-
-
 class Config(object):
     '''开启调试模式'''
     DEBUG = True
@@ -17,7 +13,7 @@ class Config(object):
     # 配置secret key,简单生成方法，ipthon 中 base64.b64encode(os.urandom(48))
     SECRET_KEY = 'ix4En7l1Hau10aPq8kv8tuzcVl1s2Zo6eA+5+R+CXor8G3Jo0IJvcj001jz3XuXl'
     #orm连接数据库
-    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:123456@dreamcat.ink:3306/interview'
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:xxx@113.31.114.17:3306/wx_interview'
     # 是否开启追踪
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # SQLALCHEMY_ECHO = True
@@ -34,18 +30,6 @@ class Config(object):
     SESSION_USE_SIGNER = True
     # 設置session的会话的超时时长 ：一天,全局指定
     PERMANENT_SESSION_LIFETIME = 3600 * 1 # 暂定1小时
-
-    # 设定定时任务
-    JOBS=[
-        # {
-        #     'id':'heart',
-        #     'args':'',
-        #     'trigger':'interval',
-        #     'seconds':180
-        # }
-    ]
-    SCHEDULER_API_ENABLED = True
-    SCHEDULER_TIMEZONE = 'Asia/Shanghai'
 
 class DevelopConfig(Config):
     """开发阶段下的配置子类"""

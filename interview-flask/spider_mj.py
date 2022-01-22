@@ -6,8 +6,8 @@ s = requests.session()
 db = pymysql.connect(
     host='113.31.114.17',
     user='root',
-    password='root',
-    db='interview',
+    password='xxxxx',
+    db='wx_interview',
     port=3306,
     charset='utf8'
 )

@@ -6,6 +6,7 @@ from functools import wraps
 
 from flask import session, jsonify, g
 from interview.utils.response_code import RET
+import uuid
 
 
 def login_required(view_func):
@@ -29,3 +30,5 @@ def login_required(view_func):
 
     return wrapper
 
+def getUUID(name):
+    return uuid.uuid3(uuid.NAMESPACE_DNS, name)
