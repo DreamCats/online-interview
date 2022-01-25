@@ -10,7 +10,6 @@
   "author": "MaiFeng",
   "license": "ISC",
   "dependencies": {
-    "@vant/weapp": "^1.8.0",
-    "lin-ui": "^0.9.7"
+    "@vant/weapp": "^1.8.0"
   }
 }

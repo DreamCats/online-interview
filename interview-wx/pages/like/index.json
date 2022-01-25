@@ -5,9 +5,9 @@
     "van-toast": "@vant/weapp/toast/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-card": "@vant/weapp/card/index",
-    "l-card":"/miniprogram_npm/lin-ui/card/index",
-    "l-tag":"/miniprogram_npm/lin-ui/tag/index",
-    "l-icon":"/miniprogram_npm/lin-ui/icon/index",
+    "l-card":"/lin-ui/dist/card/index",
+    "l-tag":"/lin-ui/dist/tag/index",
+    "l-icon":"/lin-ui/dist/icon/index",
     "van-empty": "@vant/weapp/empty/index",
     "van-notice-bar": "@vant/weapp/notice-bar/index"
   }

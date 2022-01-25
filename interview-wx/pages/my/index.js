@@ -9,6 +9,7 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: false,
+    showHintText: "Hi，有问题可以反馈给我哦~",
     qrCodeChatShow: false,
     qrCodeWxShow: false,
     activeCodeShow:false,

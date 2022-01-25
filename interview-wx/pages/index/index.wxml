@@ -21,7 +21,8 @@
 </block>
 <block>
   <van-cell-group inset>
-    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="volume-o" text="有问题可以随时联系买老师。" />
+    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="volume-o" text="有问题可以随时联系买老师。" 
+    custom-class="notice-class"/>
   </van-cell-group>
 </block>
 <block wx:for="{{tags}}" wx:key="id">

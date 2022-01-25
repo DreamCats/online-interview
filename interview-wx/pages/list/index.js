@@ -9,7 +9,7 @@ Page({
   data: {
     docsList: [],
     uuid: "",
-    count: 18,
+    count: 7,
     page: 1,
     finish: false,
     isLoading: true,

@@ -24,3 +24,7 @@
   margin-top: 100px;
   border-radius: 50%;
 }
+
+.notice-class{
+  margin-bottom: 10px;
+}
