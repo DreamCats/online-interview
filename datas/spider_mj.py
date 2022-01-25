@@ -6,7 +6,7 @@ s = requests.session()
 db = pymysql.connect(
     host='113.31.114.17',
     user='root',
-    password='123456',
+    password='xxx',
     db='wx_interview',
     port=3306,
     charset='utf8'
@@ -117,8 +117,8 @@ def run():
         c_id = str(idx)
         page = 1
         totalPage = 1
-        tagId = cs[c_id]['tagId'] 
-        expTag = cs[c_id]['expTag'] 
+        tagId = cs[c_id]['tagId']
+        expTag = cs[c_id]['expTag']
         print('序列：' + c_id)
         for idx in range(page, totalPage + 1):
             url = f'https://www.nowcoder.com/discuss/tag/{tagId}-json?token=&type=2&tagId={tagId}&subType=0&appendTagId=0&page={idx}&order=0&expTag={expTag}&query=&_=1611144993314'
@@ -132,5 +132,5 @@ if __name__ == "__main__":
     schedule.every().day.at("01:00").do(run)
     while True:
         schedule.run_pending()   # 运行所有可以运行的任务
-        time.sleep(2) 
+        time.sleep(2)
 
