@@ -1,10 +1,12 @@
 /* pages/detail/index.wxss */
 
 .cellTitle {
-  background-color: rgb(255, 255, 255);
-  color:rgb(224, 93, 93);
+  /* background-color: rgb(255, 255, 255); */
+  color:rgb(115, 178, 194);
   font-size: 20px;
   margin-bottom: 5%;
+  justify-content: center;
+  /* background-image: url(https://imgs.dreamcat.ink/wx/wx_back.jpg); */
 }
 
 .iconClass{
@@ -18,4 +20,14 @@
 .iconClass image{
   width: 100px;
   height: 100px;
+}
+
+.notice-class {
+  margin-bottom: 10px;
+}
+
+.mdcontent-class{
+  /* background-size: cover; */
+  /* background-image: url(https://imgs.dreamcat.ink/wx/wx_back.jpg); */
+  margin-bottom: 20px;
 }

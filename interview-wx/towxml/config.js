@@ -2,14 +2,14 @@ module.exports = {
     // LaTex公式、yuml解析服务架设参见 https://github.com/sbfkcel/markdown-server
 
     // 数学公式解析API
-    // latex:{
-    //     api:'http://towxml.vvadd.com/?tex'
-    // },
+    latex:{
+        api:'http://towxml.vvadd.com/?tex'
+    },
 
     // yuml图解析APPI
-    // yuml:{
-    //     api:'http://towxml.vvadd.com/?yuml'
-    // },
+    yuml:{
+        api:'http://towxml.vvadd.com/?yuml'
+    },
 
     // markdown解析配置，保留需要的选项即可
     markdown:[
@@ -23,11 +23,10 @@ module.exports = {
 
     // 代码高亮配置，保留需要的选项即可（尽量越少越好，不要随意调整顺序。部分高亮有顺序依赖）
     highlight:[
-        // 'c-like',
-        // 'c',
+        'c-like',
+        'c',
         'bash',
         'css',
-        // 'dart',
         'go',
         'java',
         'javascript',
@@ -36,13 +35,11 @@ module.exports = {
         'scss',
         'shell',
         'xml',
-        'htmlbars',
         'nginx',
-        // 'php',
+        'php',
         'python',
-        // 'python-repl',
-        // 'typescript',
-        
+        'typescript',
+
         // 'csharp',
         // 'http',
         // 'swift',
@@ -233,6 +230,7 @@ module.exports = {
         'checkbox',
         'radio-group',
         'radio',
+        'rich-text',
 
         // 可以解析的标签（html或markdown中会很少使用）
         // 'canvas',
@@ -252,12 +250,12 @@ module.exports = {
 
     // 自定义组件
     components:[
-        // 'audio-player',             // 音频组件，建议保留，由于小程序原生audio存在诸多问题，towxml解决了原生音频播放器的相关问题
+        'audio-player',             // 音频组件，建议保留，由于小程序原生audio存在诸多问题，towxml解决了原生音频播放器的相关问题
         // 'echarts',                  // echarts图表支持
-        // 'latex',                    // 数学公式支持
+        'latex',                    // 数学公式支持
         'table',                    // 表格支持
         'todogroup',                // todo支持
-        // 'yuml',                     // yuml图表支持
+        'yuml',                     // yuml图表支持
         'img'                       // 图片解析组件
     ],
 

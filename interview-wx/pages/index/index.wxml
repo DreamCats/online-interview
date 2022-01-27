@@ -1,49 +1,62 @@
-<!--index.wxml-->
-<!-- <view class="container"> -->
-<!-- <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block> -->
-
-<!-- </view> -->
-<!-- <block wx:for="{{[1, 2, 3]}}" class="mianjinglist">
-    <view>
-      <van-cell is-link title="单元格" link-type="navigateTo" url="/pages/detail/index?key=value&key2=value2" />
-    </view>
-  </block> -->
+<!--pages/index.wxml-->
 <view class="loading" wx:if="{{isLoading}}">
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
-<block>
-  <van-image width="25rem" height="13rem" fit="contain" src="/imgs/index/lunbo.jpg" />
-</block>
+
 <block>
   <van-cell-group inset>
-    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="volume-o" text="有问题可以随时联系买老师。" 
+    <van-notice-bar color="#1989fa" background="#ecf9ff" left-icon="volume-o" text="下拉可刷新，随机出题" 
     custom-class="notice-class"/>
   </van-cell-group>
 </block>
-<block wx:for="{{tags}}" wx:key="id">
-  <view class="van-hairline--surround">
-    <van-cell-group inset>
-      <van-row>
-        <van-col span="6">
-          <van-image width="3rem" height="3rem" fit="contain" src="{{item.url}}" />
-        </van-col>
-        <van-col span="18">
-          <van-cell title="{{item.tag_name}}" label="" is-link
-            url="/pages/list/index?uuid={{item.uuid}}&name={{item.tag_name}}&url={{item.url}}"></van-cell>
-        </van-col>
-      </van-row>
-    </van-cell-group>
-  </view>
+
+<block>
+  <van-tabs swipeable animated type="card" bind:click="onSwitch" tag_type="0" color="#99CCFF" tab-class="tab"> 
+  <van-tab title="全部" name="0"></van-tab>
+  <van-tab title="后端" name="1"></van-tab>
+  <van-tab title="前端" name="2"></van-tab>
+</van-tabs>
 </block>
 
+<block wx:if="{{docsList.length===0}}">
+  <van-empty description="等待作者添加" />
+</block>
 
-<block wx:if="{{finish}}">
-  <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #ffffff; font-size: 14px;">
-    那我走...
+<block wx:else>
+  <block wx:for="{{docsList}}" wx:key="id">
+    <block>
+      <l-card type="avatar" l-class="card"  l-title-class="card-title" 
+      image="{{item.img_url}}" image-mode="widthFix"
+      title="{{item.item.title}}" describe="{{item.item.publish_time}}">
+        <!-- 此处为content -->
+        <view class="avter-content">
+
+        </view>
+        <view class="avter-share-container">
+          <view class="like-container">
+            <l-icon name="success" color="#666" size="28" />
+            <view class="number">标签：{{item.tag}}</view>
+          </view>
+          <view class="like-container">
+            <l-icon name="like" color="#666" size="28" />
+            <view class="number">喜欢({{item.item.like_count}})</view>
+          </view>
+          <view class="like-container">
+            <l-icon name="eye" color="#666" size="28" />
+            <view class="number">浏览({{item.item.view_count}})</view>
+          </view>
+        </view>
+        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.item.uuid}}"
+          bindtap="onViewItem">
+          查看
+        </l-tag>
+      </l-card>
+    </block>
+  </block>
+</block>
+
+<!-- <block wx:if="{{finish}}">
+  <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 14px;">
+    下拉刷新...
   </van-divider>
-</block>
+</block> -->

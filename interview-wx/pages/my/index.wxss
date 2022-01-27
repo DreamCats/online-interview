@@ -1,5 +1,14 @@
 /* pages/my/index.wxss */
 
+@media (prefers-color-scheme: dark) {
+  .cell {
+    background: black !important;
+  }
+  .cell-title {
+    color: blanchedalmond;
+  }
+}
+
 .class-gogogo{
   margin-top: 15px;
 }

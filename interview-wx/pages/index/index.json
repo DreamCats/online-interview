@@ -1,13 +1,13 @@
 {
   "usingComponents": {
-    "van-card": "@vant/weapp/card/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index",
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
-    "van-divider": "@vant/weapp/divider/index",
-    "van-image": "@vant/weapp/image/index",
-    "van-notice-bar": "@vant/weapp/notice-bar/index",
-    "van-row": "@vant/weapp/row/index",
-    "van-col": "@vant/weapp/col/index",
-    "towxml":"/towxml/towxml"
+    "l-card":"/lin-ui/dist/card/index",
+    "l-tag":"/lin-ui/dist/tag/index",
+    "l-icon":"/lin-ui/dist/icon/index",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index"
   }
 }

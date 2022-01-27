@@ -8,9 +8,40 @@ Page({
    */
   data: {
     uuid: "",
+    content: "",
     mdContent: "",
     isLoading: false,
     title:"",
+    imgsList:[''],
+    mode: "light"
+  },
+
+  onMode() {
+    console.log("mode")
+    var m = this.data.mode == "light" ? "dark" : "light"
+    var that = this
+    let obj = app.towxml(this.data.content,'markdown',{
+      theme: m,
+      events: {
+        tap:e => {
+          console.log('tap:', e.currentTarget.dataset)
+          // 在这里可以做图片点击预览... 
+          var url = e.currentTarget.dataset.data.attrs.src
+          url = url ? url : ""
+          if (url != "") {
+            wx.previewImage({
+              current: url,
+              urls: [url]
+            })
+          }
+          // 在这里也可以长按复制
+        }
+      }
+    });
+    that.setData({
+      mdContent: obj,
+      mode: m
+    })
   },
   onLike() {
     // 判断是否登录
@@ -70,11 +101,19 @@ Page({
         console.log(res.data.data)
         if (res.data.re_code === '0') {
           let obj = app.towxml(res.data.data['content'],'markdown',{
-            // theme: 'dark'
+            theme: that.data.mode,
             events: {
               tap:e => {
                 console.log('tap:', e.currentTarget.dataset)
                 // 在这里可以做图片点击预览... 
+                var url = e.currentTarget.dataset.data.attrs.src
+                url = url ? url : ""
+                if (url != "") {
+                  wx.previewImage({
+                    current: url,
+                    urls: [url]
+                  })
+                }
                 // 在这里也可以长按复制
               }
             }
@@ -82,6 +121,7 @@ Page({
           that.setData({
             isLoading: false,
             mdContent: obj,
+            content: res.data.data['content'],
             title: res.data.data['title']
           })
         }

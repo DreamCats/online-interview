@@ -10,9 +10,6 @@ Component({
 			value: {}
 		}
 	},
-	data: {
-		text: ""
-	},
 	lifetimes: {
 		attached: function () {
 			const _ts = this;
@@ -25,19 +22,5 @@ Component({
 				};
 			});
 		}
-	},
-	methods: {
-		textcopy: function(e) {
-			var that = this;
-			console.log('textcopy:',e);
-			wx.setClipboardData({
-				data: that.data.text,
-				success: function (res) {
-					wx.showToast({
-						title: '复制成功',
-					});
-				}
-			});
-		},
 	}
 })

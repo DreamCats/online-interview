@@ -1,30 +1,175 @@
-/**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* pages/index.wxss */
+
+@media (prefers-color-scheme: dark) {
+  .tab {
+    background: rgb(17, 1, 1) !important;
+  }
+  .card-dot {
+    width: 18rpx;
+    height: 18rpx;
+    border-radius: 50%;
+    border: 6rpx solid #3963bc;
+    margin-left: 26rpx;
+  }
+  
+  .card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 750rpx;
+    height: 120rpx;
+  }
+  
+  .content-name {
+    font-size: 28rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(69, 82, 107, 1);
+    line-height: 20px;
+    margin-left: 8px;
+  }
+  
+  .card {
+    margin: 10rpx auto !important;
+    background: rgb(17, 1, 1) !important;
+  }
+
+  .card-title {
+    color: rgb(248, 245, 241) !important;
+  }
+
+  .right-card {
+    height: 180rpx !important;
+    width: 220rpx !important;
+    border-radius: 12rpx !important;
+  }
+  
+  .content {
+    margin-top: 10rpx;
+    color: #666;
+    font-size: 26rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+  
+  .avter-content {
+    margin-top: 10rpx;
+    color: #333;
+    font-size: 26rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+  
+  .avter-share-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  
+  .like-container{
+    display: flex;
+    flex-direction: row;
+    margin-left: 40rpx;
+    align-items: center
+  }
+  
+  .number{
+    color: #666;
+    font-size: 24rpx;
+    margin-left: 12rpx;
+  }
+  
+  .notice-class{
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
-}
-
-.userinfo-nickname {
-  color: #aaa;
-}
-
-.usermotto {
-  margin-top: 200px;
-}
-
-.mianjinglist {
-  margin-top: 100px;
-  border-radius: 50%;
-}
-
-.notice-class{
-  margin-bottom: 10px;
+@media (prefers-color-scheme: light) {
+  .card-dot {
+    width: 18rpx;
+    height: 18rpx;
+    border-radius: 50%;
+    border: 6rpx solid #3963bc;
+    margin-left: 26rpx;
+  }
+  
+  .card-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 750rpx;
+    height: 100rpx;
+  }
+  
+  .content-name {
+    font-size: 28rpx;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(69, 82, 107, 1);
+    line-height: 20px;
+    margin-left: 8px;
+  }
+  
+  .card {
+    margin: 10rpx auto !important;
+  }
+  
+  .right-card {
+    height: 180rpx !important;
+    width: 220rpx !important;
+    border-radius: 12rpx !important;
+  }
+  
+  .content {
+    margin-top: 10rpx;
+    color: #666;
+    font-size: 26rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+  
+  .avter-content {
+    margin-top: 10rpx;
+    color: #333;
+    font-size: 26rpx;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+  
+  .avter-share-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  
+  .like-container{
+    display: flex;
+    flex-direction: row;
+    margin-left: 40rpx;
+    align-items: center
+  }
+  
+  .number{
+    color: #666;
+    font-size: 24rpx;
+    margin-left: 12rpx;
+  }
+  
+  .notice-class{
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
 }

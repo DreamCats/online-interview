@@ -1,42 +1,74 @@
-// index.js
-// 获取应用实例
+// pages/index.js
 const app = getApp()
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    tags: [],
-    isLoading: false,
+    docsList: [],
+    count: 13,
     finish: false,
+    isLoading: true,
+    tag_type: '0'
   },
 
-  getTags() {
+  // 加载docs
+  getList() {
     this.setData({
       isLoading: true
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}tag/list/all`,
-      success (res) {
-        console.log('getTags:res', res.data.data)
+      url: `${app.globalData.baseUrl}items/rand`,
+      data: {
+        count: this.data.count,
+        tag_type: this.data.tag_type
+      },
+      success(res) {
+        console.log('list:res:', res.data.data)
         if (res.data.re_code === '0') {
           that.setData({
-            tags: res.data.data,
+            docsList: that.data.docsList.concat(res.data.data),
             isLoading: false
           })
-           
-        } 
-        that.setData({
-          isLoading: false
-        })
-      }
+          if (!res.data.data.has_next) {
+            that.setData({
+              finish: true
+            })
+          }
+        } else {
+          that.setData({
+            isLoading: false
+          })
+          Toast("小小提示->作者还没有添加数据哦...")
+        }
+      },
     })
-    // 排序
   },
-
-  onLoad() {
-    
+  onViewItem(options) {
+    console.log(options)
+    var uuid = options.target.id
+    wx.navigateTo({
+      url: `/pages/detail/index?uuid=${uuid}`,
+    })
+  },
+  onSwitch(event) {
+    console.log(event.detail.name)
+    this.setData({
+      tag_type: event.detail.name,
+      docsList:[]
+    })
+    this.getList()
+  },
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    this.getList()
     wx.login({
       success(res) {
-        if(res.code) {
+        if (res.code) {
           wx.request({
             url: `${app.globalData.baseUrl}user/info`,
             data: {
@@ -52,47 +84,58 @@ Page({
     })
   },
 
-    /**
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // 加载
-    this.getTags()
+
   },
 
-    /**
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    this.setData({
+      docsList: []
+    })
+    this.getList()
+    wx.stopPullDownRefresh()
+  },
+
+  /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("上拉")
-    this.setData({
-      finish: true
-    })
+
   },
-   /**
+
+  /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (res) {
-    if (res.from === 'button') {
-      // 来自页面内转发按钮
-      console.log(res.target)
-    }
+  onShareAppMessage: function () {
     return {
-      title: '买老师互联网面试题',
-      path: '/pages/index/index'
-    }
-  },
-  onShareTimeline: function(res) {
-    // 来自页面内转发按钮
-    if (res.from === 'button') {
-      console.log(res.target)
-    }
-    return {
-      title: '买老师互联网面试题',
-      // query:{
-      //   id: this.data.cId
-      // }
-      // path: `/pages/detail/index?id=${this.data.id}&type=${this.data.type}`
+      title: '买老师互联网面试题'
     }
   }
 })

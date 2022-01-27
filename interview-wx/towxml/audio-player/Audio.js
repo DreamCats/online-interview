@@ -1,15 +1,16 @@
 const fillIn = val => `${val < 10 ? '0' : ''}${val}`,
-    formatTime = time => {
+    formatTime = _time => {
+        let time = Math.round(_time);
         let second = Math.round(time % 60),
-            minute = Math.round(time / 60 % 60),
-            hour = Math.round(time / 60 / 60);
+            minute = Math.floor(time / 60 % 60),
+            hour = Math.floor(time / 60 / 60);
         return `${fillIn(hour)}:${fillIn(minute)}:${fillIn(second)}`;
     };
 
 class Audio{
     constructor(obj){
         const _ts = this,
-            option = _ts.option = obj.attr;
+            option = _ts.option = obj.attrs;
 
         _ts.loop = option.loop === 'true',
         _ts.autoplay = option.autoplay === 'true';

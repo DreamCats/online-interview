@@ -13,9 +13,8 @@ Component({
 		attr:{
 			src:'',
 			class:'',
-			style:'',
+			style:''
 		},
-		imgs:[],
 		size:{
 			w:0,
 			h:0
@@ -25,7 +24,7 @@ Component({
 	lifetimes:{
 		attached:function(){
 			const _ts = this;
-			let dataAttr = this.data.data.attr;
+			let dataAttr = this.data.data.attrs;
 
 			// 将图片大小处理到对象中
 			if(dataAttr.width){
@@ -63,7 +62,7 @@ Component({
 
 			// 设置公式图片
 			_ts.setData({
-				attr:{
+				attrs:{
 					src:dataAttr.src,
 					class:dataAttr.class,
 					style:_ts.setStyle(_ts.data.styleObj)
@@ -94,20 +93,6 @@ Component({
 					}
 				});
 			};
-		},
-		// 我改你源码...
-		// 
-		clickImg: function(e) {
-			console.log('bind img:', e.currentTarget.dataset.src)
-			console.log('imgs:', this.data.imgs)
-			this.setData({
-				imgs: [e.currentTarget.dataset.src]
-			})
-			let that = this
-			wx.previewImage({
-				urls: that.data.imgs,
-				current: e.currentTarget.dataset.src
-			})
 		}
 	}
 })

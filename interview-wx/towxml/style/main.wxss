@@ -14,7 +14,7 @@
     padding-top: 40rpx;
 }
 
-/* *标题* */
+/**标题**/
 .h2w__h1,
 .h2w__h2,
 .h2w__h3,
@@ -48,9 +48,6 @@
     margin-bottom: 20rpx;
 }
 
-
-
-
 .h2w__h2 {
     border-bottom-style: solid;
     border-bottom-width: 1rpx;
@@ -58,8 +55,6 @@
     padding-bottom: 8rpx;
     margin-bottom: 18rpx;
 }
-
-
 
 .h2w__h3 {
     font-size: 38rpx;
@@ -83,6 +78,13 @@
     margin-bottom: 12rpx;
 }
 
+/**组件父级容器**/
+.h2w__textParent, .h2w__viewParent {
+    display:inline;
+}
+.h2w__rich-textParent {
+    overflow-x:auto;
+}
 
 /**表格**/
 .h2w__tableParent {
@@ -91,7 +93,7 @@
 }
 
 .h2w__table {
-    width: 100%;
+    width: 99.99%;
     border-collapse: collapse;
     border-spacing: 0;
     display: table;
@@ -152,6 +154,9 @@
     white-space: nowrap;
     overflow-x: auto;
     tab-size:4;
+}
+.h2w__pre .h2w__p {
+    margin:0;
 }
 
 .h2w__pre .h2w__code {

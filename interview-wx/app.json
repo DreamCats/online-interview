@@ -1,28 +1,38 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/kw/index",
     "pages/mj/index",
     "pages/my/index",
     "pages/detail/index",
     "pages/list/index",
     "pages/like/index"
   ],
+  "darkmode":true,
+  "themeLocation": "theme.json",
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "backgroundTextStyle": "@backgroundTextStyle",
+    "navigationBarBackgroundColor": "@navBackgroundColor",
     "navigationBarTitleText": "面试助手",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "@navTextStyle",
+    "enablePullDownRefresh": true
   },
   "tabBar": {
-    "color": "#000000",
-    "selectedColor": "#000000",
-    "backgroundColor": "#ffffff",
+    "color": "@tabColor",
+    "selectedColor": "@tabSelectedColor",
+    "backgroundColor": "@tabBackgroundColor",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "主页",
         "iconPath": "imgs/no-home.png",
         "selectedIconPath": "imgs/select-home.png"
+      },
+      {
+        "pagePath": "pages/kw/index",
+        "text": "知识",
+        "iconPath": "imgs/no-class.png",
+        "selectedIconPath": "imgs/select-class.png"
       },
       {
         "pagePath": "pages/mj/index",

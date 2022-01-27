@@ -12,6 +12,7 @@ Page({
     showHintText: "Hi，有问题可以反馈给我哦~",
     qrCodeChatShow: false,
     qrCodeWxShow: false,
+    qrCodeZanShow: false,
     activeCodeShow:false,
     activeCode: ''
   },
@@ -35,6 +36,11 @@ Page({
       qrCodeChatShow: true
     })
   },
+  onZan() {
+    this.setData({
+      qrCodeZanShow: true
+    })
+  },
   onShare() {
     this.setData({
       qrCodeWxShow: true
@@ -44,7 +50,8 @@ Page({
     this.setData({
       qrCodeChatShow: false,
       qrCodeWxShow: false,
-      activeCodeShow: false
+      activeCodeShow: false,
+      qrCodeZanShow: false
     })
   },
   onLike() {

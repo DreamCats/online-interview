@@ -1,10 +1,17 @@
-/* pages/knows/index.wxss */
+/**index.wxss**/
 
 @media (prefers-color-scheme: dark) {
+  .notice-class{
+    margin-bottom: 10px;
+  }
   .cell {
     background: black !important;
   }
   .cell-title {
     color: blanchedalmond;
   }
+}
+
+.notice-class{
+  margin-bottom: 10px;
 }

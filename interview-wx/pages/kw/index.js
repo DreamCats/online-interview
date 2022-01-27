@@ -1,4 +1,4 @@
-// pages/knows/index.js
+// index.js
 // 获取应用实例
 const app = getApp()
 Page({
@@ -9,7 +9,7 @@ Page({
   },
 
   /**
-   * 加载面经列表
+   * 加载知识列表
    */
   getTags() {
     this.setData({
@@ -17,7 +17,7 @@ Page({
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}cp/list/all`,
+      url: `${app.globalData.baseUrl}tag/list/all`,
       success (res) {
         console.log('getTags:res', res.data.data)
         if (res.data.re_code === '0') {
@@ -55,7 +55,6 @@ Page({
       success: (res) => {},
     })
   },
-
     /**
    * 页面上拉触底事件的处理函数
    */

@@ -19,10 +19,12 @@
         title="{{item.title}}" thumb="/imgs/wx-jiandan.png"
         thumb-link="/pages/detail/index?uuid={{item.uuid}}&title={{item.title}}" /> -->
       <!-- </van-cell-group> -->
-      <l-card type="avatar" l-class="card" image="{{icon_url}}" title="{{item.title}}" describe="{{item.publish_time}}">
+      <l-card type="avatar" l-class="card" l-title-class="card-title" l-img-class="card-avatar" 
+      image="{{icon_url}}" image-mode="widthFix"
+      title="{{item.title}}" describe="{{item.publish_time}}">
         <!-- 此处为content -->
         <view class="avter-content">
-
+            <!-- {{item.title}} -->
         </view>
         <view class="avter-share-container">
           <view class="like-container">
@@ -45,9 +47,9 @@
 
 
 
-<block wx:if="{{finish}}">
+<!-- <block wx:if="{{finish}}">
   <van-divider contentPosition="center" customStyle="color: #1989fa; border-color: #1989fa; font-size: 14px;">
     数据都被你滑动完了...
   </van-divider>
 </block>
-<van-toast id="van-toast" />
+<van-toast id="van-toast" /> -->

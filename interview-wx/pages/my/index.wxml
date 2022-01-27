@@ -43,21 +43,29 @@
 
   </block>
   <van-cell-group inset>
-    <van-cell title="我的收藏" icon="star-o" is-link color="red" bindtap="onLike"/>
-    <van-cell title="问题反馈" icon="label-o" is-link color="blue" bindtap="onChat" />
-    <van-cell title="关于程序" icon="more-o" is-link color="orange" />
+    <van-cell custom-class="cell" title-class="cell-title" title="我的收藏" icon="star-o" is-link color="red" bindtap="onLike"/>
+    <van-cell custom-class="cell" title-class="cell-title" title="赞赏支持" icon="balance-list-o" is-link color="red" bindtap="onZan"/>
+    <van-cell custom-class="cell" title-class="cell-title" title="问题反馈" icon="label-o" is-link color="blue" bindtap="onChat" />
+    <van-cell custom-class="cell" title-class="cell-title" title="关于程序" icon="more-o" is-link color="orange" />
   </van-cell-group>
   <!-- 我的二维码 -->
   <van-popup show="{{ qrCodeChatShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
     position="bottom">
     <!-- 加载图片 -->
-    <van-image width="100%" height="100%" fit="cover" show-menu-by-longpress
+    <van-image width="80%" height="80%" fit="cover" show-menu-by-longpress
       src="https://imgs.dreamcat.ink/blog/chatme.jpg" />
+  </van-popup>
+  <!-- 赞赏 -->
+  <van-popup show="{{ qrCodeZanShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
+    position="bottom">
+    <!-- 加载图片 -->
+    <van-image width="80%" height="80%" fit="cover" show-menu-by-longpress
+      src="https://imgs.dreamcat.ink/blog/zanshangma.jpg" />
   </van-popup>
   <van-popup show="{{ qrCodeWxShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
     position="bottom">
     <!-- 加载图片 -->
-    <van-image width="100%" height="100%" fit="cover" show-menu-by-longpress
+    <van-image width="80%" height="80%" fit="cover" show-menu-by-longpress
       src="https://imgs.dreamcat.ink/blog/online-interview-qr.jpg" />
   </van-popup>
   <van-popup show="{{activeCodeShow}}" custom-style="height: 40%;" round bind:close="onClose" closeable position="bottom">
