@@ -26,7 +26,7 @@
 
 ## 思维导图
 
-![online-inteview-功能图-24KXz8](https://imgs.dreamcat.ink/uPic/online-inteview-功能图-24KXz8.png)
+![online-inteview-功能图-24KXz8](https://imgs.heiye.site/uPic/online-inteview-功能图-24KXz8.png)
 
 从图中得知，比 1.0 版本多了个人中心板块，其中多了一个定时推送功能。以上不再具体描述，看动图即可。
 
@@ -44,25 +44,25 @@
 
 ### 面经
 
-![online-interview-面经演示-Zn3lk4](http://imgs.dreamcat.ink/uPic/online-interview-面经演示-Zn3lk4.gif)
+![online-interview-面经演示-Zn3lk4](http://imgs.heiye.site/uPic/online-interview-面经演示-Zn3lk4.gif)
 
 从以上动图，可以看出所体现的功能包括各大厂的**面经列表和面经详情**，同时和 1.0 版本相比，**请求响应和渲染速度有明显的提升**，并且额外增加了**定时获取最新面经**的功能。
 
 ### 知识点
 
-![online-interview-知识展示-wEogm3](http://imgs.dreamcat.ink/uPic/online-interview-知识展示-wEogm3.gif)
+![online-interview-知识展示-wEogm3](http://imgs.heiye.site/uPic/online-interview-知识展示-wEogm3.gif)
 
 从以上动图，包含了我个人总结的前后端的知识点，并打算依次为基准，为下一个功能做铺垫。
 
 ### 刷题
 
-![online-interview-刷题展示-GlpNZq](http://imgs.dreamcat.ink/uPic/online-interview-刷题展示-GlpNZq.gif)
+![online-interview-刷题展示-GlpNZq](http://imgs.heiye.site/uPic/online-interview-刷题展示-GlpNZq.gif)
 
 刷题部分，暂时没有答案，我想的初衷是由大家去官方自行练习，而小程序仅仅是给用户一个问题，让用户尝试思考是否由解决答案。
 
 ### 定时推送
 
-![online-interview-定时推送展示-EDCGIm](http://imgs.dreamcat.ink/uPic/online-interview-定时推送展示-EDCGIm.gif)
+![online-interview-定时推送展示-EDCGIm](http://imgs.heiye.site/uPic/online-interview-定时推送展示-EDCGIm.gif)
 
 使用定时推送功能的前提：
 
@@ -82,11 +82,11 @@
 
 演示推送列表页面：
 
-![online-interview-推送列表-6ZJfNN](https://imgs.dreamcat.ink/uPic/online-interview-推送列表-6ZJfNN.png)
+![online-interview-推送列表-6ZJfNN](https://imgs.heiye.site/uPic/online-interview-推送列表-6ZJfNN.png)
 
 演示删除推送记录页面：
 
-![online-interview-左滑删除-izSqua](https://imgs.dreamcat.ink/uPic/online-interview-左滑删除-izSqua.png)
+![online-interview-左滑删除-izSqua](https://imgs.heiye.site/uPic/online-interview-左滑删除-izSqua.png)
 
 **修改推送记录暂时未做，抽空完善。**
 
