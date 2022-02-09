@@ -2,7 +2,8 @@
 App({
   globalData: {
     userInfo: null,
-    baseUrl: 'https://dreamcat.ink/online/api/2.0/'
+    themeMode: 'light',
+    baseUrl: 'https://jamesforlife.top/online/api/2.0/'
     // baseUrl: 'http://127.0.0.1:5000/online/api/1.0/'
   },
   onLaunch() {
@@ -17,6 +18,14 @@ App({
     //     console.log(res.code)
     //   }
     // })
+
+    wx.getSystemInfo({
+      success: (result) => {
+        console.log('system:', result)
+        this.globalData.themeMode = result.theme
+      },
+    })
+
     const updateManager = wx.getUpdateManager()
 
     updateManager.onCheckForUpdate(function (res) {

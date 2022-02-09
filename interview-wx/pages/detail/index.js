@@ -77,21 +77,37 @@ Page({
    */
   onLoad: function (options) {
     console.log("页面加载：", options);
+    wx.onThemeChange((result) => {
+      let obj = app.towxml(this.data.content,'markdown',{
+        theme: result.theme,
+        events: {
+          tap:e => {
+            console.log('tap:', e.currentTarget.dataset)
+            // 在这里可以做图片点击预览... 
+            var url = e.currentTarget.dataset.data.attrs.src
+            url = url ? url : ""
+            if (url != "") {
+              wx.previewImage({
+                current: url,
+                urls: [url]
+              })
+            }
+            // 在这里也可以长按复制
+          }
+        }
+      });
+      that.setData({
+        mdContent: obj,
+        mode: result.theme
+      })
+    })
     this.setData({
       uuid: options.uuid,
       title: options.title,
-      isLoading: true
+      isLoading: true,
+      mode: app.globalData.themeMode
     })
     let that = this
-    // const eventChannel = this.getOpenerEventChannel()
-    // eventChannel.on('fromMj', function(data) {
-    //   console.log(data.data['content'])
-    //   let obj = app.towxml(data.data['content'],'markdown',{});
-    //   that.setData({
-    //     mdContent: obj,
-    //     isLoading: false
-    //   });
-    // })
     wx.request({
       url: `${app.globalData.baseUrl}items/count`,
       data: {
