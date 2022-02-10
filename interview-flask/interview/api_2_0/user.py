@@ -2,8 +2,7 @@
 # __file_name__: user.py
 # __time__: 2021:08:15:23:34
 
-from interview.api_1_0 import api
-from interview.api_1_0 import data
+from interview.api_2_0 import api
 from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import db
@@ -70,7 +69,7 @@ def update_user_active():
 @api.route('/user/info', methods=['GET'])
 def get_user_info_code():
     save_data('wx_pv')
-    save_data('get_user')
+    save_data('wx_uv')
     code = request.args.get('code', '0')
 
     openId = send_wx.get_code2Session(code)
@@ -86,4 +85,4 @@ def get_user_info_code():
         current_app.logger.debug(e)
         db.session.rollback()
     
-    return jsonify(re_code=RET.OK, msg='添加成功', data=user.to_dict())
+    return jsonify(re_code=RET.OK, msg='查询成功', data=user.to_dict())

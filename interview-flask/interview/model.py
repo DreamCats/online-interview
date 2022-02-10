@@ -1,6 +1,10 @@
 import json
 from datetime import datetime
 from . import db
+class BaseModel(object):
+    """模型基类"""
+    create_time=db.Column(db.DateTime, default=datetime.now()) #记录模型类创建时间
+    update_time=db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)#记录模型类更新时间
 
 class User(db.Model):
     '''用户模型'''
@@ -47,6 +51,7 @@ class Cp(db.Model):
     id = db.Column(db.Integer, primary_key=True) # id
     uuid = db.Column(db.String,nullable=False) # type
     cp_name = db.Column(db.String, nullable=False) # type_name
+    url = db.Column(db.String, nullable=False) # type_name
 
     def to_dict(self):
         '''
@@ -55,6 +60,7 @@ class Cp(db.Model):
             'id': self.id,
             'uuid': self.uuid,
             'cp_name': self.cp_name,
+            'url':self.url
         }
         return cp_info
 
@@ -63,6 +69,7 @@ class Items(db.Model):
     id = db.Column(db.Integer, primary_key=True) # id
     uuid = db.Column(db.String, nullable=False) # uuid
     tc_uuid = db.Column(db.String, nullable=False) # tc_uuid
+    tag_type = db.Column(db.Integer) # k_id
     s_id = db.Column(db.Integer) # k_id
     title = db.Column(db.String, nullable=False) # title
     url = db.Column(db.String) # url
@@ -78,6 +85,7 @@ class Items(db.Model):
             'id': self.id,
             'uuid': self.uuid,
             'tc_uuid': self.tc_uuid,
+            'tag_type': self.tag_type,
             's_id': self.s_id,
             'title': self.title,
             'url': self.url,
@@ -124,3 +132,24 @@ class UserLikeItem(db.Model):
             'item_id':self.item_id
         }
         return cp_info
+
+class Data(db.Model, BaseModel):
+    __tablename__ = 'wx_data'
+    id = db.Column(db.Integer, primary_key=True) # id
+    uuid = db.Column(db.String,nullable=False) # type
+    path_name = db.Column(db.String, nullable=False) # type
+    view_count = db.Column(db.Integer) # type
+
+    def to_dict(self):
+        '''
+        '''
+        d_info = {
+            'id': self.id,
+            'uuid': self.uuid,
+            'path_name': self.path_name,
+            'view_count':self.view_count,
+            'create_time':self.create_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'update_time':self.update_time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        return d_info

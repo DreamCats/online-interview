@@ -1,10 +1,11 @@
 from crypt import methods
-from interview.api_1_0 import api, user
+from interview.api_2_0 import api, user
 from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import db
 from interview.model import Items, UserLikeItem, Tag, Cp
 from interview.utils.common import getUUID, save_data
+from sqlalchemy import func
 
 @api.route('/items/list', methods=['GET'])
 def get_items_list():
@@ -144,13 +145,29 @@ def get_items_like_list():
         for l in likes:
             # 找对应的item详细信息
             item = Items.query.filter(Items.uuid == l.item_id).first()
-            # 找对应item的tag详细信息
-            tag = Tag.query.filter(Tag.uuid == item.tc_uuid).first()
-            # 找对应mj
-            cp = Cp.query.filter(Cp.uuid == item.tc_uuid).first()
-            t = tag if tag else cp
             if item:
-                items.append(item.to_dict())
+                # 找对应item的tag详细信息
+                tag = Tag.query.filter(Tag.uuid == item.tc_uuid).first()
+                url = ''
+                t = ''
+                if tag:
+                    url = tag.url
+                    t = tag.tag_name
+                else:
+                    # 找对应mj
+                    cp = Cp.query.filter(Cp.uuid == item.tc_uuid).first()
+                    if cp:
+                        url = cp.url
+                        t = cp.cp_name
+                items.append(
+                    {
+                        'img_url':url,
+                        'tag':t,
+                        'item':item.to_dict()
+                    }
+                )
+            print(items)
+
         db.session.commit()
     except Exception as e:
         current_app.logger.debug(e)
@@ -167,3 +184,44 @@ def get_items_like_list():
         'has_next': likes_pages.has_next
     }
     return jsonify(re_code=RET.OK, msg='请求成功', data=items_info)
+
+@api.route('/items/rand', methods=['GET'])
+def get_items_rand():
+    save_data('wx_pv')
+    save_data('items_rand')
+    # 随机生成
+    count = request.args.get('count', '10')
+    tag_type = request.args.get('tag_type', '0')
+
+    items = ''
+    if tag_type == '0':
+        items = Items.query.filter(Items.tag_type != int(tag_type)).order_by(func.rand()).limit(int(count))
+    elif tag_type == '1' or tag_type == '2':
+        # tag_type 3 是公共基础题
+        items = Items.query.filter((Items.tag_type == tag_type) | (Items.tag_type == 3) ).order_by(func.rand()).limit(int(count))
+    else:
+        items = Items.query.filter(Items.tag_type == int(tag_type)).order_by(func.rand()).limit(int(count))
+    print(items)
+    datas = []
+    for item in items:
+        # 找对应item的tag详细信息
+        tag = Tag.query.filter(Tag.uuid == item.tc_uuid).first()
+        url = ''
+        t = ''
+        if tag:
+            url = tag.url
+            t = tag.tag_name
+        else:
+            # 找对应mj
+            cp = Cp.query.filter(Cp.uuid == item.tc_uuid).first()
+            if cp:
+                url = cp.url
+                t = cp.cp_name
+        datas.append(
+            {
+                'img_url':url,
+                'tag':t,
+                'item':item.to_dict()
+            }
+        )
+    return jsonify(re_code=RET.OK, msg='请求成功', data=datas)

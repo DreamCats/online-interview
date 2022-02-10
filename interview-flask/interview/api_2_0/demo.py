@@ -14,4 +14,5 @@ def demo():
     :return:  'Hello World'
     '''
     ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
+    save_data('demo')
     return 'Hello World 1.0 ' + ip

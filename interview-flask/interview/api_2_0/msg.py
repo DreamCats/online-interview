@@ -1,4 +1,4 @@
-from interview.api_1_0 import api
+from interview.api_2_0 import api
 from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import redis_conn, db
