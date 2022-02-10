@@ -20,7 +20,7 @@
   justify-content: center;
   margin-top: 15px;
   height: 128px;
-  background-image: url(https://imgs.dreamcat.ink/wx/my.jpg);
+  background-image: url(https://imgs.heiye.site/wx/my.jpg);
 }
 
 .userinfo-avatar {

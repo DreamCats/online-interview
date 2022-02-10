@@ -4,7 +4,7 @@
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
 <block>
-  <van-image width="25rem" height="13rem" fit="contain" src="https://imgs.dreamcat.ink/wx/lunbo.jpg" />
+  <van-image width="25rem" height="13rem" fit="contain" src="https://imgs.heiye.site/wx/lunbo.jpg" />
 </block>
 <block wx:for="{{tags}}" wx:key="id">
   <view class="van-hairline--surround">

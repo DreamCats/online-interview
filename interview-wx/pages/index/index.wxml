@@ -15,6 +15,7 @@
   <van-tab title="全部" name="0"></van-tab>
   <van-tab title="后端" name="1"></van-tab>
   <van-tab title="前端" name="2"></van-tab>
+  <van-tab title="刷题" name="4"></van-tab>
 </van-tabs>
 </block>
 

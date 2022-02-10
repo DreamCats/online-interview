@@ -122,6 +122,9 @@ Page({
    */
   onPullDownRefresh: function () {
     this.getList()
+    wx.stopPullDownRefresh({
+      success: (res) => {},
+    })
   },
 
   /**

@@ -53,20 +53,20 @@
     position="bottom">
     <!-- 加载图片 -->
     <van-image width="80%" height="80%" fit="widthFix" show-menu-by-longpress image-class="image"
-      src="https://imgs.dreamcat.ink/blog/chatme.jpg" />
+      src="https://imgs.heiye.site/blog/chatme.jpg" />
   </van-popup>
   <!-- 赞赏 -->
   <van-popup show="{{ qrCodeZanShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
     position="bottom">
     <!-- 加载图片 -->
     <van-image width="80%" height="80%" fit="widthFix" show-menu-by-longpress image-class="image"
-      src="https://imgs.dreamcat.ink/blog/zanshangma.jpg" />
+      src="https://imgs.heiye.site/blog/zanshangma.jpg" />
   </van-popup>
   <van-popup show="{{ qrCodeWxShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
     position="bottom">
     <!-- 加载图片 -->
     <van-image width="80%" height="80%" fit="widthFix" show-menu-by-longpress image-class="image"
-      src="https://imgs.dreamcat.ink/blog/online-interview-qr.jpg" />
+      src="https://imgs.heiye.site/blog/online-interview-qr.jpg" />
   </van-popup>
   <van-popup show="{{activeCodeShow}}" custom-style="height: 40%;" round bind:close="onClose" closeable position="bottom">
     <!-- 加载图片 -->
