@@ -97,6 +97,24 @@
 - [ ] 3.提高系统的稳定性
 - [ ] 4.增加**问题社区功能**
 
+## V2
+
+### 主页
+
+![](https://imgs.heiye.site/byte/1644979793216.png)
+
+![](https://imgs.heiye.site/byte/1644979858216.png)
+
+![](https://imgs.heiye.site/byte/1644979883388.png)
+
+### 知识页面
+
+![](https://imgs.heiye.site/byte/1644979824216.png)
+
+### 面经页面
+
+![](https://imgs.heiye.site/byte/1644979841099.png)
+
 ## 联系
 
 如果有什么 bug 或者建议，可以联系我。
