@@ -14,6 +14,7 @@ class User(db.Model):
     user_name = db.Column(db.String(256), nullable=False) # 用户名字
     url = db.Column(db.String, nullable=False) # 头像url
     active = db.Column(db.Integer) # 是否激活
+    current_date =db.Column(db.DateTime, default=datetime.now()) #记录模型类创建时间
 
     
     def to_dict(self):
@@ -24,7 +25,8 @@ class User(db.Model):
             'uuid': self.uuid,
             'user_name': self.user_name,
             'url': self.url,
-            'active': self.active
+            'active': self.active,
+            'current_date':self.current_date.strftime('%Y-%m-%d %H:%M:%S'),
         }
         return info
 

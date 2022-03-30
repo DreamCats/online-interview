@@ -13,8 +13,6 @@ def get_msg():
     save_data('wx_pv')
     save_data('get_msg')
     status = request.args.get('status', '0')
-    print('get_msg:', status)
-    # 参数判断省略
 
     # 查找
     try:

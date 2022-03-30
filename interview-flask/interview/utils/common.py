@@ -50,6 +50,7 @@ def save_data(path_name):
         data.uuid = str(getUUID(path_name))
         data.path_name = path_name
         data.view_count = 1
+        data.create_time = datetime.now()
     try:
         db.session.add(data)
         db.session.commit()

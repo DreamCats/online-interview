@@ -51,7 +51,7 @@ def get_items_list():
 @api.route('/items/count', methods=['GET'])
 def add_item_count():
     save_data('wx_pv')
-    save_data('update_count')
+    save_data('items_detail')
     uuid = request.args.get('uuid', '0')
     try:
         a = Items.query.filter(Items.uuid == uuid).first()
