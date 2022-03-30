@@ -3,7 +3,8 @@ App({
   globalData: {
     userInfo: null,
     themeMode: 'light',
-    baseUrl: 'https://jamesforlife.top/online/api/2.0/'
+    baseUrl: 'https://heiye.site/online/api/2.0/'
+    // baseUrl: 'https://jamesforlife.top/online/api/2.0/'
     // baseUrl: 'http://127.0.0.1:5000/online/api/1.0/'
   },
   onLaunch() {

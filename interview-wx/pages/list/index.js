@@ -9,7 +9,7 @@ Page({
   data: {
     docsList: [],
     uuid: "",
-    count: 7,
+    count: 9,
     page: 1,
     finish: false,
     isLoading: true,
@@ -109,6 +109,9 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("下拉");
+    wx.stopPullDownRefresh({
+      success: (res) => {},
+    })
   },
 
   /**
