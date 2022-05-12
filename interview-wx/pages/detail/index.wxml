@@ -4,6 +4,10 @@
   <image class="loading__icon" src="/imgs/loading.svg"></image>
 </view>
 
+<view class="adContainer">
+  <ad unit-id="adunit-1de7eae680de53a7" ad-intervals="30"></ad>
+</view>
+
 <view class="mdcontent-class">
   <van-notice-bar mode="closeable" text="点击小❤️可以收藏" custom-class="notice-class" color="#1989fa" background="#ecf9ff"/>
   <block>

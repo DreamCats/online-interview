@@ -19,6 +19,10 @@
 </van-tabs>
 </block>
 
+<view class="adContainer">
+  <ad unit-id="adunit-b41d24c388f0ce55" ad-intervals="30"></ad>
+</view>
+
 <block wx:if="{{docsList.length===0}}">
   <van-empty description="等待作者添加" />
 </block>
