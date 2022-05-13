@@ -16,6 +16,7 @@ class Config(object):
     SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:xxx@113.31.114.17:3306/wx_interview'
     # 是否开启追踪
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # 打印sql语句
     # SQLALCHEMY_ECHO = True
     # 配置Redis数据库  待会再说
     REDIS_HOST = '127.0.0.1'
