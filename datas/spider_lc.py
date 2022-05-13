@@ -2,14 +2,7 @@ import requests
 import pymysql
 import time
 ss = requests.session()
-db = pymysql.connect(
-    host='39.108.93.119',
-    user='root',
-    password='123456',
-    db='interview',
-    port=3306,
-    charset='utf8'
-)
+
 
 lc_base_url = 'https://leetcode-cn.com/graphql/'
 query_val = '''
@@ -146,6 +139,9 @@ def transferContent(content):
                 stri += str(c)
     return stri
 
+def save_file(file_name, content):
+    with open(file_name, 'w') as f:
+        f.write(content)
 
 def get_lc_list(current_page):
     '''
@@ -165,30 +161,24 @@ def get_lc_list(current_page):
     questions = datas['questions']  # list
     items = []
     for q in questions:
-        if q['solutionNum'] < 500:
-            continue
-        item = {
-            'difficulty': q['difficulty'],
-            'id': q['frontendQuestionId'],
-            'solutionNum': q['solutionNum'],
-            'title': q['titleCn'],
-            'titleSlug': q['titleSlug'],
-            'content': transferContent(get_lc_question(q['titleSlug'])),
-            'url': f"https://leetcode-cn.com/problems/{q['titleSlug']}",
-        }
-        tag_id = 47 if q['difficulty'] == 'EASY' else (
-            48 if q['difficulty'] == 'MEDIUM' else 49)
-        print(item['title'])
-        with db.cursor() as conn:
-            try:
-                sql = f'''INSERT INTO article(tag_id, n_id, content, url, title) VALUES({int(tag_id)}, {int(item['id'])}, "{item['content']}", "{item['url']}", "{item['title']}")'''
-                conn.execute(sql)
-                db.commit()
-            except Exception as e:
-                db.rollback()
-                print('sql:', e)
-            items.append(item)
-
+      try:
+          if q['solutionNum'] < 500:
+              continue
+          item = {
+              'difficulty': q['difficulty'],
+              'id': q['frontendQuestionId'],
+              'solutionNum': q['solutionNum'],
+              'title': q['titleCn'],
+              'titleSlug': q['titleSlug'],
+              'content': transferContent(get_lc_question(q['titleSlug'])),
+              'url': f"https://leetcode-cn.com/problems/{q['titleSlug']}",
+          }
+          str = f">难度：{item['difficulty']}\n>热度：{item['solutionNum']}\n>url:{item['url']}\n\n## 题目 \n\n{item['content']}\n## 示例 \n"
+          save_file(f'./12_bak/{item["id"]}.{item["title"]}.md', str)
+          items.append(item)
+      except Exception as e:
+          # print(e)
+          continue
 
 def get_lc_question(titleSlug):
     '''
@@ -204,13 +194,7 @@ def get_lc_question(titleSlug):
     return resp.json()['data']['question']['translatedContent']
 
 
-for page in range(40):
+for page in range(30):
     get_lc_list(page)
-    time.sleep(1)
+    time.sleep(2)
 print('ok...')
-
-
-def get_haha():
-    print('奇怪了')
-    print('hahah')
-    print('dasdsa')
