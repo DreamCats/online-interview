@@ -5,7 +5,7 @@ App({
     themeMode: 'light',
     baseUrl: 'https://heiye.site/online/api/2.0/'
     // baseUrl: 'https://jamesforlife.top/online/api/2.0/'
-    // baseUrl: 'http://127.0.0.1:5000/online/api/1.0/'
+    // baseUrl: 'http://127.0.0.1:5000/online/api/2.0/'
   },
   onLaunch() {
     // 初始化云开发的id
