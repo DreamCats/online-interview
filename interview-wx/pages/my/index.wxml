@@ -44,7 +44,7 @@
   </block>
   <van-cell-group inset>
     <van-cell custom-class="cell" title-class="cell-title" title="我的收藏" icon="star-o" is-link color="red" bindtap="onLike"/>
-    <van-cell custom-class="cell" title-class="cell-title" title="赞赏支持" icon="balance-list-o" is-link color="red" bindtap="onZan"/>
+    <!-- <van-cell custom-class="cell" title-class="cell-title" title="赞赏支持" icon="balance-list-o" is-link color="red" bindtap="onZan"/> -->
     <van-cell custom-class="cell" title-class="cell-title" title="问题反馈" icon="label-o" is-link color="blue" bindtap="onChat" />
     <van-cell custom-class="cell" title-class="cell-title" title="关于程序" icon="more-o" is-link color="orange" />
   </van-cell-group>
