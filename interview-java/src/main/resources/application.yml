@@ -1,0 +1,5 @@
+
+mybatis-plus:
+  mapper-locations: classpath*:com/pch/interview/dao/*.xml
+  type-aliases-package: com.pch.interview.Entity
+

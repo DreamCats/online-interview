@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pch.interview.dao.ItemsDaoMapper">
+
+    <resultMap id="BaseResultMap1" type="com.pch.interview.dto.RandomItemDTO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="tc_uuid" jdbcType="VARCHAR" property="tcUuid"/>
+        <result column="tag_type"  jdbcType="INTEGER" property="tagType"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="s_id" jdbcType="INTEGER" property="sId"/>
+        <result column="url"  jdbcType="VARCHAR" property="url"/>
+        <result column="view_count" jdbcType="INTEGER" property="viewCount"/>
+        <result column="like_count" jdbcType="INTEGER" property="likeCount"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="img_url" jdbcType="VARCHAR" property="imgUrl"/>
+        <result column="tag" jdbcType="VARCHAR" property="tag"/>
+        <result column="publish_time" property="publishTime"/>
+
+    </resultMap>
+
+    <select id="selectRandomItemsByTagType" resultType="com.pch.interview.dto.RandomItemDTO">
+         SELECT
+            it.content as content,
+            it.id as id,
+            it.like_count as like_count,
+            it.publish_time as publish_time,
+            it.s_id as s_id,
+            it.tag_type as tag_type,
+            it.tc_uuid as tc_uuid,
+            it.title as title,
+            it.url as url,
+            it.uuid as uuid,
+            it.view_count as view_count,
+            ta.url AS img_url,
+            ta.tag_name as tag
+        FROM wx_items as it
+        LEFT JOIN wx_tag as ta on it.tc_uuid=ta.uuid
+        WHERE
+            it.tag_type in (1,2,3)
+        ORDER BY
+            RAND()
+        LIMIT #{count}
+    </select>
+
+
+    <select id="selectItemsByTagType"  resultType="com.pch.interview.dto.RandomItemDTO">
+         SELECT
+            it.content as content,
+            it.id as id,
+            it.like_count as like_count,
+            it.publish_time as publish_time,
+            it.s_id as s_id,
+            it.tag_type as tag_type,
+            it.tc_uuid as tc_uuid,
+            it.title as title,
+            it.url as url,
+            it.uuid as uuid,
+            it.view_count as view_count,
+            ta.url AS img_url,
+            ta.tag_name as tag
+        FROM wx_items as it
+        LEFT JOIN wx_tag as ta on it.tc_uuid=ta.uuid
+        WHERE
+            it.tag_type = #{tagtype}
+        ORDER BY
+            RAND()
+        LIMIT #{count}
+    </select>
+
+    <select id="selectItemsByTagTypeNot"  resultType="com.pch.interview.dto.RandomItemDTO">
+         SELECT
+            it.content as content,
+            it.id as id,
+            it.like_count as like_count,
+            it.publish_time as publish_time,
+            it.s_id as s_id,
+            it.tag_type as tag_type,
+            it.tc_uuid as tc_uuid,
+            it.title as title,
+            it.url as url,
+            it.uuid as uuid,
+            it.view_count as view_count,
+            ta.url AS img_url,
+            ta.tag_name as tag
+        FROM wx_items as it
+        LEFT JOIN wx_tag as ta on it.tc_uuid=ta.uuid
+        WHERE
+            it.tag_type != #{tagtype}
+        ORDER BY
+            RAND()
+        LIMIT #{count}
+    </select>
+
+
+    <select id="selectAll" resultType="com.pch.interview.DO.WxItemsDO">
+        SELECT
+            *
+        FROM  wx_items
+        ORDER BY rand()
+        LIMIT 10
+    </select>
+
+</mapper>

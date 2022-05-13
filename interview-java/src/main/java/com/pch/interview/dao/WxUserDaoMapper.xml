@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pch.interview.dao.WxUserDaoMapper">
+
+
+    <select id="selectUserByOpenid" resultType="com.pch.interview.dto.WxUserDTO">
+         SELECT
+            wx_user.id as id,
+            wx_user.uuid as uuid,
+            wx_user.user_name as tc_uuid,
+            wx_user.url as url,
+            wx_user.active as active,
+            wx_user.integration as integration,
+            wx_user.current_date as currentDate,
+            wx_user.create_time as createTime,
+            wx_user.update_time as updateTime
+
+        FROM wx_user
+        where
+            uuid = #{openid}
+    </select>
+
+    <update id="updateUserByUuid" >
+         UPDATE wx_user
+         SET wx_user.active = 1
+         where
+            uuid = #{uuid}
+    </update>
+
+    <insert id="addUser" parameterType="com.pch.interview.dto.WxUserDTO">
+        insert into wx_user (url, user_name, uuid, active)
+        values (#{url}, #{userName}, #{uuid}, #{active})
+    </insert>
+
+</mapper>

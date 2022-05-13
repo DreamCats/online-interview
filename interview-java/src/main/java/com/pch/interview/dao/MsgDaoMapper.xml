@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pch.interview.dao.MsgDaoMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.pch.interview.dto.MsgDTO">
+        <id column="id" property="id"/>
+        <result column="status" property="status"/>
+        <result column="content" property="content"/>
+    </resultMap>
+
+    <select id="selectLatestMsgs" resultMap="BaseResultMap">
+        SELECT
+            *
+        FROM  wx_msg
+        WHERE
+            wx_msg.status = #{status}
+        ORDER BY
+           wx_msg.create_time
+        DESC
+        LIMIT 1
+    </select>
+
+</mapper>
