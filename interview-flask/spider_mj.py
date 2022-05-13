@@ -6,7 +6,7 @@ s = requests.session()
 db = pymysql.connect(
     host='113.31.114.17',
     user='root',
-    password='xxxxx',
+    password='',
     db='wx_interview',
     port=3306,
     charset='utf8'
@@ -113,7 +113,7 @@ def spider(url, c_id):
             continue
 
 def run():
-    for idx in range(1, 2):
+    for idx in range(1, 19):
         c_id = str(idx)
         page = 1
         totalPage = 1
@@ -127,10 +127,10 @@ def run():
     print('今天抓取结束...')
 
 if __name__ == "__main__":
-    run()
-    # print("每日定时抓取面经存到数据库中...")
-    # schedule.every().day.at("01:00").do(run)
-    # while True:
-    #     schedule.run_pending()   # 运行所有可以运行的任务
-    #     time.sleep(2) 
+    # run()
+    print("每日定时抓取面经存到数据库中...")
+    schedule.every().day.at("01:00").do(run)
+    while True:
+        schedule.run_pending()   # 运行所有可以运行的任务
+        time.sleep(2) 
 
