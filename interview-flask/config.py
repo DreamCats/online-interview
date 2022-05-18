@@ -13,7 +13,7 @@ class Config(object):
     # 配置secret key,简单生成方法，ipthon 中 base64.b64encode(os.urandom(48))
     SECRET_KEY = 'ix4En7l1Hau10aPq8kv8tuzcVl1s2Zo6eA+5+R+CXor8G3Jo0IJvcj001jz3XuXl'
     #orm连接数据库
-    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:xxx@113.31.114.17:3306/wx_interview'
+    SQLALCHEMY_DATABASE_URI='mysql+pymysql://root:maifeng868@113.31.114.17:3306/wx_interview'
     # 是否开启追踪
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # 打印sql语句

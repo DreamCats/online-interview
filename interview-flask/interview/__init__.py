@@ -16,19 +16,13 @@ redis_conn=None
 # scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))
 app = Flask(__name__)
 def setupLogging(levle):
-    # 业务逻辑已开启就加载日志
+
     # 设置日志的记录等级
     logging.basicConfig(level=levle)  # 调试debug级
     # 创建日志记录器，指明日志保存的路径、每个日志文件的最大大小、保存的日志文件个数上限
     file_log_handler = RotatingFileHandler("logs/interview.log", maxBytes=1024 * 1024 * 100, backupCount=10)
     # 为全局的日志工具对象（flask app使用的）添加日志记录器
     logging.getLogger().addHandler(file_log_handler)
-
-
-# def heart():
-#     '''
-#     '''
-#     print('--------------------------------心跳--------------------------')
 
 def get_app(config_name):
     '''

@@ -7,13 +7,12 @@ from interview.model import Data
 import uuid, requests
 from sqlalchemy import func, text
 
-
-
 @api.route('/data/list/all', methods=['GET'])
 def get_data_list_all():
     '''
     '''
     day = request.args.get('day', '0')
+
     if day == '0':
         items = db.session.query(Data, func.sum(Data.view_count).label('total_count')) \
         .filter(func.date_format(Data.create_time, '%Y%m%d')==func.date_format(func.now(), '%Y%m%d')) \
@@ -23,12 +22,15 @@ def get_data_list_all():
         .filter(func.date_format(Data.create_time, '%Y%m%d')<=func.date_format(func.now(), '%Y%m%d'), 
         func.date_format(Data.create_time, '%Y%m%d')>=func.date_format(func.date_sub(func.curdate(), text(f'interval {day} day')), '%Y%m%d')) \
         .order_by(Data.update_time.desc(), Data.view_count.desc()).group_by(Data.path_name).all()
+
     db.session.commit()
     datas = []
+
     for item in items:
         a = item[0].to_dict()
         a['total_count'] = float(item[1])
         datas.append(a)
+
     return jsonify(re_code=RET.OK, msg='请求成功', data=datas)
 
 @api.route('/data', methods=['GET'])
@@ -37,6 +39,7 @@ def get_data_path_name():
     '''
     day = request.args.get('day', '0')
     path_name = request.args.get('path_name', 'wx_pv')
+
     if day == '0':
         items = db.session.query(Data, func.sum(Data.view_count).label('total_count')) \
         .filter(Data.path_name==path_name, func.date_format(Data.create_time, '%Y%m%d')<=func.date_format(func.now(), '%Y%m%d')) \
@@ -46,8 +49,10 @@ def get_data_path_name():
         .filter(Data.path_name==path_name, func.date_format(Data.create_time, '%Y%m%d')<=func.date_format(func.now(), '%Y%m%d'), 
         func.date_format(Data.create_time, '%Y%m%d')>=func.date_format(func.date_sub(func.curdate(), text(f'interval {day} day')), '%Y%m%d')) \
         .order_by(Data.update_time.desc(), Data.view_count.desc()).group_by(Data.path_name).all()
+
     db.session.commit()
     datas = []
+    
     for item in items:
         a = item[0].to_dict()
         a['total_count'] = float(item[1])

@@ -11,9 +11,12 @@ def get_cp_list_all():
     '''
     save_data('wx_pv')
     save_data('cp_list_all')
+    
     cps = Cp.query.filter()
     db.session.commit()
     datas = []
+
     for cp in cps:
         datas.append(cp.to_dict())
+
     return jsonify(re_code=RET.OK, msg='请求成功', data=datas)

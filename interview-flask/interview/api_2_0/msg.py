@@ -10,6 +10,7 @@ def get_msg():
     '''获取消息
     :param status: 0,off,1on
     '''
+    
     save_data('wx_pv')
     save_data('get_msg')
     status = request.args.get('status', '0')

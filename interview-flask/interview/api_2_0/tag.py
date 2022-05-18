@@ -79,11 +79,15 @@ from interview.model import Tag
 def get_tag_list_all():
     '''
     '''
+
     save_data('wx_pv')
     save_data('tag_list_all')
+
     tags = Tag.query.filter()
     db.session.commit()
     datas = []
+
     for tag in tags:
         datas.append(tag.to_dict())
+        
     return jsonify(re_code=RET.OK, msg='请求成功', data=datas)

@@ -9,17 +9,12 @@ from sqlalchemy import func
 
 @api.route('/items/list', methods=['GET'])
 def get_items_list():
-    '''查找
-    :param  page: 页码
-            count: 数量
-            tc_uuid: tc_uuid
-    '''
     save_data('wx_pv')
     save_data('items_list')
+
     tc_uuid = request.args.get('tc_uuid', '0')
     page = request.args.get('page', '1')
     count = request.args.get('count', '10')
-    # 参数判断省略
     # 查找
     try:
         items_pages = Items.query.filter(Items.tc_uuid == tc_uuid).order_by(Items.s_id).order_by(Items.publish_time.desc()).paginate(int(page), 
@@ -35,6 +30,7 @@ def get_items_list():
         return jsonify(re_code=RET.NODATA, msg='没有数据')
 
     ars_list = []
+
     for ar in ars:
         ars_list.append(ar.to_dict())
     
@@ -46,13 +42,17 @@ def get_items_list():
         'pages': items_pages.pages,
         'has_next': items_pages.has_next
     }
+
     return jsonify(re_code=RET.OK, msg='请求成功', data=items_info)
 
 @api.route('/items/count', methods=['GET'])
 def add_item_count():
+
     save_data('wx_pv')
     save_data('items_detail')
+
     uuid = request.args.get('uuid', '0')
+
     try:
         a = Items.query.filter(Items.uuid == uuid).first()
         rows_changed = Items.query.filter_by(uuid=uuid).update(dict(view_count=a.view_count+1))
@@ -69,10 +69,13 @@ def add_item_count():
 
 @api.route('/items/likecount/add', methods=['GET'])
 def add_item_like_count():
+
     save_data('wx_pv')
     save_data('add_like_count')
+
     item_uuid = request.args.get('item_uuid', '0')
     user_uuid = request.args.get('user_uuid', '0')
+
     try:
         # item like + 1
         a = Items.query.filter(Items.uuid == item_uuid).first()
@@ -96,10 +99,13 @@ def add_item_like_count():
 
 @api.route('/items/likecount/remove', methods=['GET'])
 def remove_item_like_count():
+
     save_data('wx_pv')
     save_data('remove_like_count')
+
     item_uuid = request.args.get('item_uuid', '0')
     user_uuid = request.args.get('user_uuid', '0')
+
     try:
         # item like + 1
         a = Items.query.filter(Items.uuid == item_uuid).first()
@@ -121,17 +127,13 @@ def remove_item_like_count():
 
 @api.route('/items/like', methods=['GET'])
 def get_items_like_list():
-    '''查找
-    :param  page: 页码
-            count: 数量
-            user_uuid: user_uuid
-    '''
+
     save_data('wx_pv')
     save_data('get_like_count')
+
     user_uuid = request.args.get('user_uuid', '0')
     page = request.args.get('page', '1')
     count = request.args.get('count', '10')
-    # 参数判断省略
     # 查找
     try:
         # 分页查找likes
@@ -145,11 +147,13 @@ def get_items_like_list():
         for l in likes:
             # 找对应的item详细信息
             item = Items.query.filter(Items.uuid == l.item_id).first()
+
             if item:
                 # 找对应item的tag详细信息
                 tag = Tag.query.filter(Tag.uuid == item.tc_uuid).first()
                 url = ''
                 t = ''
+
                 if tag:
                     url = tag.url
                     t = tag.tag_name
@@ -166,7 +170,6 @@ def get_items_like_list():
                         'item':item.to_dict()
                     }
                 )
-            print(items)
 
         db.session.commit()
     except Exception as e:
@@ -183,10 +186,12 @@ def get_items_like_list():
         'pages': likes_pages.pages,
         'has_next': likes_pages.has_next
     }
+
     return jsonify(re_code=RET.OK, msg='请求成功', data=items_info)
 
 @api.route('/items/rand', methods=['GET'])
 def get_items_rand():
+
     save_data('wx_pv')
     save_data('items_rand')
     # 随机生成
@@ -194,6 +199,7 @@ def get_items_rand():
     tag_type = request.args.get('tag_type', '0')
 
     items = ''
+
     if tag_type == '0':
         items = Items.query.filter(Items.tag_type != int(tag_type)).order_by(func.rand()).limit(int(count))
     elif tag_type == '1' or tag_type == '2':
@@ -201,13 +207,15 @@ def get_items_rand():
         items = Items.query.filter((Items.tag_type == tag_type) | (Items.tag_type == 3) ).order_by(func.rand()).limit(int(count))
     else:
         items = Items.query.filter(Items.tag_type == int(tag_type)).order_by(func.rand()).limit(int(count))
-    print(items)
+
     datas = []
+
     for item in items:
         # 找对应item的tag详细信息
         tag = Tag.query.filter(Tag.uuid == item.tc_uuid).first()
         url = ''
         t = ''
+
         if tag:
             url = tag.url
             t = tag.tag_name
@@ -224,4 +232,5 @@ def get_items_rand():
                 'item':item.to_dict()
             }
         )
+        
     return jsonify(re_code=RET.OK, msg='请求成功', data=datas)
