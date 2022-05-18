@@ -21,7 +21,7 @@
     </block>
     <block wx:else>
       <!-- 用户头像 -->
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
+      <image bindtap="onUpdate" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
       <!-- 用户昵称 -->
       <text class="userinfo-nickname">{{userInfo.user_name}}</text>
     </block>
