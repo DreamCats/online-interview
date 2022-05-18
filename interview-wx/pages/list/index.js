@@ -109,6 +109,9 @@ Page({
    */
   onPullDownRefresh: function () {
     console.log("下拉");
+    this.setData({
+      docsList: []
+    })
     wx.stopPullDownRefresh({
       success: (res) => {},
     })

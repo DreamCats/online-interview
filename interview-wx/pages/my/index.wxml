@@ -47,13 +47,17 @@
     <!-- <van-cell custom-class="cell" title-class="cell-title" title="赞赏支持" icon="balance-list-o" is-link color="red" bindtap="onZan"/> -->
     <van-cell custom-class="cell" title-class="cell-title" title="问题反馈" icon="label-o" is-link color="blue" bindtap="onChat" />
     <van-cell custom-class="cell" title-class="cell-title" title="关于程序" icon="more-o" is-link color="orange" />
+    <van-cell custom-class="cell" title-class="cell-title" title="联系客服" icon="chat-o" is-link color="orange">
+      <van-button hairline size="small" open-type="contact" bindcontact="handleContact" session-from="sessionFrom"></van-button>
+    </van-cell>
   </van-cell-group>
+  
   <!-- 我的二维码 -->
   <van-popup show="{{ qrCodeChatShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
     position="bottom">
     <!-- 加载图片 -->
     <van-image width="80%" height="80%" fit="widthFix" show-menu-by-longpress image-class="image"
-      src="https://imgs.heiye.site/blog/chatme.jpg" />
+    src="https://imgs.heiye.site/blog/chatme.jpg" />
   </van-popup>
   <!-- 赞赏 -->
   <van-popup show="{{ qrCodeZanShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable
@@ -74,23 +78,23 @@
       src="https://imgs.dreamcat.ink/blog/online-interview-qr.jpg" /> -->
     <van-cell-group>
       <van-row custom-class="activeRow-class">
-        <van-col span="16">
+        <van-col span="23">
           <van-cell-group>
             <van-field
               model:value="{{ activeCode }}"
-              placeholder="请输入激活码"
+              placeholder="关注公众号输入：激活"
               border="{{ false }}"
             />
           </van-cell-group>
         </van-col>
-        <van-col span="8">
+        <van-col span="1">
           <van-button icon="star-o" type="primary" size="small" hairline plain bindtap="onActive">激活</van-button>
         </van-col>
       </van-row>
     </van-cell-group>
     <view class="class-gogogo">
       <block>
-        <van-image width="24rem" height="9rem" fit="contain" src="/imgs/wx_hint.jpg" />
+        <van-image width="24rem" height="9rem" fit="contain" show-menu-by-longpress src="https://imgs.heiye.site/blog/wxgzh.jpg" />
       </block>
     </view>
   </van-popup>
