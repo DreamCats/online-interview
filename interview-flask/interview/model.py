@@ -12,6 +12,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     uuid = db.Column(db.String, nullable=False) 
     user_name = db.Column(db.String(256), nullable=False) 
+    publish_status = db.Column(db.Integer, default=0)
     url = db.Column(db.String, nullable=False) 
     active = db.Column(db.Integer) 
     current_date =db.Column(db.DateTime, default=datetime.now()) 
@@ -23,6 +24,7 @@ class User(db.Model):
             'id': self.id,
             'uuid': self.uuid,
             'user_name': self.user_name,
+            'publish_status': self.publish_status,
             'url': self.url,
             'active': self.active,
             'current_date':self.current_date.strftime('%Y-%m-%d %H:%M:%S'),
@@ -75,6 +77,7 @@ class Items(db.Model):
     title = db.Column(db.String, nullable=False) 
     url = db.Column(db.String) 
     publish_time = db.Column(db.String) 
+    abstract = db.Column(db.String) 
     view_count = db.Column(db.Integer, nullable=False) 
     like_count = db.Column(db.Integer, nullable=False) 
     content = db.Column(db.Text) 
@@ -91,6 +94,7 @@ class Items(db.Model):
             'title': self.title,
             'url': self.url,
             'publish_time': self.publish_time,
+            'abstract': self.abstract,
             'view_count': self.view_count,
             'like_count': self.like_count,
             'content': self.content,
@@ -154,3 +158,25 @@ class Data(db.Model, BaseModel):
         }
         
         return d_info
+
+
+class PublishItem(db.Model):
+    __tablename__ = 'wx_user_publish_item'
+    id = db.Column(db.Integer, primary_key=True) 
+    uuid = db.Column(db.String,nullable=False) 
+    user_uuid = db.Column(db.String, nullable=False) 
+    item_uuid = db.Column(db.String, nullable=False) 
+
+    def to_dict(self):
+        '''
+        '''
+        i_info = {
+            'id': self.id,
+            'uuid': self.uuid,
+            'user_uuid': self.user_uuid,
+            'item_uuid':self.item_uuid,
+            'create_time':self.create_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'update_time':self.update_time.strftime('%Y-%m-%d %H:%M:%S')
+        }
+        
+        return i_info
