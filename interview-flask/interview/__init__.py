@@ -8,6 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CSRFProtect
 from config import configs
 from flask_session import Session
+from flask_cors import CORS
 import redis
 
 #定义能被外部调用的对象
@@ -60,7 +61,7 @@ def get_app(config_name):
     
     # scheduler.init_app(app)
     # scheduler.start()
-
+    CORS(app, supports_credentials=True)
 
     # 哪里需要哪里导入蓝图
     from interview.api_1_0 import api

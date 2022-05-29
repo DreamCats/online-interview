@@ -36,6 +36,7 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     uuid = db.Column(db.String,nullable=False) 
     tag_name = db.Column(db.String, nullable=False)  
+    tag_type = db.Column(db.Integer, nullable=False)
     url = db.Column(db.String) # 
 
     def to_dict(self):
@@ -45,6 +46,7 @@ class Tag(db.Model):
             'id': self.id,
             'uuid': self.uuid,
             'tag_name': self.tag_name,
+            'tag_type': self.tag_type,
             'url': self.url
         }
         return t_info
