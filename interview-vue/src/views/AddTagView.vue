@@ -10,7 +10,7 @@
         />
       </div>
       <img-bar></img-bar>
-      <van-form @submit="onSubmit">
+      <van-form >
         <van-cell-group inset>
           <van-field
             v-model="tagName"
@@ -53,7 +53,7 @@
                     hairline
                     size="small"
                     block
-                    native-type="submit"
+                    @click="onSubmit"
                     >
                     添加
                     </van-button>
@@ -79,8 +79,10 @@
 </template>
 
 <script>
-import ImgBar from '../components/ImgBar.vue'
+import ImgBar from '../components/ImgBar.vue';
 import { ref } from "vue";
+import { addTag } from '../api/api';
+import { Toast } from 'vant';
 export default {
   setup() {
     const onClickLeft = () => history.back();
@@ -101,6 +103,22 @@ export default {
       showTagTypePicker.value = false;
     };
 
+    const onSubmit = () => {
+      let data = {
+        tag_name: tagName.value,
+        tag_type: tagTypes.indexOf(tagType.value) + 1,
+        url: tagImgUrl.value
+      };
+      console.log('onSubmit', data);
+      addTag(data).then(res => {
+        if (res.status == 200) {
+          console.log('onSubmit', res.data);
+          Toast.success('添加成功');
+          history.back();
+        }
+      });
+    };
+
     return {
       onClickLeft,
       themeVars,
@@ -110,6 +128,7 @@ export default {
       showTagTypePicker,
       tagTypes,
       onTagTypeConfirm,
+      onSubmit,
     };
   },
   components: {

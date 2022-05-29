@@ -15,7 +15,7 @@
           <div class="t-list" v-for="item in list" :key="item">
             <van-swipe-cell>
               <template #left>
-                <van-button square type="primary" text="编辑" @click="onEdit" class="edit-button"/>
+                <van-button square type="primary" text="编辑" @click="onEdit(item.uuid)" class="edit-button"/>
               </template>
               <van-cell-group class="card-class" inset>
                 <van-row justify="space-between">
@@ -25,16 +25,16 @@
                       width="3rem"
                       height="3rem"
                       fit="cover"
-                      src="https://imgs.heiye.site/wx/java.png"
+                        :src="item.url"
                     />
                   </van-col>
-                  <van-col span="6" offset="6">
-                    <van-cell value="Java" />
+                  <van-col span="10" offset="2">
+                    <van-cell :value="item.tag_name" />
                   </van-col>
                 </van-row>
               </van-cell-group>
               <template #right>
-                <van-button square type="danger" text="删除" class="delete-button"/>
+                <van-button square type="danger" text="删除" @click="onDelete(item.uuid)" class="delete-button"/>
               </template>
             </van-swipe-cell>
           </div>
@@ -100,7 +100,7 @@
                     hairline
                     size="small"
                     block
-                    native-type="onUpdate"
+                    @click="onUpdate"
                   >
                     更新
                   </van-button>
@@ -119,6 +119,8 @@
 import ImgBar from '../components/ImgBar.vue'
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { getTagListAll, getTagDetail, updateTag, deleteTag } from "../api/api";
+import { Toast } from 'vant';
 export default {
   setup() {
     const list = ref([]);
@@ -130,6 +132,12 @@ export default {
     const tagType = ref("");
     const showTagTypePicker = ref(false);
     const tagTypes = ['后端', '前端', '通用', '算法题'];
+    const item = ref({
+      uuid: "",
+      tag_name: "",
+      tag_type: "",
+      url: ""
+    });
 
     const onTagTypeConfirm = (value) => {
       tagType.value = value;
@@ -145,21 +153,80 @@ export default {
     };
 
     const onLoad = () => {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          list.value.push(list.value.length + 1);
+      getTagListAll().then((res) => {
+        if (res.status == 200) {
+          console.log('getTagListAll:', res.data.data);
+          list.value = res.data.data;
+          loading.value = false;
+          finished.value = true;
         }
-
-        // 加载状态结束
-        loading.value = false;
-        finished.value = true;
-      }, 1000);
+      }).catch((err) => {
+        console.log(err);
+      });
+      
     };
 
-    const onEdit = () => {
-      // 更新
-      showEditTag.value = true;
+    const onEdit = (uuid) => {
+      loading.value = true;
+      console.log('onEdit:', uuid);
+      let param = {
+        uuid: uuid
+      };
+      getTagDetail(param).then((res) => {
+        if (res.status == 200) {
+          console.log('getTagDetail:', res.data.data);
+          item.value = res.data.data;
+          tagName.value = res.data.data.tag_name;
+          tagImgUrl.value = res.data.data.url;
+          tagType.value = tagTypes[res.data.data.tag_type-1];
+          showEditTag.value = true;
+        }
+        loading.value = false;
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
+
+    const onUpdate = () => {
+      loading.value = true;
+      let data = {
+        uuid: item.value.uuid,
+        tag_name: tagName.value,
+        tag_type: tagTypes.indexOf(tagType.value) + 1,
+        url: tagImgUrl.value
+      };
+      console.log('onUpdate:', data);
+      updateTag(data).then((res) => {
+        if (res.status == 200) {
+          console.log('updateTag:', res.data);
+          Toast.success('更新成功');
+          showEditTag.value = false;
+          list.value = [];
+          onLoad();
+        }
+        loading.value = false;
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
+    
+    const onDelete = (uuid) => {
+      loading.value = true;
+      console.log('onDelete:', uuid);
+      let param = {
+        uuid: uuid
+      };
+      deleteTag(param).then((res) => {
+        if (res.status == 200) {
+          console.log('deleteTag:', res.data);
+          Toast.success('删除成功');
+          list.value = [];
+          onLoad();
+        }
+        loading.value = false;
+      }).catch((err) => {
+        console.log(err);
+      });
     };
 
     const onAdd = () => router.push("/add-tag");
@@ -179,6 +246,8 @@ export default {
       showTagTypePicker,
       tagTypes,
       onTagTypeConfirm,
+      onUpdate,
+      onDelete,
     };
   },
   components: {

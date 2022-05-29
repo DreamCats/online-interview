@@ -1,9 +1,9 @@
-import axios from "axios"
+import axios from "axios";
 // create an axios instance
-// const DEV_BASE_API = 'http://127.0.0.1:5000/api/2.0/'
+const DEV_BASE_API = 'http://127.0.0.1:5000/online/api/2.0/';
 // const DEV_BASE_API = 'http://211.83.111.127:9999/api/1.0/'
 const service = axios.create({
-    baseURL: '/apis', // api 的 base_url
+    baseURL: DEV_BASE_API, // api 的 base_url
     timeout: 50000, // request timeout
     withCredentials: true
 })
@@ -33,4 +33,4 @@ service.interceptors.response.use(
         return response
     }
 )
-export default service
+export default service;
