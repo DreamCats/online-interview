@@ -169,10 +169,10 @@ export default {
     const onEdit = (uuid) => {
       loading.value = true;
       console.log('onEdit:', uuid);
-      let param = {
+      let params = {
         uuid: uuid
       };
-      getTagDetail(param).then((res) => {
+      getTagDetail(params).then((res) => {
         if (res.status == 200) {
           console.log('getTagDetail:', res.data.data);
           item.value = res.data.data;

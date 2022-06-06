@@ -19,14 +19,20 @@
           <div class="t-list" v-for="item in list" :key="item">
             <van-swipe-cell>
               <template #left>
-                <van-button square type="primary" text="编辑" @click="onEdit" class="edit-button"/>
+                <van-button
+                  square
+                  type="primary"
+                  text="编辑"
+                  @click="onEdit(item.uuid)"
+                  class="edit-button"
+                />
               </template>
               <van-cell-group class="card-class" inset>
                 <van-cell
                   center
-                  title="分布式"
-                  label="2022-05-05"
-                  icon="https://imgs.heiye.site/wx/dis.png"
+                  :title="item.title"
+                  :label="item.publish_time"
+                  :icon="imgUrl"
                 >
                   <van-button
                     type="primary"
@@ -38,13 +44,20 @@
                 </van-cell>
                 <van-row>
                   <van-col offset="12" span="6">
-                    <van-icon name="like-o" /> (0)
+                    <van-icon name="like-o" /> ({{ item.like_count }})
                   </van-col>
-                  <van-col span="6"> <van-icon name="fire-o" /> (0) </van-col>
+                  <van-col span="6">
+                    <van-icon name="fire-o" /> ({{ item.view_count }})
+                  </van-col>
                 </van-row>
               </van-cell-group>
               <template #right>
-                <van-button square type="danger" text="删除" class="delete-button"/>
+                <van-button
+                  square
+                  type="danger"
+                  text="删除"
+                  class="delete-button"
+                />
               </template>
             </van-swipe-cell>
           </div>
@@ -67,7 +80,7 @@
           position="bottom"
           :style="{ height: '40%' }"
         >
-          <van-form style="margin: 24px" @submit="onSubmit">
+          <van-form style="margin: 24px">
             <van-cell-group inset>
               <van-field
                 v-model="title"
@@ -123,7 +136,7 @@
                     更新
                   </van-button>
                 </van-col>
-                <van-col span="8"/>
+                <van-col span="8" />
               </van-row>
             </div>
           </van-form>
@@ -134,8 +147,11 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import ImgBar from "../components/ImgBar.vue";
+import { useRouter, useRoute } from "vue-router";
+import { contentList, getContentDetail, updateContent } from "../api/api";
+import { Toast } from 'vant';
 export default {
   setup() {
     const onClickLeft = () => history.back();
@@ -147,8 +163,17 @@ export default {
     const contentAbstract = ref("");
     const tagName = ref("");
     const showTagNamePicker = ref(false);
-    const tagNames = ['后端', '前端', '通用', '算法题'];
+    const tagNames = ["后端", "前端", "通用", "算法题"];
     const content = ref("");
+    const route = useRoute();
+    const uuid = computed(() => route.query.uuid);
+    const imgUrl = computed(() => route.query.imgUrl);
+    let params = ref({
+      tc_uuid: uuid.value,
+      page: 1,
+      page_size: 20,
+    });
+    const item = ref({});
 
     const themeVars = {
       cellGroupInsetPadding: "10px",
@@ -161,13 +186,20 @@ export default {
     const onLoad = () => {
       // 异步更新数据
       setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          list.value.push(list.value.length + 1);
-        }
-
-        // 加载状态结束
-        loading.value = false;
-        finished.value = true;
+        console.log("params", params);
+        contentList(params.value).then((res) => {
+          if (res.status == 200) {
+            console.log("contList", res.data.data);
+            list.value = list.value.concat(res.data.data.data);
+          }
+          if (res.data.data.has_next) {
+            console.log("has_next");
+            params.value.page += 1;
+          } else {
+            finished.value = true;
+          }
+          loading.value = false;
+        });
       }, 1000);
     };
 
@@ -176,9 +208,51 @@ export default {
       showTagNamePicker.value = false;
     };
 
-    const onEdit = () => {
-      // 更新
-      showEditContent.value = true;
+    const onEdit = (uuid) => {
+      loading.value = true;
+      console.log('onEdit:', uuid);
+      let params = {
+        uuid: uuid
+      };
+      getContentDetail(params).then((res) => {
+        if (res.status == 200) {
+          console.log('getContentDetail:', res.data.data);
+          item.value = res.data.data;
+          tagName.value = tagNames[res.data.data.tag_type - 1];
+          title.value = res.data.data.title;
+          contentAbstract.value = res.data.data.abstract;
+          content.value = res.data.data.content;
+          showEditContent.value = true;
+        }
+        loading.value = false;
+      }).catch(() => {
+
+      });
+    };
+    
+    const onClickUpdate = () => {
+      loading.value = true;
+      let data = {
+        uuid: item.value.uuid,
+        title: title.value,
+        abstract: contentAbstract.value,
+        content: content.value,
+        tag_type: tagNames.indexOf(tagName.value) + 1,
+      };
+      console.log('onUpdate:', data);
+      updateContent(data).then((res) => {
+        if (res.status == 200) {
+          console.log('updateContent:', res.data);
+          Toast.success('更新成功');
+          showEditContent.value = false;
+          list.value = [];
+          params.value.page = 1;
+          onLoad();
+        }
+        loading.value = false;
+      }).catch(() => {
+
+      });
     };
 
     return {
@@ -197,6 +271,8 @@ export default {
       content,
       onTagNameConfirm,
       onEdit,
+      imgUrl,
+      onClickUpdate,
     };
   },
   components: {

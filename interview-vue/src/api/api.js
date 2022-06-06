@@ -49,3 +49,33 @@ export function deleteTag(data) {
         params: data
     })
 }
+
+const contentListUrl = '/items/list';
+export function contentList(data) {
+    return request({
+        url: contentListUrl,
+        method: 'get',
+        params: data
+    })
+}
+
+const getContentDetailUrl = '/items/count';
+export function getContentDetail(data) {
+    return request({
+        url: getContentDetailUrl,
+        method: 'get',
+        params: data
+    })
+}
+
+const updateContentUrl = '/item/update';
+export function updateContent(data) {
+    return request({
+        url: updateContentUrl,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}

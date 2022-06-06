@@ -13,7 +13,7 @@
           @load="onLoad"
         >
           <div class="t-list" v-for="item in list" :key="item">
-            <van-cell-group class="card-class" inset>
+            <van-cell-group class="card-class" @click="onClick(item)" inset>
               <van-row justify="space-between">
                 <van-col span="12">
                   <van-image
@@ -21,11 +21,11 @@
                     width="3rem"
                     height="3rem"
                     fit="cover"
-                    src="https://imgs.heiye.site/wx/java.png"
+                    :src="item.url"
                   />
                 </van-col>
-                <van-col span="6" offset="6">
-                  <van-cell value="Java" />
+                <van-col span="10" offset="2">
+                  <van-cell :value="item.tag_name" />
                 </van-col>
               </van-row>
             </van-cell-group>
@@ -37,13 +37,17 @@
 </template>
 
 <script>
-import ImgBar from '../components/ImgBar.vue'
+import ImgBar from '../components/ImgBar.vue';
+import { getTagListAll, getTagDetail, updateTag, deleteTag } from "../api/api";
 import { ref } from "vue";
+import { Toast } from 'vant';
+import { useRouter } from "vue-router";
 export default {
   setup() {
     const list = ref([]);
     const loading = ref(false);
     const finished = ref(false);
+    const router = useRouter();
 
     const themeVars = {
       cellGroupInsetPadding: "10px",
@@ -54,15 +58,26 @@ export default {
 
     const onLoad = () => {
       // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          list.value.push(list.value.length + 1);
+      getTagListAll().then((res) => {
+        if (res.status == 200) {
+          console.log('getTagListAll:', res.data.data);
+          list.value = res.data.data;
+          loading.value = false;
+          finished.value = true;
         }
+      }).catch((err) => {
+        console.log(err);
+      });
+    };
 
-        // 加载状态结束
-        loading.value = false;
-        finished.value = true;
-      }, 1000);
+    const onClick = (item) => {
+      router.push({
+        path: '/content-list',
+        query: {
+          uuid: item.uuid,
+          imgUrl: item.url,
+        }
+      });
     };
     return {
       list,
@@ -70,6 +85,7 @@ export default {
       loading,
       finished,
       themeVars,
+      onClick,
     };
   },
   components: {
