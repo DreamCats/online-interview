@@ -74,7 +74,6 @@
                 hairline
                 size="small"
                 block
-                @click="onClickUpdate"
               >
                 更新
               </van-button>
@@ -88,7 +87,11 @@
 
 <script>
 import ImgBar from '../components/ImgBar.vue'
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { Toast } from 'vant'
+import { useRouter, useRoute } from "vue-router";
+import { getTagListAll, addContent } from '../api/api'
+
 export default {
   setup() {
     const onClickLeft = () => history.back();
@@ -102,12 +105,51 @@ export default {
     const contentAbstract = ref("");
     const tagName = ref("");
     const showTagNamePicker = ref(false);
-    const tagNames = ["Java", "MySQL", "Redis", "算法题"];
+    const tagNames = ref(["Java", "MySQL", "Redis", "算法题"]);
+    const tagNodes = ref([])
     const content = ref("");
+    const route = useRoute();
+    const tagType = computed(() => route.query.tagType);
 
     const onTagNameConfirm = (value) => {
       tagName.value = value;
       showTagNamePicker.value = false;
+    };
+
+    onMounted(() => {
+      // load tag names
+      loadTagNames()      
+    });
+
+    const loadTagNames = () => {
+      getTagListAll().then(res => {
+        if(res.status == 200) {
+          console.log('loadTagNames:', res.data.data)
+          tagNodes.value = res.data.data;
+          // assign tag names
+          tagNames.value = res.data.data.map(item => item.tag_name);
+          console.log(tagNames)
+        }        
+      });
+    };
+
+    const onSubmit = () => {
+      let tag_uuid  = tagNodes.value.find(item => item.tag_name == tagName.value).uuid;
+      console.log('onSubmit:', tag_uuid)
+      let data = {
+        title: title.value,
+        abstract: contentAbstract.value,
+        content: content.value,
+        tag_type: tagType.value,
+        tc_uuid: tag_uuid,
+      };
+      addContent(data).then(res => {
+        if (res.status == 200) {
+          console.log('addContent:', res.data)
+          Toast.success('添加成功');
+          history.back();
+        }
+      });
     };
 
     return {
@@ -120,6 +162,7 @@ export default {
       tagNames,
       content,
       onTagNameConfirm,
+      onSubmit,
     };
   },
   components: {

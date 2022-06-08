@@ -79,3 +79,24 @@ export function updateContent(data) {
         data
     })
 }
+
+const addContentUrl = '/item/add';
+export function addContent(data) {
+    return request({
+        url: addContentUrl,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+const deleteContentUrl = '/item/delete';
+export function deleteContent(data) {
+    return request({
+        url: deleteContentUrl,
+        method: 'get',
+        params: data
+    })
+}

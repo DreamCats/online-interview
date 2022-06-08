@@ -57,6 +57,7 @@
                   type="danger"
                   text="删除"
                   class="delete-button"
+                  @click="onDelete(item.uuid)"
                 />
               </template>
             </van-swipe-cell>
@@ -150,7 +151,7 @@
 import { computed, ref } from "vue";
 import ImgBar from "../components/ImgBar.vue";
 import { useRouter, useRoute } from "vue-router";
-import { contentList, getContentDetail, updateContent } from "../api/api";
+import { contentList, getContentDetail, updateContent, deleteContent } from "../api/api";
 import { Toast } from 'vant';
 export default {
   setup() {
@@ -166,6 +167,7 @@ export default {
     const tagNames = ["后端", "前端", "通用", "算法题"];
     const content = ref("");
     const route = useRoute();
+    const router = useRouter();
     const uuid = computed(() => route.query.uuid);
     const imgUrl = computed(() => route.query.imgUrl);
     let params = ref({
@@ -200,7 +202,7 @@ export default {
           }
           loading.value = false;
         });
-      }, 1000);
+      }, 500);
     };
 
     const onTagNameConfirm = (value) => {
@@ -255,6 +257,32 @@ export default {
       });
     };
 
+    const onAdd = () => {
+      router.push({
+        path: '/add-content',
+        query: {
+          tagType: list.value[0].tag_type
+        }
+      });
+    };
+
+    const onDelete = (uuid) => {
+      loading.value = true;
+      console.log('onDelete:', uuid);
+      let params = {
+        uuid: uuid
+      };
+      deleteContent(params).then((res) => {
+        if (res.status == 200) {
+          console.log('deleteContent:', res.data);
+          Toast.success('删除成功');
+          list.value = [];
+          onLoad();
+        }
+        loading.value = false;
+      });
+    };
+
     return {
       onClickLeft,
       list,
@@ -273,6 +301,8 @@ export default {
       onEdit,
       imgUrl,
       onClickUpdate,
+      onAdd,
+      onDelete,
     };
   },
   components: {
