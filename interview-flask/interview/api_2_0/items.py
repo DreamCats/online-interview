@@ -1,4 +1,5 @@
 from crypt import methods
+from operator import truth
 from interview.api_2_0 import api, user
 from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
@@ -6,6 +7,7 @@ from interview import db
 from interview.model import Items, UserLikeItem, Tag, Cp
 from interview.utils.common import getUUID, save_data
 from sqlalchemy import func
+import time
 
 @api.route('/items/list', methods=['GET'])
 def get_items_list():
@@ -19,6 +21,7 @@ def get_items_list():
     try:
         items_pages = Items.query.filter(Items.tc_uuid == tc_uuid).order_by(Items.s_id).order_by(Items.publish_time.desc()).paginate(int(page), 
                                                 int(count), error_out=False)
+                                                        
         ars = items_pages.items
         db.session.commit()
     except Exception as e:
@@ -234,3 +237,84 @@ def get_items_rand():
         )
         
     return jsonify(re_code=RET.OK, msg='请求成功', data=datas)
+
+@api.route('/item/update', methods=['POST'])
+def update_item():
+    '''
+    '''
+    data = request.get_json()
+    item_uuid = data.get('uuid')
+    item_title = data.get('title')
+    item_content = data.get('content')
+    item_abstract = data.get('abstract')
+    item_tag_type = data.get('tag_type')
+
+    item = Items.query.filter(Items.uuid == item_uuid).first()
+    db.session.commit()
+
+    if not item:
+        return jsonify(re_code=RET.DBERR, msg='数据不存在')
+    
+    item.title = item_title
+    item.content = item_content
+    item.abstract = item_abstract
+    item.tag_type = item_tag_type
+    db.session.commit()
+
+    return jsonify(re_code=RET.OK, msg='请求成功')
+
+@api.route('/item/add', methods=['POST'])
+def add_item():
+    '''
+    '''
+    data = request.get_json()
+    item_title = data.get('title')
+    item_content = data.get('content')
+    item_abstract = data.get('abstract')
+    item_tag_type = data.get('tag_type')
+    item_tc_uuid = data.get('tc_uuid')
+
+    item = Items()
+
+    item.uuid = getUUID(item_title + str(item_tag_type))
+    item.abstract = item_abstract
+    item.title = item_title
+    item.content = item_content
+    item.tag_type = item_tag_type
+    item.tc_uuid = item_tc_uuid
+    item.publish_time = time.strftime("%Y-%m-%d %H:%M", time.localtime())
+    item.url = ' '
+    item.like_count = 0
+    item.view_count = 0
+    
+    try:
+        item.s_id = item_title.split('.')[0]
+    except Exception as e:
+        item.s_id = 0
+
+    try:
+        db.session.add(item)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.debug(e)
+        db.session.rollback()
+        return jsonify(re_code=RET.DBERR, msg='数据库插入错误')
+    
+    return jsonify(re_code=RET.OK, msg='请求成功')
+
+@api.route('/item/delete', methods=['GET'])    
+def delete_item():
+    '''
+    '''
+    item_uuid = request.args.get('uuid')
+
+    item = Items.query.filter(Items.uuid == item_uuid).first()
+    db.session.commit()
+
+    if not item:
+        return jsonify(re_code=RET.DBERR, msg='数据不存在')
+
+    db.session.delete(item)
+    db.session.commit()
+
+    return jsonify(re_code=RET.OK, msg='请求成功')
