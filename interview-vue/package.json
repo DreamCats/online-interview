@@ -9,8 +9,12 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "html-loader": "^3.1.0",
+    "markdown-it": "^13.0.1",
+    "markdown-loader": "^8.0.0",
     "vant": "^3.4.9",
     "vue": "^3.2.13",
+    "vue-hljs": "^2.0.0",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

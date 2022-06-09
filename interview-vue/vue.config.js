@@ -1,6 +1,7 @@
 module.exports = {
 
   publicPath: "/", // 构建好的文件输出到哪里
+//   publicPath: "/interview-admin/", // 构建好的文件输出到哪里
 
   outputDir: "dist", // where to put static assets (js/css/img/font/...) // 是否在保存时使用‘eslint-loader’进行检查 // 有效值: true | false | 'error' // 当设置为‘error’时，检查出的错误会触发编译失败
 
@@ -14,9 +15,28 @@ module.exports = {
 
   productionSourceMap: false, // 调整内部的webpack配置. // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
 
-  chainWebpack: () => {},
+  chainWebpack: config => {
+    config.module.rule('md')
+    .test(/\.md/)
+    .use('markdown-loader')
+    .loader('markdown-loader')
+    .loader('html-loader')
+    // .end()
+    // .use('markdown-loader')
+    // .loader('markdown-loader')
+    // .loader('html-loader')
+    // .options({
+    //     // markdown-it config
+    //     preset: 'default',
+    //     breaks: true,
+    //     raw: true,
+    //     typographer: true,
+    // })
+  },
 
-  configureWebpack: () => {}, // CSS 相关选项
+  configureWebpack: () => {
+    
+  }, // CSS 相关选项
 
   css: {
 
@@ -35,7 +55,7 @@ module.exports = {
       https: false,
       proxy: {
           '/apis': {
-              target: 'http://127.0.0.1:5000/api/2.0/',
+              target: 'https://heiye.site/online/api/2.0/',
               ws: true,
               changeOrigin: true,
               pathRewrite: {

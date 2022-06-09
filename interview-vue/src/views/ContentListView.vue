@@ -40,6 +40,7 @@
                     round
                     icon="eye"
                     size="small"
+                    @click="onView(item.uuid)"
                   />
                 </van-cell>
                 <van-row>
@@ -202,7 +203,7 @@ export default {
           }
           loading.value = false;
         });
-      }, 500);
+      }, 300);
     };
 
     const onTagNameConfirm = (value) => {
@@ -283,6 +284,15 @@ export default {
       });
     };
 
+    const onView = (uuid) => {
+      router.push({
+        path: '/content-detail',
+        query: {
+          uuid: uuid
+        }
+      });
+    };
+
     return {
       onClickLeft,
       list,
@@ -303,6 +313,7 @@ export default {
       onClickUpdate,
       onAdd,
       onDelete,
+      onView,
     };
   },
   components: {
