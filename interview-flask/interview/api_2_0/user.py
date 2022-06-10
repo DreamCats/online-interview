@@ -97,3 +97,18 @@ def get_user_info_code():
         db.session.rollback()
     
     return jsonify(re_code=RET.OK, msg='查询成功', data=user.to_dict())
+
+@api.route('/user/publish', methods=['GET'])
+def get_publish_user_list():
+    '''
+    '''
+    save_data('wx_pv')
+
+    users = User.query.filter_by(publish_status=1).all()
+    db.session.commit()
+    datas = []
+
+    for user in users:
+        datas.append(user.to_dict())
+    
+    return jsonify(re_code=RET.OK, msg='查询成功', data=datas)

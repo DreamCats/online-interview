@@ -4,7 +4,7 @@ from interview.api_2_0 import api, user
 from flask import request, jsonify, current_app, session
 from interview.utils.response_code import RET
 from interview import db
-from interview.model import Items, UserLikeItem, Tag, Cp
+from interview.model import Items, UserLikeItem, Tag, Cp, PublishItem, User
 from interview.utils.common import getUUID, save_data
 from sqlalchemy import func
 import time
@@ -19,7 +19,10 @@ def get_items_list():
     count = request.args.get('count', '10')
     # 查找
     try:
-        items_pages = Items.query.filter(Items.tc_uuid == tc_uuid).order_by(Items.s_id).order_by(Items.publish_time.desc()).paginate(int(page), 
+        items_pages = Items.query.filter(Items.tc_uuid == tc_uuid)\
+        .filter(Items.blog_status == 0)\
+        .order_by(Items.s_id)\
+        .order_by(Items.publish_time.desc()).paginate(int(page), 
                                                 int(count), error_out=False)
                                                         
         ars = items_pages.items
@@ -204,12 +207,12 @@ def get_items_rand():
     items = ''
 
     if tag_type == '0':
-        items = Items.query.filter(Items.tag_type != int(tag_type)).order_by(func.rand()).limit(int(count))
+        items = Items.query.filter(Items.tag_type != int(tag_type), Items.blog_status == 0).order_by(func.rand()).limit(int(count))
     elif tag_type == '1' or tag_type == '2':
         # tag_type 3 是公共基础题
-        items = Items.query.filter((Items.tag_type == tag_type) | (Items.tag_type == 3) ).order_by(func.rand()).limit(int(count))
+        items = Items.query.filter(((Items.tag_type == tag_type) | (Items.tag_type == 3)) * (Items.blog_status == 0) ).order_by(func.rand()).limit(int(count))
     else:
-        items = Items.query.filter(Items.tag_type == int(tag_type)).order_by(func.rand()).limit(int(count))
+        items = Items.query.filter(Items.tag_type == int(tag_type) & (Items.blog_status == 0)).order_by(func.rand()).limit(int(count))
 
     datas = []
 
@@ -286,6 +289,7 @@ def add_item():
     item.url = ' '
     item.like_count = 0
     item.view_count = 0
+    item.blog_status = 0
     
     try:
         item.s_id = item_title.split('.')[0]
@@ -318,3 +322,94 @@ def delete_item():
     db.session.commit()
 
     return jsonify(re_code=RET.OK, msg='请求成功')
+
+
+@api.route('/item/blog/add', methods=['POST'])
+def add_item_blog():
+    '''
+    '''
+    data = request.get_json()
+    item_title = data.get('title')
+    item_content = data.get('content')
+    item_abstract = data.get('abstract')
+    item_tag_type = data.get('tag_type')
+    item_tc_uuid = data.get('tc_uuid')
+    item_user_uuid = data.get('user_uuid')
+
+    item = Items()
+
+    item.uuid = getUUID(item_title + str(item_tag_type))
+    item.abstract = item_abstract
+    item.title = item_title
+    item.content = item_content
+    item.tag_type = item_tag_type
+    item.tc_uuid = item_tc_uuid
+    item.publish_time = time.strftime("%Y-%m-%d %H:%M", time.localtime())
+    item.url = ' '
+    item.like_count = 0
+    item.view_count = 0
+    item.s_id = 0
+    item.blog_status = 1
+    
+    publish_item = PublishItem()
+    publish_item.uuid = getUUID(item_title + str(item_tag_type))
+    publish_item.item_uuid = item.uuid
+    publish_item.user_uuid = item_user_uuid
+
+    try:
+        db.session.add(item)
+        db.session.add(publish_item)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.debug(e)
+        db.session.rollback()
+        return jsonify(re_code=RET.DBERR, msg='数据库插入错误')
+    
+    return jsonify(re_code=RET.OK, msg='请求成功')
+
+
+@api.route('/items/blog/list', methods=['GET'])
+def get_items_blog_list():
+    save_data('wx_pv')
+    save_data('items_blog_list')
+
+    page = request.args.get('page', '1')
+    count = request.args.get('count', '10')
+    # 查找
+    try:
+        items_pages = Items.query.filter(Items.blog_status == 1)\
+        .order_by(Items.publish_time.desc()).paginate(int(page), 
+                                                int(count), error_out=False)
+                                                        
+        ars = items_pages.items
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.debug(e)
+        db.session.rollback()
+        return jsonify(re_code=RET.DBERR, msg='数据库查询错误')
+
+    if len(ars) == 0:
+        return jsonify(re_code=RET.NODATA, msg='没有数据')
+
+    ars_list = []
+
+    for ar in ars:
+        item = ar.to_dict()
+        tag = Tag.query.filter(Tag.uuid == ar.tc_uuid).first()
+        publish_item = PublishItem.query.filter(PublishItem.item_uuid == ar.uuid).first()
+        user = User.query.filter(User.uuid == publish_item.user_uuid).first()
+        item['tag_name'] = tag.tag_name
+        item['user_name'] = user.user_name
+        item['user_avatar'] = user.url
+        ars_list.append(item)
+    
+    items_info = {
+        'data': ars_list,
+        'current_items': len(ars_list),
+        'current_page': items_pages.page,
+        'total': items_pages.total,
+        'pages': items_pages.pages,
+        'has_next': items_pages.has_next
+    }
+
+    return jsonify(re_code=RET.OK, msg='请求成功', data=items_info)

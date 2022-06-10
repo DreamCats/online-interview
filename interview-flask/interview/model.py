@@ -75,6 +75,7 @@ class Items(db.Model):
     uuid = db.Column(db.String, nullable=False) 
     tc_uuid = db.Column(db.String, nullable=False) 
     tag_type = db.Column(db.Integer) 
+    blog_status = db.Column(db.Integer)
     s_id = db.Column(db.Integer) 
     title = db.Column(db.String, nullable=False) 
     url = db.Column(db.String) 
@@ -92,6 +93,7 @@ class Items(db.Model):
             'uuid': self.uuid,
             'tc_uuid': self.tc_uuid,
             'tag_type': self.tag_type,
+            'blog_status': self.blog_status,
             's_id': self.s_id,
             'title': self.title,
             'url': self.url,
