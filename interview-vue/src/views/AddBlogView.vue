@@ -92,7 +92,6 @@
                 hairline
                 size="small"
                 block
-                @click="onClickUpdate"
               >
                 更新
               </van-button>
@@ -106,7 +105,9 @@
 
 <script>
 import ImgBar from "../components/ImgBar.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { getTagListAll, getUserPublishList, addBlog } from "../api/api";
+import { Toast } from 'vant'
 export default {
   setup() {
     const onClickLeft = () => history.back();
@@ -120,11 +121,13 @@ export default {
     const contentAbstract = ref("");
     const tagName = ref("");
     const showTagNamePicker = ref(false);
-    const tagNames = ["Java", "MySQL", "Redis", "算法题"];
+    const tagNames = ref(["Java", "MySQL", "Redis", "算法题"]);
     const author = ref("");
     const showAuthorPicker = ref(false);
-    const authors = ["全是白昼", "全是黑夜"]
+    const authors = ref(["全是白昼", "全是黑夜"])
     const content = ref("");
+    const tagNodes = ref([])
+    const authorNodes = ref([])
 
     const onTagNameConfirm = (value) => {
       tagName.value = value;
@@ -134,6 +137,53 @@ export default {
       author.value = value;
       showAuthorPicker.value = false;
     };
+
+    onMounted( () => {
+      loadTagNames();
+      loadUserPublishList();
+    });
+
+    const loadTagNames = () => {
+      getTagListAll().then( res => {
+        if (res.status == 200) {
+          console.log("loadTagNames", res.data);
+          tagNodes.value = res.data.data;
+          tagNames.value = res.data.data.map(item => item.tag_name);
+        } 
+      });
+    };
+
+    const loadUserPublishList = () => {
+      getUserPublishList().then( res => {
+        if (res.status == 200) {
+          authorNodes.value = res.data.data;
+          authors.value = res.data.data.map(item => item.user_name);
+        }
+      });
+    };
+
+    const onSubmit = () => {
+      let tag_uuid  = tagNodes.value.find(item => item.tag_name == tagName.value).uuid;
+      let user_uuid = authorNodes.value.find(item => item.user_name == author.value).uuid;
+      let tag_type = tagNodes.value.find(item => item.tag_name == tagName.value).tag_type;
+      let data = {
+        title: title.value,
+        abstract: contentAbstract.value,
+        tc_uuid: tag_uuid,
+        user_uuid: user_uuid,
+        content: content.value,
+        tag_type: tag_type
+      };
+      console.log("onSubmit", data);
+      addBlog(data).then( res => {
+        if (res.status == 200) {
+          console.log("addBlog", res.data);
+          Toast.success("添加成功");
+          history.back();
+        }
+      });
+    };
+
     return {
       onClickLeft,
       themeVars,
@@ -148,6 +198,7 @@ export default {
       content,
       onTagNameConfirm,
       onAuthorConfirm,
+      onSubmit,
     };
   },
   components: {

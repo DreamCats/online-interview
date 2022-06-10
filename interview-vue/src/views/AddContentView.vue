@@ -118,7 +118,7 @@ export default {
 
     onMounted(() => {
       // load tag names
-      loadTagNames()      
+      loadTagNames();      
     });
 
     const loadTagNames = () => {

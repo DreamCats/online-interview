@@ -100,3 +100,53 @@ export function deleteContent(data) {
         params: data
     })
 }
+
+const getUserPublishListUrl = '/user/publish';
+export function getUserPublishList() {
+    return request({
+        url: getUserPublishListUrl,
+        method: 'get'
+    })
+}
+
+const addBlogUrl = '/item/blog/add';
+export function addBlog(data) {
+    return request({
+        url: addBlogUrl,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+const blogListUrl = '/items/blog/list';
+export function blogList(data) {
+    return request({
+        url: blogListUrl,
+        method: 'get',
+        params: data
+    })
+}
+
+const updateBlogUrl = '/item/blog/update';
+export function updateBlog(data) {
+    return request({
+        url: updateBlogUrl,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        data
+    })
+}
+
+const deleteBlogUrl = '/item/blog/delete';
+export function deleteBlog(data) {
+    return request({
+        url: deleteBlogUrl,
+        method: 'get',
+        params: data
+    })
+}

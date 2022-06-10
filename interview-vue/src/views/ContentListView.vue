@@ -203,7 +203,7 @@ export default {
           }
           loading.value = false;
         });
-      }, 300);
+      }, 150);
     };
 
     const onTagNameConfirm = (value) => {

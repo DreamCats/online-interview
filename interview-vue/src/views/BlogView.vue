@@ -20,37 +20,37 @@
                   square
                   type="primary"
                   text="编辑"
-                  @click="onEdit"
+                  @click="onEdit(item)"
                   class="edit-button"
                 />
               </template>
               <van-cell-group inset>
                 <van-card
-                  desc="2022-05-05"
-                  title="全是白昼"
+                  :desc="item.publish_time"
+                  :title="item.user_name"
                   class="goods-card"
-                  thumb="https://thirdwx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLCrJQ4AZe8ViaGcupuwf8Aq1J9CjrFlj2LMgmZS2L2E3rZN2yfsBVDlzdcGzzMnp2CRdia6r7YtE5w/132"
+                  :thumb="item.user_avatar"
+                  @click="onView(item.uuid)"
                 >
                   <template #tags>
                     <van-tag plain round type="primary" size="medium"
-                      >MySQL分页优化</van-tag
+                      >{{item.title}}</van-tag
                     >
                     <div class="van-multi-ellipsis--l2">
-                      此时你可能就会思考，假如链表非常长呢？本来 map
-                      的查询平均复杂度为
+                      {{item.abstract}}
                     </div>
                   </template>
 
                   <template #footer>
                     <van-row>
                       <van-col offset="4" span="6">
-                        <van-icon name="edit" /> MySQL
+                        <van-icon name="edit" /> {{item.tag_name}}
                       </van-col>
                       <van-col offset="2" span="6">
-                        <van-icon name="like-o" /> (0)
+                        <van-icon name="like-o" /> ({{ item.like_count }})
                       </van-col>
                       <van-col span="6">
-                        <van-icon name="fire-o" /> (0)
+                        <van-icon name="fire-o" /> ({{item.view_count}})
                       </van-col>
                     </van-row>
                   </template>
@@ -62,6 +62,7 @@
                   type="danger"
                   text="删除"
                   class="delete-button"
+                  @click="onDelete(item.uuid)"
                 />
               </template>
             </van-swipe-cell>
@@ -85,7 +86,7 @@
           position="bottom"
           :style="{ height: '50%' }"
         >
-          <van-form style="margin: 24px" @submit="onSubmit">
+          <van-form style="margin: 24px">
             <van-cell-group inset>
               <van-field
                 v-model="title"
@@ -146,8 +147,7 @@
             </van-cell-group>
             <div style="margin: 16px">
               <van-row justify="space-between">
-                <van-col span="8">
-                </van-col>
+                
                 <van-col offset="8" span="8">
                   <van-button
                     type="info"
@@ -161,6 +161,8 @@
                     更新
                   </van-button>
                 </van-col>
+                <van-col span="8">
+                </van-col>
               </van-row>
             </div>
           </van-form>
@@ -173,6 +175,9 @@
 <script>
 import ImgBar from "../components/ImgBar.vue";
 import { ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { blogList, getTagListAll, getUserPublishList, updateBlog, deleteBlog } from "../api/api";
+import { Toast } from 'vant';
 export default {
   setup() {
     const list = ref([]);
@@ -183,10 +188,12 @@ export default {
     const contentAbstract = ref("");
     const tagName = ref("");
     const showTagNamePicker = ref(false);
-    const tagNames = ['后端', '前端', '通用', '算法题'];
+    const tagNames = ref(['后端', '前端', '通用', '算法题']);
+    const tagNodes = ref([])
     const author = ref("");
     const showAuthorPicker = ref(false);
-    const authors = ['全是白昼', '全是黑夜']
+    const authors = ref(['全是白昼', '全是黑夜'])
+    const authorNodes = ref([])
     const content = ref("");
     const themeVars = {
       cellGroupInsetPadding: "10px",
@@ -194,17 +201,31 @@ export default {
       cellGroupBackgroundColor: "#dff9fb",
       cellBackgroundColor: "#dff9fb",
     };
+    const route = useRoute();
+    const router = useRouter();
+    let params = ref({
+      page: 1,
+      page_size: 20,
+    });
+    const item = ref({});
+
     const onLoad = () => {
       // 异步更新数据
       setTimeout(() => {
-        for (let i = 0; i < 3; i++) {
-          list.value.push(list.value.length + 1);
-        }
-
-        // 加载状态结束
-        loading.value = false;
-        finished.value = true;
-      }, 1000);
+        blogList(params.value).then(res => {
+          if (res.status == 200) {
+            console.log("blogList", res.data.data);
+            list.value = list.value.concat(res.data.data.data);
+          }
+          if (res.data.data.has_next) {
+            console.log("has_next");
+            params.value.page += 1;
+          } else {
+            finished.value = true;
+          }
+          loading.value = false;
+        });
+      }, 150);
     };
 
     const onTagNameConfirm = (value) => {
@@ -217,9 +238,102 @@ export default {
       showAuthorPicker.value = false;
     };
 
-    const onEdit = () => {
+    const onEdit = (itemInfo) => {
       // 更新
       showEditBlog.value = true;
+      loading.value = true;
+      // load tagNames
+      loadTagNames()
+      // load publishers
+      loadUserPublishList()
+      console.log("onEdit:", itemInfo);
+      item.value = itemInfo;
+      title.value = itemInfo.title;
+      contentAbstract.value = itemInfo.abstract;
+      tagName.value = itemInfo.tag_name;
+      author.value = itemInfo.user_name;
+      content.value = itemInfo.content;
+      loading.value = false;
+    };
+
+    const onAdd = () => {
+      // 新增
+      router.push("/add-blog");
+    };
+
+    const loadTagNames = () => {
+      getTagListAll().then( res => {
+        if (res.status == 200) {
+          console.log("loadTagNames", res.data);
+          tagNodes.value = res.data.data;
+          tagNames.value = res.data.data.map(item => item.tag_name);
+        } 
+      });
+    };
+
+    const loadUserPublishList = () => {
+      getUserPublishList().then( res => {
+        if (res.status == 200) {
+          authorNodes.value = res.data.data;
+          authors.value = res.data.data.map(item => item.user_name);
+        }
+      });
+    };
+
+    const onClickUpdate = () => {
+      console.log('onClickUpdate:', item.value);
+      loading.value = true;
+      let tag_uuid  = tagNodes.value.find(item => item.tag_name == tagName.value).uuid;
+      let user_uuid = authorNodes.value.find(item => item.user_name == author.value).uuid;
+      let tag_type = tagNodes.value.find(item => item.tag_name == tagName.value).tag_type;
+      let data = {
+        uuid: item.value.uuid,
+        title: title.value,
+        abstract: contentAbstract.value,
+        content: content.value,
+        tc_uuid: tag_uuid,
+        user_uuid: user_uuid,
+        publish_uuid: item.value.publish_uuid,
+        tag_type: tag_type,
+      };
+      console.log("onClickUpdate:", data);
+      updateBlog(data).then(res => {
+        if (res.status == 200) {
+          console.log("updateBlog", res.data);
+          Toast.success("更新成功");
+          showEditBlog.value = false;
+          list.value = []
+          params.value.page = 1;
+          onLoad();
+        }
+        loading.value = false;
+      });
+    };
+
+    const onDelete = (uuid) => {
+      loading.value = true;
+      console.log('onDelete:', uuid);
+      let params = {
+        uuid: uuid
+      };
+      deleteBlog(params).then((res) => {
+        if (res.status == 200) {
+          console.log('deleteBlog:', res.data);
+          Toast.success('删除成功');
+          list.value = [];
+          onLoad();
+        }
+        loading.value = false;
+      });
+    };
+    
+    const onView = (uuid) => {
+      router.push({
+        path: '/content-detail',
+        query: {
+          uuid: uuid
+        }
+      });
     };
 
     return {
@@ -241,6 +355,10 @@ export default {
       onTagNameConfirm,
       onAuthorConfirm,
       onEdit,
+      onAdd,
+      onClickUpdate,
+      onDelete,
+      onView,
     };
   },
   components: {

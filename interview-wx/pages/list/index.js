@@ -138,7 +138,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: `面经列表页面: ${this.data.name}`,
+      title: `列表页面: ${this.data.name}`,
       path: `/pages/list/index?uuid=${this.data.uuid}`
     }
   },
@@ -148,7 +148,7 @@ Page({
       console.log(res.target)
     }
     return {
-      title: `面经列表页面: ${this.data.name}`,
+      title: `列表页面: ${this.data.name}`,
       query:{
         id: this.data.uuid
       }

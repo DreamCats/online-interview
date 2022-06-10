@@ -352,7 +352,7 @@ def add_item_blog():
     item.blog_status = 1
     
     publish_item = PublishItem()
-    publish_item.uuid = getUUID(item_title + str(item_tag_type))
+    publish_item.uuid = getUUID(item_title + str(item_tag_type) + item_user_uuid)
     publish_item.item_uuid = item.uuid
     publish_item.user_uuid = item_user_uuid
 
@@ -401,6 +401,7 @@ def get_items_blog_list():
         item['tag_name'] = tag.tag_name
         item['user_name'] = user.user_name
         item['user_avatar'] = user.url
+        item['publish_uuid'] = publish_item.uuid
         ars_list.append(item)
     
     items_info = {
@@ -413,3 +414,67 @@ def get_items_blog_list():
     }
 
     return jsonify(re_code=RET.OK, msg='请求成功', data=items_info)
+
+
+@api.route('/item/blog/update', methods=['POST'])
+def update_item_blog():
+    '''
+    '''
+    data = request.get_json()
+    item_uuid = data.get('uuid')
+    item_title = data.get('title')
+    item_content = data.get('content')
+    item_abstract = data.get('abstract')
+    item_tag_type = data.get('tag_type')
+    item_tc_uuid = data.get('tc_uuid')
+    item_user_uuid = data.get('user_uuid')
+    item_publish_uuid = data.get('publish_uuid')
+
+    item = Items.query.filter(Items.uuid == item_uuid).first()
+
+    item.abstract = item_abstract
+    item.title = item_title
+    item.content = item_content
+    item.tag_type = item_tag_type
+    item.tc_uuid = item_tc_uuid
+    item.publish_time = time.strftime("%Y-%m-%d %H:%M", time.localtime())
+    
+    publish_item = PublishItem.query.filter(PublishItem.uuid == item_publish_uuid).first()
+    publish_item.item_uuid = item_uuid
+    publish_item.user_uuid = item_user_uuid
+
+    try:
+        db.session.add(item)
+        db.session.add(publish_item)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.debug(e)
+        db.session.rollback()
+        return jsonify(re_code=RET.DBERR, msg='数据库插入错误')
+    
+    return jsonify(re_code=RET.OK, msg='请求成功')
+
+@api.route('/item/blog/delete', methods=['GET'])    
+def delete_blog_item():
+    '''
+    '''
+    item_uuid = request.args.get('uuid')
+
+    item = Items.query.filter(Items.uuid == item_uuid).first()
+    db.session.commit()
+
+    if not item:
+        return jsonify(re_code=RET.DBERR, msg='数据不存在')
+
+    publish_item = PublishItem.query.filter(PublishItem.item_uuid == item_uuid).first()
+
+    try:
+        db.session.delete(item)
+        db.session.delete(publish_item)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.debug(e)
+        db.session.rollback()
+        return jsonify(re_code=RET.DBERR, msg='数据库删除错误')
+
+    return jsonify(re_code=RET.OK, msg='请求成功')

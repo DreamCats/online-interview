@@ -1,7 +1,7 @@
 import axios from "axios";
 // create an axios instance
-const DEV_BASE_API = 'http://127.0.0.1:5000/online/api/2.0/';
-// const DEV_BASE_API = 'https://heiye.site/online/api/2.0/'
+// const DEV_BASE_API = 'http://127.0.0.1:5000/online/api/2.0/';
+const DEV_BASE_API = 'https://heiye.site/online/api/2.0/'
 const service = axios.create({
     baseURL: DEV_BASE_API, // api 的 base_url
     timeout: 50000, // request timeout
