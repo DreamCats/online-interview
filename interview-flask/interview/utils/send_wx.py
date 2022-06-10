@@ -1,4 +1,3 @@
-from flask.json import tag
 import requests
 from flask import current_app, json
 # xxx
@@ -15,6 +14,7 @@ def get_token():
     url = f'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={appid}&secret={secret}'
     wx_token = ''
     resp = ss.get(url)
+
     if resp.status_code == 200:
         datas = resp.json()
         if 'access_token' in datas:
@@ -29,6 +29,7 @@ def get_code2Session(code):
     '''
     url = f'https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code'
     openId = ''
+
     try:
         resp = ss.get(url)
         if resp.status_code == 200:
@@ -39,6 +40,7 @@ def get_code2Session(code):
     except Exception as e:
         current_app.logger.debug('get_code2session:', e)
         return None
+        
     return openId
 
 

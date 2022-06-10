@@ -4,7 +4,6 @@
 
 from datetime import datetime
 from functools import wraps
-
 from flask import session, jsonify, g
 from pymysql import Date
 from interview.utils.response_code import RET
@@ -40,7 +39,7 @@ def getUUID(name):
 def save_data(path_name):
     # 判断path_name是否存在
     data = db.session.query(Data).filter(Data.path_name==path_name, func.date_format(Data.create_time, '%Y%m%d')==func.date_format(func.now(), '%Y%m%d')).first()
-    print(data)
+    
     if data:
         # 更新
         data.view_count = data.view_count + 1

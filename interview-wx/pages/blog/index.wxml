@@ -1,0 +1,68 @@
+<!--pages/blog.wxml-->
+<view class="loading" wx:if="{{isLoading}}">
+  <image class="loading__icon" src="/imgs/loading.svg"></image>
+</view>
+
+<block wx:if="{{docsList.length===0}}">
+  <van-empty description="等待作者添加..." />
+</block>
+
+<block wx:else>
+
+  <block wx:for="{{docsList}}" wx:key="id">
+    <l-card type="avatar" l-class="card" l-title-class="card-title"
+      image="{{item.user_avatar}}"
+      image-mode="widthFix" title="{{item.user_name}}" 
+      describe="{{item.publish_time}}">
+      <!-- 此处为content -->
+      <view class="avter-content">
+        <view class="card-title-class">{{item.title}}</view>
+        {{item.abstract}}
+      </view>
+      <view class="avter-share-container">
+        <view class="like-container">
+          <l-icon name="success" color="#666" size="28" />
+          <view class="number">标签：{{item.tag_name}}</view>
+        </view>
+        <view class="like-container">
+          <l-icon name="like" color="#666" size="28" />
+          <view class="number">喜欢({{item.like_count}})</view>
+        </view>
+        <view class="like-container">
+          <l-icon name="eye" color="#666" size="28" />
+          <view class="number">浏览({{item.view_count}})</view>
+        </view>
+      </view>
+      <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.uuid}}"
+        bindtap="onViewItem">
+        查看
+      </l-tag>
+    </l-card>
+    <block>
+
+
+      <!-- <l-card type="avatar" l-class="card" l-title-class="card-title" l-img-class="card-avatar" 
+      image="{{icon_url}}" image-mode="widthFix"
+      title="{{item.title}}" describe="{{item.publish_time}}">
+
+        <view class="avter-content">
+            
+        </view>
+        <view class="avter-share-container">
+          <view class="like-container">
+            <l-icon name="like" color="#666" size="28" />
+            <view class="number">喜欢({{item.like_count}})</view>
+          </view>
+          <view class="like-container">
+            <l-icon name="eye" color="#666" size="28" />
+            <view class="number">浏览({{item.view_count}})</view>
+          </view>
+        </view>
+        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.uuid}}"
+          bindtap="onViewItem">
+          查看
+        </l-tag>
+      </l-card> -->
+    </block>
+  </block>
+</block>

@@ -1,4 +1,4 @@
-// pages/docs/index.js
+// pages/blog.js
 import Toast from '@vant/weapp/toast/toast';
 const app = getApp()
 Page({
@@ -8,13 +8,10 @@ Page({
    */
   data: {
     docsList: [],
-    uuid: "",
+    finish: false,
+    isLoading: false,
     count: 9,
     page: 1,
-    finish: false,
-    isLoading: true,
-    name:"",
-    icon_url: ""
   },
 
   // 加载docs
@@ -24,13 +21,12 @@ Page({
     })
     let that = this
     wx.request({
-      url: `${app.globalData.baseUrl}items/list`,
+      url: `${app.globalData.baseUrl}items/blog/list`,
       data: {
-        tc_uuid: this.data.uuid,
         count: this.data.count,
         page: this.data.page
       },
-      success (res) {
+      success(res) {
         console.log('list:res:', res.data.data)
         if (res.data.re_code === '0') {
           that.setData({
@@ -47,7 +43,7 @@ Page({
             isLoading: false
           })
           Toast("小小提示->作者还没有添加数据哦...")
-        } 
+        }
       },
     })
   },
@@ -59,17 +55,11 @@ Page({
       url: `/pages/detail/index?uuid=${uuid}`,
     })
   },
-  
+
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('list:', options);
-    this.setData({
-      uuid: options.uuid,
-      name: options.name,
-      icon_url: options.url
-    })
     // 加载
     this.getList()
   },
@@ -85,9 +75,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.setData({
-      finish: false
-    })
+
   },
 
   /**
@@ -115,6 +103,7 @@ Page({
     wx.stopPullDownRefresh({
       success: (res) => {},
     })
+    this.getList()
   },
 
   /**
@@ -132,23 +121,24 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function (res) {
+  onShareAppMessage: function () {
     if (res.from === 'button') {
       // 来自页面内转发按钮
       console.log(res.target)
     }
     return {
-      title: `列表页面: ${this.data.name}`,
+      title: `博客页面`,
       path: `/pages/list/index?uuid=${this.data.uuid}`
     }
   },
+
   onShareTimeline: function(res) {
     // 来自页面内转发按钮
     if (res.from === 'button') {
       console.log(res.target)
     }
     return {
-      title: `列表页面: ${this.data.name}`,
+      title: `博客页面`,
       query:{
         id: this.data.uuid
       }

@@ -6,9 +6,10 @@
     "pages/my/index",
     "pages/detail/index",
     "pages/list/index",
-    "pages/like/index"
+    "pages/like/index",
+    "pages/blog/index"
   ],
-  "darkmode":true,
+  "darkmode": true,
   "themeLocation": "theme.json",
   "window": {
     "backgroundTextStyle": "@backgroundTextStyle",
@@ -35,8 +36,8 @@
         "selectedIconPath": "imgs/select-class.png"
       },
       {
-        "pagePath": "pages/mj/index",
-        "text": "面经",
+        "pagePath": "pages/blog/index",
+        "text": "博客",
         "iconPath": "imgs/no-know.png",
         "selectedIconPath": "imgs/select-know.png"
       },

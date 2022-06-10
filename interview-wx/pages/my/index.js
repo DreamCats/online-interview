@@ -13,7 +13,7 @@ Page({
     qrCodeChatShow: false,
     qrCodeWxShow: false,
     qrCodeZanShow: false,
-    activeCodeShow:false,
+    activeCodeShow: false,
     activeCode: ''
   },
 
@@ -30,7 +30,12 @@ Page({
       })
     }
   },
- 
+
+  handleContact(e) {
+    console.log(e.detail.path)
+    console.log(e.detail.query)
+  },
+
   onChat() {
     this.setData({
       qrCodeChatShow: true
@@ -91,7 +96,7 @@ Page({
           // 获取信息
           wx.login({
             success(res) {
-              if(res.code) {
+              if (res.code) {
                 wx.request({
                   url: `${app.globalData.baseUrl}user/info`,
                   data: {
@@ -100,7 +105,7 @@ Page({
                   success(res) {
                     console.log(res.data.data)
                     that.setData({
-                      userInfo:res.data.data
+                      userInfo: res.data.data
                     })
                     app.globalData.userInfo = res.data.data
                     // 已激活，跳转
@@ -177,6 +182,10 @@ Page({
         }
       }
     })
+  },
+  // 更新
+  onUpdate() {
+    this.getUserProfile()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

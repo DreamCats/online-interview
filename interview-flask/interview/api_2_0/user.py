@@ -22,6 +22,7 @@ def add_user():
     userInfo = data.get('userInfo')
     code = data.get('code')
     openId = send_wx.get_code2Session(code)
+
     if openId is None:
         return jsonify(re_code=RET.USERERR, msg='openid')    
 
@@ -47,13 +48,17 @@ def add_user():
     except Exception as e:
         current_app.logger.debug(e)
         db.session.rollback()
+
     return jsonify(re_code=RET.OK, msg='添加成功', data=user.to_dict())
 
 @api.route('/user/active', methods=['GET'])
 def update_user_active():
+
     save_data('wx_pv')
+
     uuid = request.args.get('uuid', '0')
     code = request.args.get('code', '0')
+
     if code != 'dreamcat':
         return jsonify(re_code=RET.DBERR, msg='数据库更新错误') 
     try:
@@ -63,13 +68,16 @@ def update_user_active():
         db.session.rollback()
         return jsonify(re_code=RET.DBERR, msg='数据库更新错误')
     save_data('user_active')
+
     return jsonify(re_code=RET.OK, msg='更新成功')
 
 @api.route('/user/info', methods=['GET'])
 def get_user_info_code():
+
     save_data('wx_pv')
     code = request.args.get('code', '0')
     openId = send_wx.get_code2Session(code)
+    
     if openId is None:
         return jsonify(re_code=RET.USERERR, msg='openid') 
 
@@ -89,3 +97,18 @@ def get_user_info_code():
         db.session.rollback()
     
     return jsonify(re_code=RET.OK, msg='查询成功', data=user.to_dict())
+
+@api.route('/user/publish', methods=['GET'])
+def get_publish_user_list():
+    '''
+    '''
+    save_data('wx_pv')
+
+    users = User.query.filter_by(publish_status=1).all()
+    db.session.commit()
+    datas = []
+
+    for user in users:
+        datas.append(user.to_dict())
+    
+    return jsonify(re_code=RET.OK, msg='查询成功', data=datas)
