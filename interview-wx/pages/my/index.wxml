@@ -21,9 +21,9 @@
     </block>
     <block wx:else>
       <!-- 用户头像 -->
-      <image bindtap="onUpdate" class="userinfo-avatar" src="{{userInfo.url}}" mode="cover"></image>
+      <image bindtap="onUpdate" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <!-- 用户昵称 -->
-      <text class="userinfo-nickname">{{userInfo.user_name}}</text>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
 </van-cell-group>
@@ -43,7 +43,7 @@
 
   </block>
   <van-cell-group inset>
-    <van-cell custom-class="cell" title-class="cell-title" title="我的收藏" icon="star-o" is-link color="red" bindtap="onLike"/>
+    <!-- <van-cell custom-class="cell" title-class="cell-title" title="我的收藏" icon="star-o" is-link color="red" bindtap="onLike"/> -->
     <!-- <van-cell custom-class="cell" title-class="cell-title" title="赞赏支持" icon="balance-list-o" is-link color="red" bindtap="onZan"/> -->
     <van-cell custom-class="cell" title-class="cell-title" title="问题反馈" icon="label-o" is-link color="blue" bindtap="onChat" />
     <van-cell custom-class="cell" title-class="cell-title" title="关于程序" icon="more-o" is-link color="orange" />
@@ -58,6 +58,7 @@
     <!-- 加载图片 -->
     <van-image width="80%" height="80%" fit="widthFix" show-menu-by-longpress image-class="image"
     src="https://imgs.heiye.site/blog/chatme.jpg" />
+    <!-- https://imgs.heiye.site/blog/chatme.jpg" -->
   </van-popup>
   <!-- 赞赏 -->
   <van-popup show="{{ qrCodeZanShow }}" custom-style="height: 80%;" round bind:close="onClose" closeable

@@ -13,32 +13,32 @@ module.exports = {
 
     // markdown解析配置，保留需要的选项即可
     markdown:[
-        'sub',                      // 下标支持
-        'sup',                      // 上标支持
-        'ins',                      // 文本删除线支持
-        'mark',                     // 文本高亮支持
-        'emoji',                    // emoji表情支持
-        'todo'                      // todo支持
+        // 'sub',                      // 下标支持
+        // 'sup',                      // 上标支持
+        // 'ins',                      // 文本删除线支持
+        // 'mark',                     // 文本高亮支持
+        // 'emoji',                    // emoji表情支持
+        // 'todo'                      // todo支持
     ],
 
     // 代码高亮配置，保留需要的选项即可（尽量越少越好，不要随意调整顺序。部分高亮有顺序依赖）
     highlight:[
         'c-like',
-        'c',
+        // 'c',
         'bash',
         'css',
         'go',
         'java',
         'javascript',
-        'json',
-        'less',
-        'scss',
+        // 'json',
+        // 'less',
+        // 'scss',
         'shell',
         'xml',
-        'nginx',
+        // 'nginx',
         'php',
         'python',
-        'typescript',
+        // 'typescript',
 
         // 'csharp',
         // 'http',
@@ -252,10 +252,10 @@ module.exports = {
     components:[
         'audio-player',             // 音频组件，建议保留，由于小程序原生audio存在诸多问题，towxml解决了原生音频播放器的相关问题
         // 'echarts',                  // echarts图表支持
-        'latex',                    // 数学公式支持
+        // 'latex',                    // 数学公式支持
         'table',                    // 表格支持
         'todogroup',                // todo支持
-        'yuml',                     // yuml图表支持
+        // 'yuml',                     // yuml图表支持
         'img'                       // 图片解析组件
     ],
 

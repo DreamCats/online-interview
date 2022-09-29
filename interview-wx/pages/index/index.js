@@ -1,5 +1,8 @@
 // pages/index.js
-const app = getApp()
+const app = getApp();
+const tagDatas = require('../../datas/tag');
+const itemDatas = require('../../datas/items');
+const tag = require('../../datas/tag');
 Page({
 
   /**
@@ -9,48 +12,49 @@ Page({
     docsList: [],
     count: 13,
     finish: false,
-    isLoading: true,
+    isLoading: false,
     tag_type: '0'
   },
 
   // 加载docs
   getList() {
-    this.setData({
-      isLoading: true
-    })
-    let that = this
-    wx.request({
-      url: `${app.globalData.baseUrl}items/rand`,
-      data: {
-        count: this.data.count,
-        tag_type: this.data.tag_type
-      },
-      success(res) {
-        console.log('list:res:', res.data.data)
-        if (res.data.re_code === '0') {
-          that.setData({
-            docsList: that.data.docsList.concat(res.data.data),
-            isLoading: false
-          })
-          if (!res.data.data.has_next) {
-            that.setData({
-              finish: true
-            })
-          }
-        } else {
-          that.setData({
-            isLoading: false
-          })
-          Toast("小小提示->作者还没有添加数据哦...")
-        }
-      },
-    })
+    // this.setData({
+    //   isLoading: true
+    // })
+
+    // let that = this
+    // wx.request({
+    //   url: `${app.globalData.baseUrl}items/rand`,
+    //   data: {
+    //     count: this.data.count,
+    //     tag_type: this.data.tag_type
+    //   },
+    //   success(res) {
+    //     console.log('list:res:', res.data.data)
+    //     if (res.data.re_code === '0') {
+    //       that.setData({
+    //         docsList: that.data.docsList.concat(res.data.data),
+    //         isLoading: false
+    //       })
+    //       if (!res.data.data.has_next) {
+    //         that.setData({
+    //           finish: true
+    //         })
+    //       }
+    //     } else {
+    //       that.setData({
+    //         isLoading: false
+    //       })
+    //       Toast("小小提示->作者还没有添加数据哦...")
+    //     }
+    //   },
+    // })
   },
   onViewItem(options) {
     console.log(options)
-    var uuid = options.target.id
+    var id = options.target.id
     wx.navigateTo({
-      url: `/pages/detail/index?uuid=${uuid}`,
+      url: `/pages/detail/index?id=${id}`,
     })
   },
   onSwitch(event) {
@@ -59,29 +63,41 @@ Page({
       tag_type: event.detail.name,
       docsList:[]
     })
-    this.getList()
+    // this.getList();
+    this.getRandItems();
+  },
+
+  // 随机获取对应的items
+  getRandItems() {
+    let tag_type = Number(this.data.tag_type);
+    console.log('index/index.js::getRandItems::tag_type', tag_type);
+    let datas = itemDatas.datas;
+    if (tag_type != 0) {
+      datas = datas.filter( data => (data.tag_type == tag_type || data.tag_type == 3));
+    }
+    console.log('index/index.js::getRandItems:',datas);
+    // 随机选取20个
+    let items = datas.sort(() => Math.random() - 0.5).slice(0, 20);
+    let tags = tagDatas.datas;
+    items.forEach( item => {
+      tags.forEach(tag => {
+          if (item.tag_id == tag.tag_id) {
+            item['tag'] = tag.tag_name;
+            item['img_url'] = tag.tag_avatar;
+          }
+        })
+    })
+    this.setData({
+      docsList: items
+    })
+    console.log('index/index.js::getRandItems::docList',items);
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getList()
-    wx.login({
-      success(res) {
-        if (res.code) {
-          wx.request({
-            url: `${app.globalData.baseUrl}user/info`,
-            data: {
-              code: res.code,
-            },
-            success(res) {
-              console.log(res.data.data)
-              app.globalData.userInfo = res.data.data
-            }
-          })
-        }
-      }
-    })
+    // this.getList()
+    this.getRandItems();
   },
 
   /**
@@ -119,7 +135,8 @@ Page({
     this.setData({
       docsList: []
     })
-    this.getList()
+    // this.getList();
+    this.getRandItems();
     wx.stopPullDownRefresh()
   },
 

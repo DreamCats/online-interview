@@ -1,5 +1,7 @@
 // pages/docs/index.js
 import Toast from '@vant/weapp/toast/toast';
+const itemDatas = require('../../datas/items');
+
 const app = getApp()
 Page({
 
@@ -8,55 +10,67 @@ Page({
    */
   data: {
     docsList: [],
-    uuid: "",
+    tag_id: "",
     count: 9,
     page: 1,
     finish: false,
-    isLoading: true,
+    isLoading: false,
     name:"",
     icon_url: ""
   },
 
   // 加载docs
   getList() {
+    // this.setData({
+    //   isLoading: true
+    // })
+    // let that = this
+    // wx.request({
+    //   url: `${app.globalData.baseUrl}items/list`,
+    //   data: {
+    //     tc_uuid: this.data.uuid,
+    //     count: this.data.count,
+    //     page: this.data.page
+    //   },
+    //   success (res) {
+    //     console.log('list:res:', res.data.data)
+    //     if (res.data.re_code === '0') {
+    //       that.setData({
+    //         docsList: that.data.docsList.concat(res.data.data.data),
+    //         isLoading: false
+    //       })
+    //       if (!res.data.data.has_next) {
+    //         that.setData({
+    //           finish: true
+    //         })
+    //       }
+    //     } else {
+    //       that.setData({
+    //         isLoading: false
+    //       })
+    //       Toast("小小提示->作者还没有添加数据哦...")
+    //     } 
+    //   },
+    // })
+
+    let datas = itemDatas.datas;
+    let items = [];
+    datas.forEach(item => {
+      if (item.tag_id == this.data.tag_id) {
+        items.push(item);
+      }
+    });
+    // console.log(items);
     this.setData({
-      isLoading: true
-    })
-    let that = this
-    wx.request({
-      url: `${app.globalData.baseUrl}items/list`,
-      data: {
-        tc_uuid: this.data.uuid,
-        count: this.data.count,
-        page: this.data.page
-      },
-      success (res) {
-        console.log('list:res:', res.data.data)
-        if (res.data.re_code === '0') {
-          that.setData({
-            docsList: that.data.docsList.concat(res.data.data.data),
-            isLoading: false
-          })
-          if (!res.data.data.has_next) {
-            that.setData({
-              finish: true
-            })
-          }
-        } else {
-          that.setData({
-            isLoading: false
-          })
-          Toast("小小提示->作者还没有添加数据哦...")
-        } 
-      },
-    })
+      docsList: items
+    });
   },
 
   onViewItem(options) {
-    console.log(options)
-    var uuid = options.target.id
+    // console.log(options)
+    var id = options.target.id
     wx.navigateTo({
-      url: `/pages/detail/index?uuid=${uuid}`,
+      url: `/pages/detail/index?id=${id}`,
     })
   },
   
@@ -64,9 +78,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('list:', options);
+    // console.log('list:', options);
     this.setData({
-      uuid: options.uuid,
+      tag_id: options.tag_id,
       name: options.name,
       icon_url: options.url
     })

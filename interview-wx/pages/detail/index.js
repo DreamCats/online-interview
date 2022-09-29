@@ -1,5 +1,6 @@
 // pages/detail/index.js
 import Toast from '@vant/weapp/toast/toast';
+const itemDatas = require('../../datas/items')
 const app = getApp();
 Page({
 
@@ -7,7 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    uuid: "",
+    id: "",
     content: "",
     mdContent: "",
     isLoading: false,
@@ -96,52 +97,47 @@ Page({
           }
         }
       });
-      that.setData({
+      this.setData({
         mdContent: obj,
         mode: result.theme
       })
     })
+
     this.setData({
-      uuid: options.uuid,
-      title: options.title,
-      isLoading: true,
       mode: app.globalData.themeMode
     })
-    let that = this
-    wx.request({
-      url: `${app.globalData.baseUrl}items/count`,
-      data: {
-        uuid: this.data.uuid
-      },
-      success (res) {
-        console.log(res.data.data)
-        if (res.data.re_code === '0') {
-          let obj = app.towxml(res.data.data['content'],'markdown',{
-            theme: that.data.mode,
-            events: {
-              tap:e => {
-                console.log('tap:', e.currentTarget.dataset)
-                // 在这里可以做图片点击预览... 
-                var url = e.currentTarget.dataset.data.attrs.src
-                url = url ? url : ""
-                if (url != "") {
-                  wx.previewImage({
-                    current: url,
-                    urls: [url]
-                  })
-                }
-                // 在这里也可以长按复制
-              }
-            }
-          });
-          that.setData({
-            isLoading: false,
-            mdContent: obj,
-            content: res.data.data['content'],
-            title: res.data.data['title']
-          })
+
+    let datas = itemDatas.datas;
+    let data = {};
+    datas.forEach(item => {
+      if (item.id == options.id) {
+        data = item
+      }
+    });
+
+    let obj = app.towxml(data.content,'markdown',{
+      theme: this.data.mode,
+      events: {
+        tap:e => {
+          console.log('tap:', e.currentTarget.dataset)
+          // 在这里可以做图片点击预览... 
+          var url = e.currentTarget.dataset.data.attrs.src
+          url = url ? url : ""
+          if (url != "") {
+            wx.previewImage({
+              current: url,
+              urls: [url]
+            })
+          }
+          // 在这里也可以长按复制
         }
       }
+    });
+
+    this.setData({
+      mdContent: obj,
+      content: data.content,
+      title: data.title
     })
   },
 

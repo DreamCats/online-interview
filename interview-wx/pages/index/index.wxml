@@ -15,7 +15,7 @@
   <van-tab title="全部" name="0"></van-tab>
   <van-tab title="后端" name="1"></van-tab>
   <van-tab title="前端" name="2"></van-tab>
-  <van-tab title="刷题" name="4"></van-tab>
+  <!-- <van-tab title="刷题" name="4"></van-tab> -->
 </van-tabs>
 </block>
 
@@ -32,7 +32,7 @@
     <block>
       <l-card type="avatar" l-class="card"  l-title-class="card-title" 
       image="{{item.img_url}}" image-mode="widthFix"
-      title="{{item.item.title}}" describe="{{item.item.publish_time}}">
+      title="{{item.title}}" describe="{{item.publish_time}}">
         <!-- 此处为content -->
         <view class="avter-content">
 
@@ -44,14 +44,14 @@
           </view>
           <view class="like-container">
             <l-icon name="like" color="#666" size="28" />
-            <view class="number">喜欢({{item.item.like_count}})</view>
+            <view class="number">喜欢({{item.like_count}})</view>
           </view>
           <view class="like-container">
             <l-icon name="eye" color="#666" size="28" />
-            <view class="number">浏览({{item.item.view_count}})</view>
+            <view class="number">浏览({{item.view_count}})</view>
           </view>
         </view>
-        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.item.uuid}}"
+        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.id}}"
           bindtap="onViewItem">
           查看
         </l-tag>

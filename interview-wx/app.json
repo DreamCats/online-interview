@@ -6,8 +6,7 @@
     "pages/my/index",
     "pages/detail/index",
     "pages/list/index",
-    "pages/like/index",
-    "pages/blog/index"
+    "pages/like/index"
   ],
   "darkmode": true,
   "themeLocation": "theme.json",
@@ -36,12 +35,6 @@
         "selectedIconPath": "imgs/select-class.png"
       },
       {
-        "pagePath": "pages/blog/index",
-        "text": "博客",
-        "iconPath": "imgs/no-know.png",
-        "selectedIconPath": "imgs/select-know.png"
-      },
-      {
         "pagePath": "pages/my/index",
         "text": "个人中心",
         "iconPath": "imgs/no-my.png",
@@ -52,3 +45,4 @@
   "style": "v2",
   "sitemapLocation": "sitemap.json"
 }
+

@@ -29,14 +29,14 @@
         <view class="avter-share-container">
           <view class="like-container">
             <l-icon name="like" color="#666" size="28" />
-            <view class="number">喜欢({{item.like_count}})</view>
+            <view class="number">热度({{item.like_count}})</view>
           </view>
           <view class="like-container">
             <l-icon name="eye" color="#666" size="28" />
             <view class="number">浏览({{item.view_count}})</view>
           </view>
         </view>
-        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.uuid}}"
+        <l-tag shape="circle" bg-color="#f3f3f3" font-color="#3963BC" slot="more" size="large" id="{{item.id}}"
           bindtap="onViewItem">
           查看
         </l-tag>

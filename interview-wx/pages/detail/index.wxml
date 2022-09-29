@@ -18,7 +18,7 @@
             <van-cell title="{{title}}" custom-class="cellTitle" title-class="cellTitle" />
           </van-col>
           <van-col span="2">
-            <van-icon name="like-o" color="red" size="25px" custom-class="iconClass" bindtap="onLike" />
+            <!-- <van-icon name="like-o" color="red" size="25px" custom-class="iconClass" bindtap="onLike" /> -->
           </van-col>
           <van-col span="2">
             <van-icon name="closed-eye" color="red" size="25px" custom-class="iconClass" bindtap="onMode" />

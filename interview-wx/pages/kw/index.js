@@ -1,42 +1,17 @@
 // index.js
 // 获取应用实例
 const app = getApp()
+const tabDatas = require('../../datas/tag')
 Page({
   data: {
     tags: [],
-    isLoading: false,
-    finish: false,
-  },
-
-  /**
-   * 加载知识列表
-   */
-  getTags() {
-    this.setData({
-      isLoading: true
-    })
-    let that = this
-    wx.request({
-      url: `${app.globalData.baseUrl}tag/list/all`,
-      success (res) {
-        console.log('getTags:res', res.data.data)
-        if (res.data.re_code === '0') {
-          that.setData({
-            tags: res.data.data,
-            isLoading: false
-          })
-           
-        } 
-        that.setData({
-          isLoading: false
-        })
-      }
-    })
-    // 排序
   },
 
   onLoad() {
-    this.getTags()
+    // this.getTags()
+    this.setData({
+      tags: tabDatas.datas
+    });
   },
 
     /**

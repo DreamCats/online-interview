@@ -22,7 +22,7 @@ App({
 
     wx.getSystemInfo({
       success: (result) => {
-        console.log('system:', result)
+        console.log('app.js::system::', result)
         this.globalData.themeMode = result.theme
       },
     })
@@ -31,8 +31,7 @@ App({
 
     updateManager.onCheckForUpdate(function (res) {
       // 请求完新版本信息的回调
-      console.log('检查是否有新版本')
-      console.log(res.hasUpdate)
+      console.log('app.js::检查是否有新版本', res.hasUpdate)
       if (res.hasUpdate) {
         updateManager.onUpdateReady(function () {
           wx.showModal({
